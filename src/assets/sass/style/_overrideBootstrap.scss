@@ -1,0 +1,35 @@
+.btn-light {
+  --bs-btn-bg: white;
+  --bs-btn-border-color: grey;
+  --bs-btn-hover-border-color: #d3d4d5;
+}
+
+
+// Override react-select basic setting
+.css-b62m3t-container {
+  min-height: inherit;
+  max-width: inherit;
+  background-color: transparent;
+  margin: 0;
+  .css-13cymwt-control,
+  .css-190w39t-control,
+  .css-a0izu-control,
+  .css-t3ipsp-control {
+    height: 56px;
+    border-radius: $app-radius;
+    border: none;
+    box-shadow: none;
+    &:hover { border: none; }
+  }
+  .css-hlgwow {
+    padding: 2px 4px;
+  }
+  @media (min-width:768px) {
+    .css-hlgwow {
+      padding: 2px 8px;
+    }
+  }
+  .css-1nmdiq5-menu {
+    z-index: 9;
+  } 
+}

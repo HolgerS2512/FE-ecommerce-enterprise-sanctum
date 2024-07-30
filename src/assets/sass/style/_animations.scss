@@ -1,0 +1,238 @@
+
+@-webkit-keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
+  }
+}
+@-moz-keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
+  }
+}
+@-o-keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
+  }
+}
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
+  }
+}
+
+
+
+@-webkit-keyframes rotate-animate {
+  from {
+    @include transfRotate;
+  }
+  to {
+    @include transfRotate(-360deg);
+  }
+}
+@-moz-keyframes rotate-animate {
+  from {
+    @include transfRotate;
+  }
+  to {
+    @include transfRotate(-360deg);
+  }
+}
+@-o-keyframes rotate-animate {
+  from {
+    @include transfRotate;
+  }
+  to {
+    @include transfRotate(-360deg);
+  }
+}
+@keyframes rotate-animate {
+  from {
+    @include transfRotate;
+  }
+  to {
+    @include transfRotate(-360deg);
+  }
+}
+
+.animated35s {
+  -webkit-animation: 0.35s ease-in-out .1s;
+  -moz-animation: 0.35s ease-in-out .1s;
+  -o-animation: 0.35s ease-in-out .1s;
+  animation: 0.35s ease-in-out .1s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fade-notification {
+  -webkit-animation-name: fadeInTop;
+  -moz-animation-name: fadeInTop;
+  -o-animation-name: fadeInTop;
+  animation-name: fadeInTop;
+
+  @media(min-width:320px) {
+    -webkit-animation-name: fadeInRight;
+    -moz-animation-name: fadeInRight;
+    -o-animation-name: fadeInRight;
+    animation-name: fadeInRight;
+  }
+}
+
+.a35s {
+  -webkit-animation: 0.35s ease-in-out;
+  -moz-animation: 0.35s ease-in-out;
+  -o-animation: 0.35s ease-in-out;
+  animation: 0.35s ease-in-out;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.fit-menu-t28 {
+  -webkit-animation-name: fadeInTopMenu;
+  -moz-animation-name: fadeInTopMenu;
+  -o-animation-name: fadeInTopMenu;
+  animation-name: fadeInTopMenu;
+}
+
+@-webkit-keyframes fadeInRight {
+  0% {
+    @include opacity;
+    left: 10rem;
+  }
+  100% {
+    @include opacity(1);
+    left: .5rem;
+  }
+}
+@-moz-keyframes fadeInRight {
+  0% {
+    @include opacity;
+    left: 10rem;
+  }
+  100% {
+    @include opacity(1);
+    left: .5rem;
+  }
+}
+@-o-keyframes fadeInRight {
+  0% {
+    @include opacity;
+    left: 10rem;
+  }
+  100% {
+    @include opacity(1);
+    left: .5rem;
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    @include opacity;
+    left: 10rem;
+  }
+  100% {
+    @include opacity(1);
+    left: .5rem;
+  }
+}
+
+@-webkit-keyframes fadeInTop {
+  0% {
+    @include opacity;
+    top: -10rem;
+  }
+  100% {
+    @include opacity(1);
+    top: .5rem;
+  }
+}
+@-moz-keyframes fadeInTop {
+  0% {
+    @include opacity;
+    top: -10rem;
+  }
+  100% {
+    @include opacity(1);
+    top: .5rem;
+  }
+}
+@-o-keyframes fadeInTop {
+  0% {
+    @include opacity;
+    top: -10rem;
+  }
+  100% {
+    @include opacity(1);
+    top: .5rem;
+  }
+}
+@keyframes fadeInTop {
+  0% {
+    @include opacity;
+    top: -10rem;
+  }
+  100% {
+    @include opacity(1);
+    top: .5rem;
+  }
+}
+
+
+
+// fadeInTopMenu
+$fadeInTopMenu: 28px;
+$fITMcalc: $fadeInTopMenu - 6px;
+@-webkit-keyframes fadeInTopMenu {
+  0% {
+    @include opacity;
+    top: $fITMcalc;
+  }
+  100% {
+    @include opacity(1);
+    top: $fadeInTopMenu;
+  }
+}
+@-moz-keyframes fadeInTopMenu {
+  0% {
+    @include opacity;
+    top: $fITMcalc;
+  }
+  100% {
+    @include opacity(1);
+    top: $fadeInTopMenu;
+  }
+}
+@-o-keyframes fadeInTopMenu {
+  0% {
+    @include opacity;
+    top: $fITMcalc;
+  }
+  100% {
+    @include opacity(1);
+    top: $fadeInTopMenu;
+  }
+}
+@keyframes fadeInTopMenu {
+  0% {
+    @include opacity;
+    top: $fITMcalc;
+  }
+  100% {
+    @include opacity(1);
+    top: $fadeInTopMenu;
+  }
+}

@@ -1,0 +1,47 @@
+import { forwardRef, useEffect, useState } from 'react'
+import ReactSelect from 'react-select'
+
+const Select = forwardRef(({ 
+  options, 
+  onChange, 
+  value, 
+  name, 
+  err, 
+  readOnly, 
+  col = false, 
+  noRequire = false, 
+  ariaLabel,
+  nextTab,
+}, ref) => {
+  const [changeFocus, setChangeFocus] = useState(false);
+
+  return (
+    <fieldset className={'xfs-s1-control' + (col ? ' ' + col : '')}>
+      <div className={`xfs-s1-wrapper notouch noevent ${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
+        <span className={`xfs-s1-label notouch noevent${changeFocus || (Boolean(value) || Boolean(ref?.current?.getValue()[0]?.value)) ? '' : ' active'}${noRequire ? ' noRequire' : ''}`}>{name}</span>
+        <ReactSelect 
+          placeholder=''
+          tabIndex={nextTab ?? 1}
+          setValue={value}
+          onChange={onChange}
+          options={options} 
+          ref={ref}
+          onFocus={() => setChangeFocus(true)}
+          onBlur={() => setChangeFocus(false)}
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              primary25: '#d9d9d9',
+              primary: 'black',
+              
+            },
+          })}
+          aria-label={ariaLabel}
+        />
+      </div>
+    </fieldset>
+  )
+})
+
+export default Select

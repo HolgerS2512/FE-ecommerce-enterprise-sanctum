@@ -1,0 +1,20 @@
+.src-only:not(:focus) {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@supports (touch-action:none) {
+  .notouch {
+      touch-action: none;
+  }
+}
+
+.noevent {
+  @include pointerEv;
+  @include userSelect;
+}

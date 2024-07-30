@@ -1,0 +1,87 @@
+@mixin h-w-100( $h : 100%, $w : 100% ) {
+  width: $w;
+  height: $h;
+}
+
+@mixin d-center( $d : flex, $j : center, $a : center) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin position( $pos : absolute, $top : 0, $right : 0, $bottom : 0, $left : 0) {
+  position: $pos;
+  inset: $top $right $bottom $left;
+}
+
+@mixin transition( $sec : 1.5s, $del: 0, $linear: 'linear' ) {
+  -webkit-transition: $sec $linear $del;
+  -moz-transition: $sec $linear $del;
+  -ms-transition: $sec $linear $del;
+  -o-transition: $sec $linear $del;
+  transition: $sec $linear $del;
+}
+
+@mixin transfRotate( $rotate : 0 ) {
+  -webkit-transform: rotate($rotate);
+  -moz-transform: rotate($rotate);
+  -ms-transform: rotate($rotate);
+  -o-transform: rotate($rotate);
+  transform: rotate($rotate);
+}
+
+@mixin transfScale( $scale : 1.1 ) {
+  -webkit-transform: scale($scale);
+  -moz-transform: scale($scale);
+  -ms-transform: scale($scale);
+  -o-transform: scale($scale);
+  transform: scale($scale);
+}
+
+@mixin transfTrans( $trans : -50% ) {
+  -webkit-transform: translate($trans, $trans);
+  -moz-transform: translate($trans, $trans);
+  -ms-transform: translate($trans, $trans);
+  -o-transform: translate($trans, $trans);
+  transform: translate($trans, $trans);
+}
+
+@mixin transformAll( $trans ) {
+  -webkit-transform: $trans;
+  -moz-transform: $trans;
+  -ms-transform: $trans;
+  -o-transform: $trans;
+  transform: $trans;
+}
+
+@mixin opacity( $val : 0 ) {
+  -webkit-opacity: $val;
+  -moz-opacity: $val;
+  -ms-opacity: $val;
+  -o-opacity: $val;
+  opacity: $val;
+}
+
+@mixin backLinear() {
+  background-image: -webkit-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
+  background-image: -moz-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
+  background-image: -ms-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
+  background-image: -o-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
+  background-image: linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
+}
+
+@mixin pointerEv( $ev : 'none' ) {
+  -webkit-pointer-events: $ev;
+  -moz-pointer-events: $ev;
+  -ms-pointer-events: $ev;
+  -o-pointer-events: $ev;
+  pointer-events: $ev;
+}
+
+@mixin userSelect( $ev : 'none' ) {
+  -webkit-user-select: $ev;
+  -moz-user-select: $ev;
+  -ms-user-select: $ev;
+  -o-user-select: $ev;
+  user-select: $ev;
+}

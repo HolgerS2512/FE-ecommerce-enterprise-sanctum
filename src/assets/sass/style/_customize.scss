@@ -1,0 +1,443 @@
+
+$xfs-fh: 46px;
+$xfs-pt: 10px;
+$xfs-cp: 4px;
+$xfs-clr: rgb(114, 114, 114);
+$xfs-itb-padd: 12.5px;
+$xfs-ilr-padd: 10px;
+
+$xfs-back-clr: rgb(190, 190, 190);
+$xfs-back-clr-hover: darken($xfs-clr, 25%);
+$xfs-back-clr-focus: rgb(145, 41, 241);
+
+$xfs-background: white;
+
+$xfs-fs-label: .8rem;
+
+$xfs-invalid: var(--bs-form-invalid-color);
+
+$app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
+
+.xfs-v1-control, .xfs-v1-control-no-val {
+  min-height: 80px;
+  max-width: 520px;
+
+  margin: 8px 0;
+  background-color: $xfs-background;
+
+  @include pointerEv;
+  @include userSelect;
+
+  // Code field
+  .xfs-v1-throttle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5rem;
+
+    p {
+      height: max-content;
+    }
+  }
+
+  // wrapper
+  .xfs-v1-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: $app-radius;
+    @include pointerEv(inherit);
+    @include userSelect(inherit);
+    padding: $xfs-cp;
+    font-family: $app-input-font;
+
+    // label
+    .xfs-v1-label {
+      position: absolute;
+      @include pointerEv(inherit);
+      @include userSelect(inherit);
+      line-height: 1;
+      color: $xfs-clr;
+      font-family: inherit;
+      z-index: 5;
+
+      @include transition(.15s);
+
+      font-size: $xfs-fs-label;
+      top: calc($xfs-cp * 2 * -1);
+      left: calc(6px + $xfs-cp);
+      @media (min-width:768px) {
+        left: calc(10px + $xfs-cp);
+      }
+
+      &::before {
+        $diff: 4px;
+        content: '';
+        z-index: -1;
+        background-color: $xfs-background;
+        width: calc(100% + $diff * 2);
+        height: calc($xfs-fs-label / 8 * 10);
+        position: absolute;
+        top: calc($diff / 4 * -1);
+        left: calc($diff * -1);
+      }
+      &::after {
+        content: '*';
+        margin-left: 1px;
+      }
+    } // label in input
+    .xfs-v1-label.active {
+      font-size: 1rem;
+      top: $xfs-cp + $xfs-itb-padd + 4px;
+      left: $xfs-cp + $xfs-ilr-padd - 4px;
+      @media (min-width:768px) {
+        left: $xfs-cp + $xfs-ilr-padd + 4px;
+      }
+    }
+
+    //input field
+    .xfs-v1-input {
+      width: inherit;
+      border: none;
+      outline: none;
+      @include pointerEv;
+      @include userSelect;
+      border-radius: inherit;
+      line-height: 1;
+      padding: 12.5px 6px;
+      font-size: 1rem;
+      color: black;
+      font-family: inherit;
+      min-height: $xfs-fh;
+      @media (min-width:768px) {
+        padding: 12.5px 10px;
+      }
+    }
+
+    // PASSWORD FIELD
+    $eye-btn: 46px;
+    $eye-mb: 2px;
+    $pulse-size: 40px;
+
+    input[name="password"] {
+      padding-right: $eye-btn - $xfs-cp !important;
+    }
+    button.btn-nostyle {
+      height: 100%;
+      width: $eye-btn;
+      padding: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 4;
+    
+      svg, svg path {
+        @include pointerEv;
+        @include userSelect;
+      }
+      svg {
+        margin-bottom: $eye-mb;
+      }
+
+      &::before {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: calc($pulse-size / 2 + 8px);
+        right: calc($pulse-size / 2 + 8px);
+        z-index: -1;
+        border-radius: 100%;
+        @include transition(.2s);
+      }
+      &:hover::before, &:focus::before {
+        width: $pulse-size;
+        height: $pulse-size;
+        top: calc(($eye-btn - $pulse-size) / 2 + $eye-mb);
+        right: calc(($eye-btn - $pulse-size) / 2);
+      }
+      &:hover::before {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      &:focus::before {
+        background-color: rgba(38, 0, 255, 0.15);
+      }
+    }
+    .xfs-svg-rotate {
+      &:hover::before, &:focus::before {
+        top: calc((($eye-btn - $pulse-size) / 2) + 4px) !important;
+      }
+    }
+    button.btn-nostyle.pulse::after {
+      $pulsar-size: calc($pulse-size / 1.25);
+      content: '';
+      width: $pulsar-size;
+      height: $pulsar-size;
+      position: absolute;
+      top: calc(($eye-btn - $pulsar-size) / 2 + $eye-mb);
+      right: calc(($eye-btn - $pulsar-size) / 2);
+      background-color: rgba(0, 0, 0, 0.04);
+      z-index: -1;
+      border-radius: 100%;
+      -webkit-animation: pulse-animation .5s;
+      -moz-animation: pulse-animation .5s;
+      -o-animation: pulse-animation .5s;
+      animation: pulse-animation .5s;
+    }
+  }
+  // wrapper hover clr
+  .xfs-v1-wrapper {
+    border: 1px solid $xfs-back-clr;
+
+    &:hover {
+      border: 1px solid $xfs-back-clr-hover;
+    }
+  }
+  // wrapper focus clr
+  .xfs-v1-wrapper.focus {
+    border: 1px solid $xfs-back-clr-focus;
+
+    &:hover {
+      border: 1px solid darken($xfs-back-clr-focus, 15%);
+    }
+
+    .xfs-v1-label {
+      color: $xfs-back-clr-focus;
+    }
+  }
+  // wrapper error clr
+  .xfs-v1-wrapper.error {
+    border: 1px solid $xfs-invalid;
+
+    &:hover {
+      border: 1px solid rgb(165, 26, 26);
+    }
+
+    .xfs-v1-label {
+      color: $xfs-invalid;
+    }
+  } 
+  // readOnly
+  .xfs-v1-wrapper.readonly {
+    @include opacity(.5);
+    &:hover {
+      border: 1px solid lighten($xfs-back-clr-hover, 50%);
+    }
+  }
+  .xfs-v1-wrapper.readonly.focus {
+    border: 1px solid $xfs-back-clr;;
+
+    &:hover {
+      border: 1px solid lighten($xfs-back-clr-hover, 50%);
+    }
+
+    .xfs-v1-label {
+      color: $xfs-clr;
+    }
+  }
+  // WRAPPER END
+
+  // Invalid feedback
+  .xfs-v1-i-fb {
+    min-height: 18px;
+    width: 100%;
+    @include pointerEv(all);
+    @include userSelect(all);
+    font-size: .75rem;
+    font-weight: 600;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif !important;
+    letter-spacing: 0.03333em;
+    color: $xfs-invalid;
+    margin: 6px calc($xfs-cp * 2 + 2px) 0 calc($xfs-cp * 2 + 2px);
+  }
+}
+
+.xfs-svg-clr {
+  padding: 2px;
+
+  &:focus {
+
+    svg {
+      fill: rgb(145, 41, 241);
+    }
+  }
+  
+  svg {
+    fill: #100f44;
+    @include transition;
+    @include pointerEv;
+    @include userSelect;
+    
+    &:hover {
+      fill: rgb(145, 41, 241);
+      @include transfScale;
+    }
+    
+    path {
+      @include pointerEv;
+      @include userSelect;
+    }
+  }
+}
+
+.xfs-svg-clr.move {
+  -webkit-animation: rotate-animate 1s linear infinite;
+  -moz-animation: rotate-animate 1s linear infinite;
+  -o-animation: rotate-animate 1s linear infinite;
+  animation: rotate-animate 1s linear infinite;
+}
+
+.xfs-svg-clr:disabled {
+  &:hover svg {
+    @include transfScale(1);
+    fill: #100f44;
+  }
+}
+
+.xfs-svg-rotate {
+  padding: 2px;
+  cursor: pointer;
+
+  svg {
+    margin: 2px;
+    fill: #100f44;
+    @include transition;
+    @include pointerEv;
+    @include userSelect;
+    
+    path {
+      @include pointerEv;
+      @include userSelect;
+    }
+  }
+}
+
+.xfs-svg-rotate.move {
+  -webkit-animation: rotate-animate 1s linear infinite;
+  -moz-animation: rotate-animate 1s linear infinite;
+  -o-animation: rotate-animate 1s linear infinite;
+  animation: rotate-animate 1s linear infinite;
+}
+
+.xfs-svg-rotate:disabled {
+  &:hover svg {
+    @include transfScale(1);
+    fill: #100f44;
+  }
+}
+
+// Select field
+.xfs-s1-control {
+  min-height: 80px;
+  max-width: 520px;
+  margin: 8px 0;
+  background-color: white;
+  position: relative;
+
+  .xfs-s1-wrapper {
+    border: 1px solid $xfs-back-clr;
+    border-radius: $app-radius;
+    padding: 0 4px;
+    font-family: $app-input-font;
+    &:hover {
+      border: 1px solid $xfs-back-clr-hover;
+    }
+  }
+  .xfs-s1-wrapper.focus {
+    border: 1px solid $xfs-back-clr-focus;
+    &:hover {
+      border: 1px solid darken($xfs-back-clr-focus, 15%);
+    }
+    .xfs-s1-label {
+      color: $xfs-back-clr-focus;
+    }
+  }
+  .xfs-s1-wrapper.error {
+    border: 1px solid $xfs-invalid;
+    &:hover {
+      border: 1px solid rgb(165, 26, 26);
+    }
+    .xfs-s1-label {
+      color: $xfs-invalid;
+    }
+  } 
+
+  .xfs-s1-label {
+    position: absolute;
+    @include pointerEv(inherit);
+    @include userSelect(inherit);
+    line-height: 1;
+    color: $xfs-clr;
+    font-family: inherit;
+    z-index: 5;
+
+    @include transition(.15s);
+
+    font-size: $xfs-fs-label;
+    top: calc($xfs-cp * 2 * -1);
+    left: calc(6px + $xfs-cp);
+    @media (min-width:768px) {
+      left: calc(10px + $xfs-cp);
+    }
+
+    &::before {
+      $diff: 4px;
+      content: '';
+      z-index: -1;
+      background-color: $xfs-background;
+      width: calc(100% + $diff * 2);
+      height: calc($xfs-fs-label / 8 * 10);
+      position: absolute;
+      top: calc($diff / 4 * -1);
+      left: calc($diff * -1);
+    }
+  }
+  .xfs-s1-label:not(.noRequire)::after {
+    content: '*';
+    margin-left: 1px;
+    font-family: inherit;
+    font-size: .8rem;
+  }
+  .xfs-s1-label.active {
+    font-size: 1rem;
+    top: $xfs-cp + $xfs-itb-padd + 4px;
+    left: $xfs-cp + $xfs-ilr-padd - 4px;
+    @media (min-width:768px) {
+      left: $xfs-cp + $xfs-ilr-padd + 4px;
+    }
+    &::after {
+      font-size: 1rem;
+    }
+  }
+}
+
+
+// Select birth row 
+.b-small {
+  margin: 6px 0 0 2px;
+  font-size: .95rem;
+  &::after {
+    content: '*';
+    font-family: $app-input-font;
+  }
+}
+.birth {
+  width: 100%;
+  max-width: 520px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: 10px;
+
+  .b-day {
+    /* Three values: flex-grow | flex-shrink | flex-basis */
+    flex: 1 0 15%;
+  }
+  .b-month {
+    flex: 2 0 20%;
+  }
+  .b-year {
+    flex: 1 0 20%;
+  }
+}

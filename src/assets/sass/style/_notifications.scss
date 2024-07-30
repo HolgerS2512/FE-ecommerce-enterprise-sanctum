@@ -1,0 +1,274 @@
+
+.http-status-msg {
+  background-color: $nf-back;
+  padding: 0 0 0 0;
+  margin: 8px 8px 1.25rem 0;
+  width: 100%;
+  
+  display: flex;
+
+  border-radius: 2px;
+  border: 1px solid $danger-err;
+
+  span {
+    background-color: $danger-err;
+
+    min-height: 100%;
+    max-height: 100%;
+    width: 40px;
+
+    display: inherit;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 2px 0 0 2px;
+
+    svg {
+      margin: 0 1px;
+    }
+  }
+
+  p {
+    color: $danger-err;
+    margin: 0 0 0 .75rem;
+    padding: .5rem 0;
+    line-height: 1.5;
+  }
+}
+
+
+
+// User Messenger 
+.xfs-um-modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.35);
+  padding: .5rem;
+  top: 0;
+  left: 0;
+}
+// User Notification 
+.xfs-un-modal {
+  position: fixed;
+  top: .5rem;
+  left: .5rem;
+  box-shadow: .25rem .25rem 25px .25rem rgba(0, 0, 0, 0.3), .5rem .5rem 35px 1rem rgba(0, 0, 0, 0.25);
+  margin-right: .5rem;
+}
+.xfs-um-modal, .xfs-un-modal {
+  z-index: 999999999;
+  overflow: hidden;
+
+  @include pointerEv;
+  @include userSelect;
+  @include d-center;
+  @include transition;
+
+  .xfs-um-body, .xfs-un-body {
+    background-color: white;
+    position: relative;
+    
+    width: 100%;
+    max-width: 600px;
+  }
+  .xfs-um-body {
+    border-radius: 4px;
+    min-height: 12rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35), 0 0 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+  }
+  .xfs-un-body {
+    border-radius: 2px;
+    overflow-x: hidden;
+
+    @media (min-width:320px){
+      display: flex;
+    }
+  }
+
+  // Success
+  .xfs-um-body.success, .xfs-un-body.success {
+    border: 1px solid rgba($nf-succ, .25);
+
+    .xfs-um-clr, .xfs-un-clr {
+      background-color: $nf-succ;
+      border-bottom: 1px solid  $nf-succ;
+      border-top: 1px solid  $nf-succ;
+      border-left: 1px solid  $nf-succ;
+
+      .svg-body {
+        background-color: white;
+        border-radius: 100%;
+        margin: 0 .75rem;
+      }
+    }
+  }
+
+  // Warning
+  .xfs-um-body.warning, .xfs-un-body.warning {
+    border: 1px solid rgba($nf-warn, .25);
+
+    .xfs-um-clr, .xfs-un-clr {
+      background-color: $nf-warn;
+      border-bottom: 1px solid  $nf-warn;
+      border-top: 1px solid  $nf-warn;
+      border-left: 1px solid  $nf-warn;
+
+      .svg-body {
+        margin: 0 .5rem;
+
+        svg {
+          stroke: $nf-warn;
+        }
+      }
+    }
+  }
+
+  // Error
+  .xfs-um-body.error, .xfs-un-body.error {
+    border: 1px solid rgba($danger-err, .25);
+
+    .xfs-um-clr, .xfs-un-clr {
+      background-color: $danger-err;
+      border-bottom: 1px solid  $danger-err;
+      border-top: 1px solid  $danger-err;
+      border-left: 1px solid  $danger-err;
+
+      .svg-body {
+        background-color: white;
+        border-radius: 100%;
+        margin: 0 .75rem;
+      }
+    }
+  }
+
+  .xfs-um-clr, .xfs-un-clr {
+    min-height: 100%;
+    @include d-center;
+  }
+  .xfs-um-clr {
+    border-radius: 3px 0 0 3px;
+
+      .svg-body {
+        margin: 0 .275rem .75rem .275rem;
+      }
+  }
+  .xfs-un-clr {
+    border-radius: 1px 0 0 1px;
+
+    @media (max-width:320px){
+      padding: 4px 0;
+    }
+  }
+
+  .xfs-um-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .text {
+      padding: 2.5rem 6px;
+    }
+  }
+  .xfs-un-msg {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .xfs-close {
+      display: flex;
+      justify-content: end;
+    }
+
+    .text {
+      &:first-child {
+        padding: 0 6px 0 6px;
+      }
+      &:last-child {
+        padding: 0 6px .5rem 6px;
+      }
+    }
+
+    @media (min-width:320px){
+      flex-direction: row;
+
+      .xfs-close {
+        display: block;
+      }
+
+      .text {
+        &:first-child {
+          padding: 2.5rem 6px 0 6px;
+        }
+        &:last-child {
+          padding: 0 6px 2.5rem 6px;
+        }
+      }
+    }
+  }
+  .xfs-um-msg, .xfs-un-msg {
+    width: 100%;
+
+    .xfs-un-msgc {
+      @include d-center;
+      flex-direction: column;
+    }
+
+    .text {
+      width: inherit;
+      max-width: 420px;
+    }
+  }
+
+
+
+}
+
+
+
+// Close modal
+.xfs-close {
+
+  .btn-nostyle {
+    padding: 4px 4px 4px 0;
+    
+    .xfs-cbody {
+      border-radius: 100%;
+      border: 1px solid lighten($close, 20%);
+      -webkit-transition: .15s ease-in-out;
+      -moz-transition: .15s ease-in-out;
+      -ms-transition: .15s ease-in-out;
+      -o-transition: .15s ease-in-out;
+      transition: .15s ease-in-out;
+      box-shadow: inset 0 0 6px white;
+      background: white;
+      position: relative;
+      z-index: 1;
+      @include transformAll(scale(1) rotate(0));
+    }
+
+    &:hover, &:focus {
+      .xfs-cbody {
+        background: white;
+        background: linear-gradient(45deg, rgb(216, 216, 216) 0%, rgba(255,255,255,1) 55%);
+        @include transformAll(scale(1.1) rotate(90deg));
+        border: 1px solid lighten($danger-err, 20%);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+
+        svg {
+          stroke: lighten($danger-err, 20%);
+        }
+      }
+    }
+  }
+
+  svg {
+    stroke: $close;
+  }
+
+  .xfs-cbody, .xfs-cbody::after, svg, svg path {
+    @include pointerEv;
+    @include userSelect;
+  }
+}
+

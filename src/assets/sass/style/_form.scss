@@ -1,0 +1,110 @@
+.auth-f-wr {
+  max-width: $maxw-sh-layout;
+  min-width: $minw-sh-layout;
+  margin: 0 $margin-sh-layout;
+  width: 100%;
+
+  // Password addition
+  .svg-box {
+    display: flex;
+
+    svg {
+      min-width: 22px;
+    }
+  }
+}
+
+// privacy policy text
+.policy-notice {
+  padding: 1rem 0 .25rem 0;
+
+  p {
+    font-weight: $link-weight;
+    color: $link-grey-text;
+    max-width: 380x;
+    width: 100%;
+    -moz-pointer-events: none;
+    pointer-events: none;
+    
+    a {
+      color: $link-grey;
+      -moz-pointer-events: all;
+      pointer-events: all;
+      
+      &:hover {
+        color: $link-hover;
+      }
+    }
+  }
+}
+// privacy policy text :hover
+.policy-notice.error {
+  p {
+    color: $danger-err;
+
+    a {
+      color: darken($danger-err, 10%);
+      &:hover {
+        color: darken($danger-err, 20%);
+      }
+    }
+  }
+}
+
+.cg-link {
+  font-weight: 600;
+  color: $link-grey;
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    color: $link-hover;
+  }
+}
+
+.pulse-control {
+  position: relative;
+  
+  .pulse::before {
+    --ps: 2.75em;
+    content: '';
+    display: inline-block;
+    width: 2.75em;
+    height: 2.75em;
+    position: absolute;
+    top: calc((var(--ps) - 1.5rem) / 2 * -1);
+    left: calc((var(--ps) - 1.5rem) / 2 * -1);
+    background-color: rgba(0, 0, 0, 0.04);
+    z-index: -1;
+    border-radius: 100%;
+  }
+
+  .has-pulse::after {
+    --hps: 2.25em;
+    content: '';
+    @include transition;
+    display: inline-block;
+    width: 2.25em;
+    height: 2.25em;
+    position: absolute;
+    top: -.375rem;
+    left: -.375rem;
+    top: calc((var(--hps) - 1.5rem) / 2 * -1);
+    left: calc((var(--hps) - 1.5rem) / 2 * -1);
+    background-color: transparent;
+    z-index: -1;
+    border-radius: 100%;
+    animation: pulse-animation .5s;
+  }
+}
+
+@media (max-width: 575.9998px) {
+  .xfs-btn {
+    width: 100%;
+
+    .btn {
+      width: 100%;
+      height: 3.25rem;
+      line-height: 2.25;
+    }
+  }
+}
