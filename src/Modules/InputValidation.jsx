@@ -97,6 +97,26 @@ const InputValidation = (obj) => {
         }
         break;
 
+      case 'phone':
+        // regex
+        if (!(rules[row[0]].regex[0]).test(row[1])) {
+          reObj[row[0]] = [];
+          reObj[row[0]].push(rules[row[0]].regex[1]);
+        }
+        break;
+
+      case 'message':
+        // length (override regex) (min, max)
+        if ((rules[row[0]].min[0]) >= row[1].length) {
+          reObj[row[0]] = [];
+          reObj[row[0]].push(rules[row[0]].min[1]);
+        }
+        if ((rules[row[0]].max[0]) <= row[1].length) {
+          reObj[row[0]] = [];
+          reObj[row[0]].push(rules[row[0]].max[1]);
+        }
+        break;
+
       case 'password':
         if (!(rules[row[0]].regex[0]).test(row[1]) || (rules[row[0]].min[0]) >= row[1].length || (rules[row[0]].max[0]) <= row[1].length) {
           reObj[row[0]] = [];
@@ -139,6 +159,8 @@ const monthReg = /^[0-9]{1,2}$/;
 
 const yearReg = /^[0-9]{4}$/;
 
+const phoneReg = /^[\+0]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+
 const rules = {
   firstname: {
     regex: [nameReg, 'error.validfirstname'],
@@ -176,5 +198,14 @@ const rules = {
   // Salution
   salutation: {
     regex: [salutReg, 'error.salutation'],
+  },
+  // Message
+  message: {
+    min: [8, 'error.required'],
+    max: [1000, 'error.max1000'],
+  },
+  // Phone
+  phone: {
+    regex: [phoneReg, 'error.phone'],
   },
 }

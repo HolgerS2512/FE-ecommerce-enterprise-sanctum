@@ -80,7 +80,7 @@ $app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
         top: calc($diff / 4 * -1);
         left: calc($diff * -1);
       }
-      &::after {
+      &:not(.noRequire)::after {
         content: '*';
         margin-left: 1px;
       }
@@ -248,6 +248,12 @@ $app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
     letter-spacing: 0.03333em;
     color: $xfs-invalid;
     margin: 6px calc($xfs-cp * 2 + 2px) 0 calc($xfs-cp * 2 + 2px);
+  }
+}
+
+@media (min-width:767.998px) {
+  .xfs-v1t-control {
+    max-width: 100%;
   }
 }
 

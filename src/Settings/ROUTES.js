@@ -50,6 +50,7 @@ const ROUTES = {
     TOU: '/terms_of_use',
     CANCELLATIONPOLICY: '/cancellation_policy',
     SHIPPINGPAYMENT: '/shipping_and_payment',
+    CONTACT: '/contact',
   },
   // Errors
   error: {

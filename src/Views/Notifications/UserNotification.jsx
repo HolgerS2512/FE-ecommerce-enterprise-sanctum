@@ -4,7 +4,7 @@ import { Checkmark, Xclose, Warning } from '../../components/icon/Icons'
 
 import CloseBtn from '../../components/Helpers/CloseBtn'
 
-const UserNotification = ({ notification, onClose }) => {
+const UserNotification = ({ notification, onClose, reload = false }) => {
   const { msg, status } = notification;
   const [timer, setTimer] = useState(notification.timer ?? 8);
   const { t } = useTranslation();
@@ -39,6 +39,7 @@ const UserNotification = ({ notification, onClose }) => {
       setTimeout(() => {nTimeout(--t)}, 1000);
     } else {
       onClose();
+      if (reload) window.location.reload();
     }
   }
 

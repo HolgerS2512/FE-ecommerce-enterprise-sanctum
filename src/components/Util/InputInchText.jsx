@@ -1,8 +1,7 @@
 import { useState } from "react"
 
-const InputInchField = ({ 
+const InputInchText = ({ 
   col, 
-  type, 
   label, 
   onChange, 
   err = '', 
@@ -17,19 +16,18 @@ const InputInchField = ({
 
   return (
     <div className={col ?? ''}>
-      <fieldset className='xfs-v1-control' style={noVal ? { minHeight: 80 + 'px' } : {}}>
+      <fieldset className='xfs-v1-control xfs-v1t-control' style={noVal ? { minHeight: 80 + 'px' } : {}}>
         <div className={`xfs-v1-wrapper${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
           <label 
             className={`xfs-v1-label${changeFocus || Boolean(value.length) ? '' : ' active'}${noRequire ? ' noRequire': ''}`} 
             htmlFor={label} id={label + '-label'}
           >{label}
           </label>
-          <input 
+          <textarea 
             required
             id={label} 
             name={name}
             className='xfs-v1-input'
-            type={type ?? 'text'}
             onChange={onChange} 
             value={value}
             onFocus={() => setChangeFocus(true)}
@@ -38,6 +36,8 @@ const InputInchField = ({
             aria-invalid="false"
             aria-labelledby={label + '-label'}
             tabIndex={nextTab}
+            rows={6}
+            cols='auto'
           />
         </div>
         {!noVal && Boolean(err?.length) && <p 
@@ -50,4 +50,4 @@ const InputInchField = ({
   )
 }
 
-export default InputInchField
+export default InputInchText

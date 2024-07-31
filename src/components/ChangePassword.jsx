@@ -3,7 +3,7 @@ import { redirect } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
 import { useTranslation } from "react-i18next"
 
-import ChangeDataForm from "./ChangeDataForm"
+import BlankForm from "./BlankForm"
 import InputValidation from "../Modules/InputValidation";
 import PasswordLongAddition from "./Helpers/PasswordLongAddition";
 import InputPinCode from "./Util/InputPinCode";
@@ -182,7 +182,7 @@ const ChangePassword = () => {
   }
 
   return (
-    <ChangeDataForm
+    <BlankForm
       onSubmit={(e) => {
         e.preventDefault();
         canUpdate ? handleSubmitUpdate() : handleEdit(); // canUpdate request state
@@ -268,7 +268,7 @@ const ChangePassword = () => {
           </div>}
 
       </div>
-    </ChangeDataForm>
+    </BlankForm>
   )
 };
 

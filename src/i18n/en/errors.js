@@ -2,6 +2,7 @@ export const errors = {
 
   // Client errors input fields
   "required" : "Required",
+  "max1000" : "The string must not be longer than 1000 characters.",
   "max255" : "The string must not be longer than 255 characters.",
   "max50" : "The string must not be longer than 50 characters.",
   "max" : 'The string must not be longer than {{ chars }} characters.',
@@ -21,8 +22,10 @@ export const errors = {
   "email_confirmation": "New email and confirmation must match",
 
   "salutation" : "Please enter a valid salutation.",
+  "phone" : "Please enter a valid phone number.",
   "day" : "Please enter a valid day.",
   "month" : "Please enter a valid month.",
   "year" : "Please enter a valid year.",
+  "message" : "Please enter valid text.",
 }
 

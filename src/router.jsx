@@ -9,8 +9,8 @@ import Register from "./Views/Pages/Auth/Register.jsx";
 import ForgetPwd from "./Views/Pages/Auth/ForgetPwd.jsx";
 import LookUpAccount from "./Views/Pages/Auth/LookUpAccount.jsx";
 import ROUTES from "./Settings/ROUTES.js";
-// import PersonalProfile from "./Views/Pages/Account/PersonalProfile.jsx";
 import Middleware from './common/Middleware.jsx';
+import Contact from "./Views/Pages/Contact.jsx";
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
 
@@ -50,6 +50,11 @@ const router = createBrowserRouter([
 				// '/imprint'
 				path: ROUTES.pages.IMPRINT,
 				element: <div>imprint</div>
+			},
+			{
+				// '/contact' --- NOT visible ---
+				path: ROUTES.pages.CONTACT,
+				element: <Contact />
 			},
 			{
 				// ! ---> Protected Account Routes <--- !

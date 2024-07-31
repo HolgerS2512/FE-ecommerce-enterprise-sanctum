@@ -3,7 +3,7 @@ import { redirect } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
 import { useTranslation } from "react-i18next"
 
-import ChangeDataForm from "./ChangeDataForm"
+import BlankForm from "./BlankForm"
 import InputValidation from "../Modules/InputValidation";
 import InputPinCode from "./Util/InputPinCode";
 import ROUTES from "../Settings/ROUTES";
@@ -177,7 +177,7 @@ const ChangeEmail = () => {
   }
   
   return (
-    <ChangeDataForm
+    <BlankForm
       onSubmit={(e) => {
         e.preventDefault();
         canUpdate ? handleSubmitUpdate() : handleEdit(); // canUpdate request state
@@ -256,7 +256,7 @@ const ChangeEmail = () => {
           </div>}
 
       </div>
-    </ChangeDataForm>
+    </BlankForm>
   )
 }
 

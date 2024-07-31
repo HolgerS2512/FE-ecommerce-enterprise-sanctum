@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import LoadButton from "./Util/LoadButton"
 
-const ChangeDataForm = ({ 
+const BlankForm = ({ 
     // form
     onSubmit, 
     autoComplete = 'on',
@@ -12,9 +12,10 @@ const ChangeDataForm = ({
     loadBtnClass = false,
     btnPos = 'start',
     require = true,
+    styles={},
   }) => {
-    const {t} = useTranslation()
-    // useState()
+  const {t} = useTranslation()
+
   return (
     <>
       <form
@@ -22,6 +23,7 @@ const ChangeDataForm = ({
         noValidate
         autoComplete={autoComplete}
         className="py-2"
+        style={styles}
       >
         {children}
 
@@ -32,4 +34,4 @@ const ChangeDataForm = ({
   )
 }
 
-export default ChangeDataForm
+export default BlankForm

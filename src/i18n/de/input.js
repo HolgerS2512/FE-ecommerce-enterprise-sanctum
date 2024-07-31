@@ -13,5 +13,9 @@ export const input = {
   firstname: "Vorname",
   lastname: "Nachname",
   pin: "Code",
+  phone: "Telefonnummer",
+  message: "Nachricht",
+
+
 }
 

@@ -6,7 +6,7 @@ import ROUTES from "../Settings/ROUTES";
 import axiosClient from '../axios-clint';
 import DateModel from "../Modules/DateModel";
 import InputValidation from "../Modules/InputValidation";
-import ChangeDataForm from "./ChangeDataForm"
+import BlankForm from "./BlankForm"
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 import InputInchField from "./Util/InputInchField";
 import Select from "./Util/Select";
@@ -172,7 +172,7 @@ const ChangePersonal = () => {
   }
 
   return (
-    <ChangeDataForm
+    <BlankForm
       onSubmit={handleSubmit}
       isLoading={isLoading}
       submitBtnText={t('save_changes')}
@@ -255,7 +255,7 @@ const ChangePersonal = () => {
 
       </div>
 
-    </ChangeDataForm>
+    </BlankForm>
   )
 }
 

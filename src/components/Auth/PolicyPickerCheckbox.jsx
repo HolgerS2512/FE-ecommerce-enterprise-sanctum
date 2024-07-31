@@ -35,6 +35,7 @@ const PolicyPickerCheckbox = ({ isChecked, setIsChecked, err }) => {
           type="checkbox" 
           checked={isChecked} 
           id="tac" 
+          name="tac" 
           onChange={setIsChecked}
           onKeyDown={handleKeyDown}
           onMouseEnter={() => setIsHover(true)}

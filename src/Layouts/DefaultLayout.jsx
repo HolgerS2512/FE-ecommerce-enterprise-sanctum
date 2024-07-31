@@ -38,7 +38,10 @@ const DefaultLayout = () => {
 		setIsLoading(false);
 	};
 
-	const handleCloseNotification = () => setNotification({});
+	const handleCloseNotification = () => {
+		setNotification({});
+		if (notification.reload) window.location.reload();
+	}
 
 
 	if (isLoading) return;
@@ -51,7 +54,7 @@ const DefaultLayout = () => {
 				<Outlet />
 			</main>
 			<Footer />
-			{notification.visible && <UserNotification onClose={handleCloseNotification} notification={notification} />}
+			{notification.visible && <UserNotification onClose={handleCloseNotification} notification={notification} reload={notification.reload} />}
 		</>
 	)
 }

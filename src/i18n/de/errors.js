@@ -2,6 +2,7 @@ export const errors = {
 
   // Client errors input fields
   "required" : "Erforderlich",
+  "max1000" : 'Die Zeichenfolge darf nicht länger als 1000 Zeichen sein.',
   "max255" : 'Die Zeichenfolge darf nicht länger als 255 Zeichen sein.',
   "max50" : 'Die Zeichenfolge darf nicht länger als 50 Zeichen sein.',
   "max" : 'Die Zeichenfolge darf nicht länger als {{ chars }} Zeichen sein.',
@@ -21,7 +22,9 @@ export const errors = {
   "email_confirmation": "Neue E-Mail und Bestätigung müssen übereinstimmen",
 
   "salutation" : "Bitte geben Sie eine gültige Anrede ein.",
+  "phone" : "Bitte geben Sie eine gültige Telefonnummer ein.",
   "day" : "Bitte geben Sie einen gültigen Tag ein.",
   "month" : "Bitte geben Sie einen gültigen Monat ein.",
   "year" : "Bitte geben Sie ein gültiges Jahr ein.",
+  "message" : "Bitte geben Sie gültigen Text ein.",
 }
