@@ -76,10 +76,12 @@ const Contact = () => {
             visible : true,
             status : 's',
             msg : res.data.message,
-            // reload: true,
+            reload: true,
           });
+        } else {
+          setHttpStatus({ visible: true, msg: message });
           setIsLoading(false);
-        } 
+        }
       } catch (err) {
         const { message } = err.response.data;
         setHttpStatus({ visible: true, msg: message });
