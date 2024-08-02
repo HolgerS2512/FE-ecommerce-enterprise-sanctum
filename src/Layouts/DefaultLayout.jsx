@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider.jsx";
 
@@ -10,32 +9,22 @@ import Footer from "./../common/Footer.jsx";
 import JumpLink from "../components/Helpers/JumpLink.jsx";
 
 const DefaultLayout = () => {
-	const { user, token, setUser, notification, setNotification } = useStateContext();
-	const [isLoading, setIsLoading] = useState(true);
-	const hasToken = token === null ? false : Boolean(token.length);
+	const { user, dataLoader, notification, setNotification } = useStateContext();
 
-	useEffect(() => {
-		loadUser();
-	}, []);
-
-	const loadUser = async () => {
-		if (hasToken) {
-			try {
-				const res = await axiosClient.get(ROUTES.account.PROFILE);
-				if (res?.data) {
-					setUser(res.data);
-				}
-			} catch (err) {
-				const { message } = err?.response?.data;
-				setNotification({
-					visible : true,
-					status : 'e',
-					msg : message,
-				})
+	const loadCategories = async () => {
+		try {
+			const res = await axiosClient.get(ROUTES.pages.CATEGORIES);
+			if (res?.data?.status) {
+				console.log(res.data.data);
 			}
+		} catch (err) {
+			const { message } = err?.response?.data;
+			setNotification({
+				visible : true,
+				status : 'e',
+				msg : message,
+			})
 		}
-		
-		setIsLoading(false);
 	};
 
 	const handleCloseNotification = () => {
@@ -43,8 +32,7 @@ const DefaultLayout = () => {
 		if (notification.reload) window.location.reload();
 	}
 
-
-	if (isLoading) return;
+	if (dataLoader) return;
 
 	return (
 		<>

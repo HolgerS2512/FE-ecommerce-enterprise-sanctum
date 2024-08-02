@@ -222,8 +222,9 @@ i18n
           mx: "Mx.",
           birthday: "Birthday",
           dateofbirth: "Date of birth",
-          not_found: "We can't find the page you're looking for.",
-          not_found_2: "We apologize for the inconvenience.",
+          not_found: "We can't find the page you are looking for.",
+          not_found_2: "Sorry for the inconvenience.",
+
         },
       },
     },

@@ -1,16 +1,20 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { FetchUser } from '../Modules/ServerRequests';
+
+const SESSION_LENGTH_MS = 1000 * 60 * 30; // 30 Minutes
 
 const StateContext = createContext({
 	user: null,
 	token: null,
 	lookup: null,
 	notification: null,
-	hasLoader: null,
+	dataLoader: null,
 	setUser: () => {},
 	setSessionToken: () => {},
 	setLookup: () => {},
 	setNotification: () => {},
-	setHasLoader: () => {},
+	setDataLoader: () => {},
 })
 
 export const ContextProvider = ({ children }) => {
@@ -18,7 +22,40 @@ export const ContextProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
 	const [lookup, setLookup] = useState('');
 	const [notification, setNotification] = useState({});
-	const [hasLoader, _setHasLoader] = useState(true);
+	const [dataLoader, setDataLoader] = useState(true);
+	const { data, isLoading, error } = useQuery('user', FetchUser, {
+    staleTime: SESSION_LENGTH_MS,
+    cacheTime: SESSION_LENGTH_MS,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
+
+	useEffect(() => {
+		loadUser();
+	}, []);
+
+	useEffect(() => {
+		loadUser();
+	}, [isLoading]);
+
+	const loadUser = async () => {
+		const hasToken = token === null ? false : Boolean(token.length);
+		const hasUser = !Boolean(Object.keys(user).length);
+
+		if (hasToken && !isLoading && hasUser) {
+			if (error === null) {
+				setUser(data);
+			} else {
+				setNotification({
+					visible : true,
+					status : 'e',
+					msg : error.message,
+				});
+			}
+			if (dataLoader) setDataLoader(false);
+		}
+	};
 
 	const setSessionToken = (token) => {
 		setToken(token);
@@ -29,28 +66,18 @@ export const ContextProvider = ({ children }) => {
 		}
 	}
 
-	const setHasLoader = (bool, timer = false) => {
-		if (user) {
-			if (timer) {
-				setTimeout(() => _setHasLoader(bool), timer);
-			} else {
-				_setHasLoader(bool);
-			}
-    }
-	}
-
 	return (
 		<StateContext.Provider value={{
 			user,
 			token,
 			lookup,
 			notification,
-			hasLoader,
+			dataLoader,
 			setUser,
 			setSessionToken,
 			setLookup,
       setNotification,
-			setHasLoader,
+			setDataLoader,
 		}}>
 			{ children }
 		</StateContext.Provider>

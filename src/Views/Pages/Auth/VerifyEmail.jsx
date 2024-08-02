@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 import axiosClient from '../../../axios-clint.js';
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
-import InputValidation from '../../../Utils/InputValidation.jsx';
 import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import InputVerifyCode from '../../../components/Util/InputVerifyCode.jsx';
 import Loading from '../../../components/Helpers/Loading.jsx'
@@ -15,6 +14,7 @@ import Footer from '../../../common/Footer.jsx';
 import UserMessenger from '../../Notifications/UserMessenger.jsx';
 import PolicyPicker from '../../../components/Auth/PolicyPicker.jsx';
 import ROUTES from '../../../Settings/ROUTES.js';
+import InputValidation from '../../../Modules/InputValidation.jsx';
 
 const THISPATH = window.location.pathname;
 const THROTTLE = 5;

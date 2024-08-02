@@ -41,6 +41,7 @@ const ROUTES = {
   // Pages
   pages: {
     // Common
+    CATEGORIES: '/all/categories',
     HOME: '/',
     SALE: '/sale',
     NEW: '/new',

@@ -76,8 +76,8 @@ const Contact = () => {
             visible : true,
             status : 's',
             msg : res.data.message,
-            reload: true,
           });
+          clearPayload();
         } else {
           setHttpStatus({ visible: true, msg: message });
           setIsLoading(false);
@@ -126,6 +126,18 @@ const Contact = () => {
   const setIsTacChecked = () =>{
     setTacErr(isTacChecked);
     _setIsTacChecked((tac) => !tac);
+  }
+
+  const clearPayload = () => {
+    setInputData({
+      salutation: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      message: '',
+    });
+    setSalutation('');
   }
 
   return (

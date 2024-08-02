@@ -11,9 +11,9 @@ import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 import InputInchField from "./Util/InputInchField";
 import Select from "./Util/Select";
 
-const ChangePersonal = () => {
+const ChangePersonal = ({ closeLoader }) => {
   // Common
-  const { user, setNotification, setHasLoader } = useStateContext();
+  const { user, setNotification } = useStateContext();
   const {t} = useTranslation();
 
   const salutationOpts = [
@@ -96,7 +96,7 @@ const ChangePersonal = () => {
         }
       });
     }
-    setHasLoader(false, 200);
+    setTimeout(() => closeLoader(), 200);
   }
 
   const handleSubmit = async (e) => {

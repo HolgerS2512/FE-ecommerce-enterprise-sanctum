@@ -1,23 +1,20 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next"
 
 import ChangePassword from "../../../components/ChangePassword";
 import ChangeEmail from "../../../components/ChangeEmail";
 import ChangePersonal from "../../../components/ChangePersonal";
 import Loading from "../../../components/Helpers/Loading";
-import { useStateContext } from "../../../Contexts/ContextProvider";
-import { useEffect } from "react";
 
 const PersonalProfile = () => {
   const {t} = useTranslation();
-  const { hasLoader, setHasLoader } = useStateContext();
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setHasLoader(true);
-  }, []);
+  const closeLoader = () => setIsLoading(false);
 
   return (
     <>
-      {hasLoader && <Loading />}
+      {isLoading && <Loading />}
       <div className="container-xl mt-5 pt-5">
 
         <h1 tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>
@@ -38,7 +35,7 @@ const PersonalProfile = () => {
             </h2>
             <div id="changePersonal" className="accordion-collapse collapse show" data-bs-parent="#changePersonalData">
               <div className="accordion-body">
-                <ChangePersonal />
+                <ChangePersonal closeLoader={closeLoader} />
               </div>
             </div>
           </div>

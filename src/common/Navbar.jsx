@@ -9,7 +9,7 @@ import NAVLINKS from '../Settings/NAVLINKS';
 import GetIconByName from '../components/Util/GetIconByName';
 
 const Navbar = ({ user }) => {
-  const {setUser, setSessionToken} = useStateContext();
+  const { setUser, setSessionToken } = useStateContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
   const hasUser = Boolean(Object.keys(user).length);
@@ -20,6 +20,7 @@ const Navbar = ({ user }) => {
         setUser({});
         setSessionToken('');
         redirect(ROUTES.pages.HOME);
+        // window.location.reload(); 
       }
     });
     e.preventDefault();

@@ -1,5 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
 import { lazy } from 'react';
+import { createBrowserRouter } from "react-router-dom";
+
 import ShortLayout from "./Layouts/ShortLayout.jsx";
 import DefaultLayout from "./Layouts/DefaultLayout.jsx";
 import NotFound from "./Views/Notifications/NotFound.jsx";
