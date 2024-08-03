@@ -1,9 +1,8 @@
 import axiosClient from "../axios-clint";
-import ROUTES from "../Settings/ROUTES";
 
-export const FetchUser = async () => {
+export const FetchAsync = async (route) => {
   try {
-    const res = await axiosClient.get(ROUTES.account.PROFILE);
+    const res = await axiosClient.get(route);
     if (res?.data) {
       return res.data;
     }
@@ -12,3 +11,4 @@ export const FetchUser = async () => {
     throw new Error(message);
   }
 };
+

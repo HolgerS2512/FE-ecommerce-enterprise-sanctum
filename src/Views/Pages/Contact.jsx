@@ -77,16 +77,15 @@ const Contact = () => {
             status : 's',
             msg : res.data.message,
           });
-          clearPayload();
+          clearStates();
         } else {
           setHttpStatus({ visible: true, msg: message });
-          setIsLoading(false);
         }
       } catch (err) {
         const { message } = err.response.data;
         setHttpStatus({ visible: true, msg: message });
-        setIsLoading(false);
       }
+      setIsLoading(false);
     }
   }
 
@@ -128,7 +127,7 @@ const Contact = () => {
     _setIsTacChecked((tac) => !tac);
   }
 
-  const clearPayload = () => {
+  const clearStates = () => {
     setInputData({
       salutation: '',
       firstname: '',

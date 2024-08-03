@@ -1,35 +1,32 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { FetchAsync } from '../Modules/ServerRequests';
+import { FetchAsync } from "../Modules/ServerRequests";
 import ROUTES from "../Settings/ROUTES";
 
-const SESSION_LENGTH_30M = 1000 * 60 * 30; // 30 Minutes
+const SESSION_LENGTH_30M = 1000 * 60 * 60 * 24; // 60 Minutes * 24 H = 1 Tag
 
 const StateContext = createContext({
 	user: null,
 	token: null,
-	lookup: null,
 	notification: null,
 	dataLoader: null,
 	setUser: () => {},
 	setSessionToken: () => {},
-	setLookup: () => {},
 	setNotification: () => {},
 	setDataLoader: () => {},
 })
 
-export const ContextProvider = ({ children }) => {
+export const LayoutProvider = ({ children }) => {
 	const [user, setUser] = useState({});
 	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
-	const [lookup, setLookup] = useState('');
 	const [notification, setNotification] = useState({});
 	const [dataLoader, setDataLoader] = useState(true);
 
 	const hasToken = token === null ? false : Boolean(token.length);
 
 	const { data, isLoading, error } = useQuery(
-		'user', 
-		() => FetchAsync(ROUTES.account.PROFILE),
+		'categories', 
+    () => FetchAsync(ROUTES.pages.CATEGORIES),
     {
 			staleTime: SESSION_LENGTH_30M,
 			cacheTime: SESSION_LENGTH_30M,
@@ -78,12 +75,10 @@ export const ContextProvider = ({ children }) => {
 		<StateContext.Provider value={{
 			user,
 			token,
-			lookup,
 			notification,
 			dataLoader,
 			setUser,
 			setSessionToken,
-			setLookup,
       setNotification,
 			setDataLoader,
 		}}>
