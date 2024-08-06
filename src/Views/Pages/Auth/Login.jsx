@@ -48,7 +48,7 @@ const Login = () => {
           setLookup('');
           setUser(res.data.user);
           setSessionToken(res.data.token);
-          navigate(ROUTES.pages.HOME);
+          setTimeout(() => window.location.reload(), 0);
         } 
       } catch (err) {
         const { message } = err.response.data;

@@ -13,7 +13,7 @@ import Select from "./Util/Select";
 
 const ChangePersonal = ({ closeLoader }) => {
   // Common
-  const { user, setNotification } = useStateContext();
+  const { user, setUserProps, setNotification } = useStateContext();
   const {t} = useTranslation();
 
   const salutationOpts = [
@@ -29,6 +29,7 @@ const ChangePersonal = ({ closeLoader }) => {
     firstname: user.firstname,
     lastname: user.lastname,
   });
+
 	const [selectDay, setSelectDay] = useState('');
   const [selectMonth, setSelectMonth] = useState('');
 	const [selectYear, setSelectYear] = useState('');
@@ -122,8 +123,10 @@ const ChangePersonal = ({ closeLoader }) => {
             status : 's',
             msg : res.data.message,
           });
+          setUserProps(payload);
         } 
       } catch (err) {
+        console.log(err)
         const { message } = err.response.data;
         setHttpStatus({ visible: true, msg: message });
       }

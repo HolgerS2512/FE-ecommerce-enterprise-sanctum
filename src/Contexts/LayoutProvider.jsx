@@ -1,90 +1,47 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { FetchAsync } from "../Modules/ServerRequests";
 import ROUTES from "../Settings/ROUTES";
-
-const SESSION_LENGTH_30M = 1000 * 60 * 60 * 24; // 60 Minutes * 24 H = 1 Tag
+import axiosClient from "../axios-clint";
+import CookieManager from "../Modules/CookieManager";
 
 const StateContext = createContext({
-	user: null,
-	token: null,
-	notification: null,
-	dataLoader: null,
-	setUser: () => {},
-	setSessionToken: () => {},
-	setNotification: () => {},
-	setDataLoader: () => {},
+	categories: null,
+	setCategories: () => {},
 })
 
 export const LayoutProvider = ({ children }) => {
-	const [user, setUser] = useState({});
-	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
-	const [notification, setNotification] = useState({});
-	const [dataLoader, setDataLoader] = useState(true);
+	const cookieManager = new CookieManager();
+	const cookieVersion = cookieManager.getCookie('L_CD');
+  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(cookieVersion)) || '');
 
-	const hasToken = token === null ? false : Boolean(token.length);
+  useEffect(() => {
+    if (categories === '') loadCategories();
+  }, []);
 
-	const { data, isLoading, error } = useQuery(
-		'categories', 
-    () => FetchAsync(ROUTES.pages.CATEGORIES),
-    {
-			staleTime: SESSION_LENGTH_30M,
-			cacheTime: SESSION_LENGTH_30M,
-			enabled: !!hasToken, // Execute only if condition is met
-		}
-	);
-
-	useEffect(() => {
-		loadUser();
-	}, []);
-
-	useEffect(() => {
-		loadUser();
-	}, [isLoading]);
-
-	const loadUser = async () => {
-		const hasToken = token === null ? false : Boolean(token.length);
-		const hasUser = !Boolean(Object.keys(user).length);
-
-		if (hasToken && !isLoading && hasUser) {
-			if (error === null) {
-				setUser(data);
-			} else {
-				setNotification({
-					visible : true,
-					status : 'e',
-					msg : error.message,
-				});
+	const loadCategories = async () => {
+		try {
+			const res = await axiosClient.get(ROUTES.pages.CATEGORIES);
+			if (res.data.status) {
+				setCategories(res.data.data);
+				localStorage.setItem(cookieVersion, JSON.stringify(res.data.data));
 			}
-			if (dataLoader) setDataLoader(false);
+		} catch (err) {
+			const { message } = err?.response?.data;
+			setNotification({
+				visible : true,
+				status : 'e',
+				msg : message,
+			})
 		}
-
-		if (!hasToken && dataLoader) setDataLoader(false);
 	};
-
-	const setSessionToken = (token) => {
-		setToken(token);
-		if (token) {
-			localStorage.setItem("xFs_at", token);
-		} else {
-			localStorage.removeItem("xFs_at");
-		}
-	}
 
 	return (
 		<StateContext.Provider value={{
-			user,
-			token,
-			notification,
-			dataLoader,
-			setUser,
-			setSessionToken,
-      setNotification,
-			setDataLoader,
+			categories,
+			setCategories,
 		}}>
 			{ children }
 		</StateContext.Provider>
 	)
 }
 
-export const useStateContext = () => useContext(StateContext);
+export const useLayoutContext = () => useContext(StateContext);

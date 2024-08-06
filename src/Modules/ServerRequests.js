@@ -11,4 +11,3 @@ export const FetchAsync = async (route) => {
     throw new Error(message);
   }
 };
-

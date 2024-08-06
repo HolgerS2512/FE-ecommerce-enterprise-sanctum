@@ -8,7 +8,7 @@ import ProfileMenu from '../components/Nav/ProfileMenu';
 import NAVLINKS from '../Settings/NAVLINKS';
 import GetIconByName from '../components/Util/GetIconByName';
 
-const Navbar = ({ user }) => {
+const Navbar = ({ categories, user }) => {
   const { setUser, setSessionToken } = useStateContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
@@ -19,8 +19,7 @@ const Navbar = ({ user }) => {
       if (res.status === 204) {
         setUser({});
         setSessionToken('');
-        redirect(ROUTES.pages.HOME);
-        // window.location.reload(); 
+        window.location.reload(); 
       }
     });
     e.preventDefault();
@@ -52,10 +51,22 @@ const Navbar = ({ user }) => {
       {/* SECTION 2 */}
       <section className='nav-container'>
         <div className='d-flex justify-content-between w-50'>
-          <h4>Link</h4>
-          <h4>Link</h4>
-          <h4>Link</h4>
-          <h4>Link</h4>
+          <ul>
+            {categories && categories.map((link) => (
+              <li key={link.id}>
+                <span href="" tabIndex={1}>{link.name}</span>
+
+                {Boolean(link.subcategories.length) && <ul>
+                  {link.subcategories.map((uLink) => (
+                    <li key={uLink.id}>
+                      <a href="" tabIndex={1}>{uLink.name}</a>
+                    </li>
+                  ))} 
+                </ul>}
+                
+              </li>            
+            ))}
+          </ul>
         </div>
 
         <div className='d-flex w-50 justify-content-end'>

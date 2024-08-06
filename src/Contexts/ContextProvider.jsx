@@ -1,21 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { FetchAsync } from '../Modules/ServerRequests';
+import AesCryptographer from '../Modules/AesCryptographer';
 import ROUTES from "../Settings/ROUTES";
 
-const SESSION_LENGTH_30M = 1000 * 60 * 30; // 30 Minutes
+const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
 const StateContext = createContext({
 	user: null,
 	token: null,
 	lookup: null,
 	notification: null,
-	dataLoader: null,
 	setUser: () => {},
+	setUserProps: () => {},
 	setSessionToken: () => {},
 	setLookup: () => {},
 	setNotification: () => {},
-	setDataLoader: () => {},
 })
 
 export const ContextProvider = ({ children }) => {
@@ -23,46 +23,35 @@ export const ContextProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
 	const [lookup, setLookup] = useState('');
 	const [notification, setNotification] = useState({});
-	const [dataLoader, setDataLoader] = useState(true);
 
-	const hasToken = token === null ? false : Boolean(token.length);
+	const hasToken = token !== '';
+	const isUser = Boolean(Object.keys(user).length);
 
-	const { data, isLoading, error } = useQuery(
-		'user', 
-		() => FetchAsync(ROUTES.account.PROFILE),
-    {
-			staleTime: SESSION_LENGTH_30M,
-			cacheTime: SESSION_LENGTH_30M,
-			enabled: !!hasToken, // Execute only if condition is met
-		}
-	);
+	const { data, isLoading, error } = useQuery({
+			queryKey: ['user'],
+			queryFn: () => FetchAsync(ROUTES.account.PROFILE),
+			staleTime: SESSION_LENGTH,
+			cacheTime: SESSION_LENGTH * 2,
+			enabled: hasToken && !isUser, // Execute only if condition is met
+	});
 
 	useEffect(() => {
 		loadUser();
-	}, []);
-
-	useEffect(() => {
-		loadUser();
-	}, [isLoading]);
+	}, [data, isLoading, error]);
 
 	const loadUser = async () => {
-		const hasToken = token === null ? false : Boolean(token.length);
-		const hasUser = !Boolean(Object.keys(user).length);
+    if (data && !isLoading && !error) {
+			const cryptographer = new AesCryptographer();
+			const decrypted = cryptographer.decrypt(data);
 
-		if (hasToken && !isLoading && hasUser) {
-			if (error === null) {
-				setUser(data);
-			} else {
-				setNotification({
-					visible : true,
-					status : 'e',
-					msg : error.message,
-				});
-			}
-			if (dataLoader) setDataLoader(false);
-		}
-
-		if (!hasToken && dataLoader) setDataLoader(false);
+      setUser(JSON.parse(decrypted));
+    } else if (error) {
+      setNotification({
+        visible: true,
+        status: 'e',
+        msg: error.message,
+      });
+    }
 	};
 
 	const setSessionToken = (token) => {
@@ -74,18 +63,26 @@ export const ContextProvider = ({ children }) => {
 		}
 	}
 
+	const setUserProps = (fresh) => {
+		setUser((user) => ({
+      ...user,
+      ...fresh,
+    }));
+	}
+
+	if (hasToken && !isUser && error === null) return;
+
 	return (
 		<StateContext.Provider value={{
 			user,
 			token,
 			lookup,
 			notification,
-			dataLoader,
 			setUser,
+			setUserProps,
 			setSessionToken,
 			setLookup,
       setNotification,
-			setDataLoader,
 		}}>
 			{ children }
 		</StateContext.Provider>

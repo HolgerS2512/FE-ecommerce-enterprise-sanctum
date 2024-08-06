@@ -1,43 +1,25 @@
 import { Outlet } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider.jsx";
 
-import axiosClient from "../axios-clint.js";
-import ROUTES from "../Settings/ROUTES.js";
 import UserNotification from "../Views/Notifications/UserNotification.jsx";
 import Navbar from "./../common/Navbar.jsx";
 import Footer from "./../common/Footer.jsx";
 import JumpLink from "../components/Helpers/JumpLink.jsx";
+import { useLayoutContext } from "../Contexts/LayoutProvider.jsx";
 
 const DefaultLayout = () => {
-	const { user, dataLoader, notification, setNotification } = useStateContext();
-
-	const loadCategories = async () => {
-		try {
-			const res = await axiosClient.get(ROUTES.pages.CATEGORIES);
-			if (res?.data?.status) {
-				console.log(res.data.data);
-			}
-		} catch (err) {
-			const { message } = err?.response?.data;
-			setNotification({
-				visible : true,
-				status : 'e',
-				msg : message,
-			})
-		}
-	};
+	const { user, notification, setNotification } = useStateContext();
+	const { categories } = useLayoutContext();
 
 	const handleCloseNotification = () => {
 		setNotification({});
 		if (notification.reload) window.location.reload();
 	}
 
-	if (dataLoader) return;
-
 	return (
 		<>
 			<JumpLink role='navigation' link='main' />
-			<Navbar user={user} />
+			<Navbar categories={categories} user={user ?? {}} />
 			<main role="main" id="main">
 				<Outlet />
 			</main>

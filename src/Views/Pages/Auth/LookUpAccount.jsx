@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
@@ -12,13 +12,17 @@ import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import ROUTES from '../../../Settings/ROUTES.js';
 
 const LookUpAccount = () => {
-  const { setLookup, lookup } = useStateContext();
+  const { setLookup, lookup, token } = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [email, setEmail] = useState(lookup || '');
   const [btnLoader, setBtnLoader] = useState(false);
   const [httpStatus, setHttpStatus] = useState({ visible: false });
   const [clientError, setClientError] = useState({ email: { msg: [] } });
+
+  useEffect(() => {
+    if (token) navigate(ROUTES.pages.HOME);
+  }, []);
 
   const handleSubmit = async () => {
     const check = {...InputValidation({ email: email })};
