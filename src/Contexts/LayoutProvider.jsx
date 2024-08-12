@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import ROUTES from "../Settings/ROUTES";
 import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
+import { useStateContext } from "./ContextProvider";
 
 const StateContext = createContext({
 	categories: null,
@@ -9,9 +10,9 @@ const StateContext = createContext({
 })
 
 export const LayoutProvider = ({ children }) => {
+	const { setNotification } = useStateContext();
 	const cookieManager = new CookieManager();
-	const cookieVersion = cookieManager.getCookie('L_CD');
-  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(cookieVersion)) || '');
+  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(cookieManager.getCookie('L_CD'))) || '');
 
   useEffect(() => {
     if (categories === '') loadCategories();
@@ -22,7 +23,9 @@ export const LayoutProvider = ({ children }) => {
 			const res = await axiosClient.get(ROUTES.pages.CATEGORIES);
 			if (res.data.status) {
 				setCategories(res.data.data);
-				localStorage.setItem(cookieVersion, JSON.stringify(res.data.data));
+				setTimeout(() => {
+					localStorage.setItem(cookieManager.getCookie('L_CD'), JSON.stringify(res.data.data));
+				}, 200);
 			}
 		} catch (err) {
 			const { message } = err?.response?.data;
@@ -33,6 +36,8 @@ export const LayoutProvider = ({ children }) => {
 			})
 		}
 	};
+	
+	if (categories === '') return;
 
 	return (
 		<StateContext.Provider value={{

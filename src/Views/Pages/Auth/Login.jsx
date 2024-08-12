@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import { useStateContext } from './../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
 
@@ -12,7 +12,7 @@ import SendPinAgain from '../../Notifications/SendPinAgain.jsx';
 import ROUTES from '../../../Settings/ROUTES.js';
 
 const Login = () => {
-  const {setUser, setSessionToken, lookup, setLookup} = useStateContext();
+  const {setUser, setUsername, setSessionToken, lookup, setLookup} = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [pwdValue, setPwdValue] = useState('');
@@ -44,11 +44,13 @@ const Login = () => {
     } else {
       try {
         const res = await axiosClient.post(ROUTES.auth.LOGIN, payload);
-        if (res?.data?.user && res?.data?.token) {
+        if (res?.data) {
           setLookup('');
           setUser(res.data.user);
+          setUsername(res.data.user.firstname);
           setSessionToken(res.data.token);
           setTimeout(() => window.location.reload(), 0);
+          // navigate(ROUTES.pages.HOME);
         } 
       } catch (err) {
         const { message } = err.response.data;

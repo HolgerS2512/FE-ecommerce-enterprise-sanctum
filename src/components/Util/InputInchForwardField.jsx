@@ -19,7 +19,7 @@ const InputInchForwardField = forwardRef(({
       <fieldset className='xfs-v1-control' style={noVal ? { minHeight: 80 + 'px' } : {}}>
         <div className={`xfs-v1-wrapper${changeFocus ? ' focus' : ''}${err ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
           <label 
-            className={`xfs-v1-label${changeFocus || Boolean(value.length) ? '' : ' active'}`} 
+            className={`xfs-v1-label${changeFocus || Boolean(value?.length) ? '' : ' active'}`} 
             htmlFor={label} id={label + '-label'}
           >{label}
           </label>

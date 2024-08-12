@@ -6,12 +6,16 @@ import ROUTES from "../Settings/ROUTES";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
+const cryptographer = new AesCryptographer();
+
 const StateContext = createContext({
 	user: null,
+	username: null,
 	token: null,
 	lookup: null,
 	notification: null,
 	setUser: () => {},
+	setUsername: () => {},
 	setUserProps: () => {},
 	setSessionToken: () => {},
 	setLookup: () => {},
@@ -23,6 +27,7 @@ export const ContextProvider = ({ children }) => {
 	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
 	const [lookup, setLookup] = useState('');
 	const [notification, setNotification] = useState({});
+	const [username, _setUsername] = useState(cryptographer.decrypt(localStorage.getItem("aC_us")) || '');
 
 	const hasToken = token !== '';
 	const isUser = Boolean(Object.keys(user).length);
@@ -41,7 +46,6 @@ export const ContextProvider = ({ children }) => {
 
 	const loadUser = async () => {
     if (data && !isLoading && !error) {
-			const cryptographer = new AesCryptographer();
 			const decrypted = cryptographer.decrypt(data);
 
       setUser(JSON.parse(decrypted));
@@ -63,6 +67,15 @@ export const ContextProvider = ({ children }) => {
 		}
 	}
 
+	const setUsername = (name) => {
+		_setUsername(name);
+		if (name) {
+			localStorage.setItem("aC_us", cryptographer.encrypt(name));
+		} else {
+			localStorage.removeItem("aC_us");
+		}
+	}
+
 	const setUserProps = (fresh) => {
 		setUser((user) => ({
       ...user,
@@ -70,15 +83,17 @@ export const ContextProvider = ({ children }) => {
     }));
 	}
 
-	if (hasToken && !isUser && error === null) return;
+	// if (hasToken && !isUser && error === null) return;
 
 	return (
 		<StateContext.Provider value={{
 			user,
+			username,
 			token,
 			lookup,
 			notification,
 			setUser,
+			setUsername,
 			setUserProps,
 			setSessionToken,
 			setLookup,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
-import { getAjax } from '../../../Modules/Ajax.jsx';
+import { getAjax } from '../../../Modules/ServerRequests.js';
 import { useTranslation } from "react-i18next";
 
 import axiosClient from '../../../axios-clint.js';

@@ -15,6 +15,12 @@ const HttpStatusMsg = ({ msg = '', tabIndex = 1 }) => {
     msg = vault;
   }
 
+  if (typeof msg === 'object') {
+    Object.values(msg).forEach((values) => {
+      msg = values[0];
+    });
+  }
+
   return (
     <div className='http-status-msg' role="alert" aria-live="assertive">
       <span>

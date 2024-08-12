@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { postAjax } from '../../Modules/Ajax';
+import { postAjax } from '../../Modules/ServerRequests.js';
 import { useTranslation } from "react-i18next";
 import { Refresh, Checkmark, Xclose } from '../icon/Icons';
 

@@ -15,15 +15,15 @@ import { LayoutProvider } from './Contexts/LayoutProvider.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <Suspense fallback={<Loading />}>
-      <LayoutProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
           <ContextProvider>
+        <LayoutProvider>
             <RouterProvider router={ router } />
+        </LayoutProvider>
           </ContextProvider>
-        </QueryClientProvider>
-      </LayoutProvider>
+      </QueryClientProvider>
     </Suspense>
-  </React.StrictMode>,
+  //</React.StrictMode>,
 )

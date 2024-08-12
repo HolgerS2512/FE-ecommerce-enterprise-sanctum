@@ -12,10 +12,9 @@ import LookUpAccount from "./Views/Pages/Auth/LookUpAccount.jsx";
 import ROUTES from "./Settings/ROUTES.js";
 import Middleware from './common/Middleware.jsx';
 import Contact from "./Views/Pages/Contact.jsx";
+import PersonalProfile from "./Views/Pages/Account/PersonalProfile.jsx";
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
-
-const PersonalProfile = lazy(() => import("./Views/Pages/Account/PersonalProfile.jsx"));
 
 const router = createBrowserRouter([
 	{

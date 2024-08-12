@@ -3,8 +3,10 @@ import { useTranslation } from "react-i18next"
 
 import NAVLINKS from "../../Settings/NAVLINKS";
 import GetIconByName from "../Util/GetIconByName";
+import { useStateContext } from "../../Contexts/ContextProvider";
 
-const ProfileMenu = ({ onLogout, greeting }) => {
+const ProfileMenu = ({ onLogout }) => {
+  const { username } = useStateContext();
   const { t } = useTranslation();
   const { links, name, icon } = NAVLINKS.profile;
   const { link: oLink } = links.OVERVIEW;
@@ -17,7 +19,8 @@ const ProfileMenu = ({ onLogout, greeting }) => {
           aria-label={t(name)}
           tabIndex={1}
         >
-          <span className="vnu576 greeting">{greeting}</span>
+          {/* className={`vnu576 greeting${hasToken? ' a35s' : ''}${hasUser? ' fit-greeting' : ''}`} */}
+          <span className='vnu576 greeting'>{`${t('greeting')} ${username}`}</span>
           <GetIconByName name={icon} />
         </Link>
       </li>

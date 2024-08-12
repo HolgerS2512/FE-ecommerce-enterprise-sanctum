@@ -8,18 +8,28 @@ import JumpLink from "../components/Helpers/JumpLink.jsx";
 import { useLayoutContext } from "../Contexts/LayoutProvider.jsx";
 
 const DefaultLayout = () => {
-	const { user, notification, setNotification } = useStateContext();
+	const { token, user, notification, setNotification } = useStateContext();
 	const { categories } = useLayoutContext();
+
+	const hasToken = token !== '';
 
 	const handleCloseNotification = () => {
 		setNotification({});
 		if (notification.reload) window.location.reload();
 	}
 
+	fetch('https://api.escuelajs.co/api/v1/categories')
+    .then(res=>res.json())
+    .then(json=>console.log(json))
+
 	return (
 		<>
 			<JumpLink role='navigation' link='main' />
-			<Navbar categories={categories} user={user ?? {}} />
+			<Navbar 
+				categories={categories} 
+				user={user ?? {}} 
+				hasToken={hasToken}
+			/>
 			<main role="main" id="main">
 				<Outlet />
 			</main>

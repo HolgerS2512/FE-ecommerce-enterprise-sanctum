@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next";
-import { postAjax } from '../../Modules/Ajax';
+import { postAjax } from '../../Modules/ServerRequests.js';
 import { Refresh, Checkmark, Xclose } from '../icon/Icons';
 
 import ROUTES from '../../Settings/ROUTES';

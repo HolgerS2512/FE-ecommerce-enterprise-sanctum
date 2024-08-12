@@ -102,6 +102,17 @@
   -o-animation-fill-mode: both;
   animation-fill-mode: both;
 }
+
+.a15s {
+  -webkit-animation: 0.15s ease-in-out;
+  -moz-animation: 0.15s ease-in-out;
+  -o-animation: 0.15s ease-in-out;
+  animation: 0.15s ease-in-out;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
 .fit-menu-t28 {
   -webkit-animation-name: fadeInTopMenu;
   -moz-animation-name: fadeInTopMenu;
@@ -234,5 +245,53 @@ $fITMcalc: $fadeInTopMenu - 6px;
   100% {
     @include opacity(1);
     top: $fadeInTopMenu;
+  }
+}
+
+.fit-greeting {
+  -webkit-animation-name: fadeInRight1r;
+  -moz-animation-name: fadeInRight1r;
+  -o-animation-name: fadeInRight1r;
+  animation-name: fadeInRight1r;
+}
+
+@-webkit-keyframes fadeInRight1r {
+  0% {
+    @include opacity;
+    left: 1rem;
+  }
+  100% {
+    @include opacity(1);
+    left: 0;
+  }
+}
+@-moz-keyframes fadeInRight1r {
+  0% {
+    @include opacity;
+    left: 1rem;
+  }
+  100% {
+    @include opacity(1);
+    left: 0;
+  }
+}
+@-o-keyframes fadeInRight1r {
+  0% {
+    @include opacity;
+    left: 1rem;
+  }
+  100% {
+    @include opacity(1);
+    left: 0;
+  }
+}
+@keyframes fadeInRight1r {
+  0% {
+    @include opacity;
+    left: 1rem;
+  }
+  100% {
+    @include opacity(1);
+    left: 0;
   }
 }

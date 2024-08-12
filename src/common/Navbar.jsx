@@ -7,9 +7,10 @@ import ROUTES from '../Settings/ROUTES';
 import ProfileMenu from '../components/Nav/ProfileMenu';
 import NAVLINKS from '../Settings/NAVLINKS';
 import GetIconByName from '../components/Util/GetIconByName';
+import GenerateMenuHtml from "./GenerateMenuHtml";
 
-const Navbar = ({ categories, user }) => {
-  const { setUser, setSessionToken } = useStateContext();
+const Navbar = ({ categories, user, hasToken }) => {
+  const { setUser, setUsername, setSessionToken } = useStateContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
   const hasUser = Boolean(Object.keys(user).length);
@@ -19,6 +20,7 @@ const Navbar = ({ categories, user }) => {
       if (res.status === 204) {
         setUser({});
         setSessionToken('');
+        setUsername('');
         window.location.reload(); 
       }
     });
@@ -35,9 +37,9 @@ const Navbar = ({ categories, user }) => {
         </div>
 
         <div className='nav-s1w nav-s1we'>
-            {hasUser 
-            ? <ProfileMenu onLogout={handleLogout} greeting={`${t('greeting')} ${user.firstname}`} /> 
-            : <Link 
+            {hasToken 
+            ? <ProfileMenu onLogout={handleLogout} /> 
+            : <Link
                 to={hasUser ? ROUTES.account.PROFILE : ROUTES.auth.LOOKUP}
                 aria-label={hasUser ? t('personal_profile') : t('signip')}
                 tabIndex={1}
@@ -52,20 +54,7 @@ const Navbar = ({ categories, user }) => {
       <section className='nav-container'>
         <div className='d-flex justify-content-between w-50'>
           <ul>
-            {categories && categories.map((link) => (
-              <li key={link.id}>
-                <span href="" tabIndex={1}>{link.name}</span>
-
-                {Boolean(link.subcategories.length) && <ul>
-                  {link.subcategories.map((uLink) => (
-                    <li key={uLink.id}>
-                      <a href="" tabIndex={1}>{uLink.name}</a>
-                    </li>
-                  ))} 
-                </ul>}
-                
-              </li>            
-            ))}
+            {categories && <GenerateMenuHtml categories={categories} />}
           </ul>
         </div>
 

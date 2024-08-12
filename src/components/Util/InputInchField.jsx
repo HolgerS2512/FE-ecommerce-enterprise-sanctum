@@ -20,7 +20,7 @@ const InputInchField = ({
       <fieldset className='xfs-v1-control' style={noVal ? { minHeight: 80 + 'px' } : {}}>
         <div className={`xfs-v1-wrapper${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
           <label 
-            className={`xfs-v1-label${changeFocus || Boolean(value.length) ? '' : ' active'}${noRequire ? ' noRequire': ''}`} 
+            className={`xfs-v1-label${changeFocus || Boolean(value?.length) ? '' : ' active'}${noRequire ? ' noRequire': ''}`} 
             htmlFor={label} id={label + '-label'}
           >{label}
           </label>
