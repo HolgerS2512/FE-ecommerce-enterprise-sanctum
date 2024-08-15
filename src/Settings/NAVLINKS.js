@@ -18,9 +18,9 @@ const NAVLINKS = {
         name: 'orders',
         link: ROUTES.account.ORDERS,
       },
-      ADDRESS: {
-        name: 'address',
-        link: ROUTES.account.ADDRESS,
+      ADDRESSES: {
+        name: 'addresses',
+        link: ROUTES.account.ADDRESSES,
       },
       PAYMENTMETHODS: {
         name: 'payment_methods',

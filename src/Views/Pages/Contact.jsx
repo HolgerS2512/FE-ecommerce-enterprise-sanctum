@@ -1,20 +1,22 @@
 import { useRef, useState } from 'react';
-import { useStateContext } from '../../Contexts/ContextProvider';
 import { useTranslation } from 'react-i18next';
+import { useNotification } from '../../Contexts/NotificationProvider';
+
 import axiosClient from '../../axios-clint';
+import { createValidator } from '../../Modules/ValidationManager';
+import ClientErrorManager from '../../Modules/ClientErrorManager';
+import ROUTES from '../../Settings/ROUTES';
+
 import BlankForm from '../../components/BlankForm';
 import HttpStatusMsg from '../Notifications/HttpStatusMsg';
 import Select from '../../components/Util/Select';
 import InputInchField from '../../components/Util/InputInchField';
 import PolicyPickerCheckbox from '../../components/Auth/PolicyPickerCheckbox';
 import InputInchText from '../../components/Util/InputInchText';
-import InputValidation from '../../Modules/InputValidation';
-import ROUTES from '../../Settings/ROUTES';
-import { reloadResources } from 'i18next';
 
 const Contact = () => {
   // Common
-  const { setNotification } = useStateContext();
+  const { setNotification } = useNotification();
   const {t} = useTranslation();
 
   const salutationOpts = [
@@ -23,21 +25,21 @@ const Contact = () => {
     { value: 'w', label: t('mrs') },
     { value: 'm', label: t('mr') },
   ];
-
-  // Input States
-  const [salutation, setSalutation] = useState('');
-  const [inputData, setInputData] = useState({
+  const inputBP = {
     salutation: '',
     firstname: '',
     lastname: '',
     email: '',
     phone: '',
     message: '',
-  });
+  };
+  // Input States
+  const [salutation, setSalutation] = useState('');
+  const [inputData, setInputData] = useState(inputBP);
   const [isTacChecked, _setIsTacChecked] = useState(false);
   const [tacErr, setTacErr] = useState(false);
   // Refs
-  const selectSalutRef = useRef();
+  // const selectSalutRef = useRef();
   // States
   const [isLoading, setIsLoading] = useState(false);
   // Errorhandling
@@ -50,6 +52,9 @@ const Contact = () => {
     message: { msg: [] },
   });
   const [httpStatus, setHttpStatus] = useState({ visible: false });
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,27 +120,13 @@ const Contact = () => {
     val(name, value);
   }
 
-  const val = (name, value) => {
-    const check = {...InputValidation({ [name]: value })};
-    const checked = Boolean(Object.keys(check).length);
-    clientError[name].msg = checked ? check[name] : [];
-    return checked;
-  }
-
   const setIsTacChecked = () =>{
     setTacErr(isTacChecked);
     _setIsTacChecked((tac) => !tac);
   }
 
   const clearStates = () => {
-    setInputData({
-      salutation: '',
-      firstname: '',
-      lastname: '',
-      email: '',
-      phone: '',
-      message: '',
-    });
+    setInputData(inputBP);
     setSalutation('');
   }
 
@@ -163,7 +154,7 @@ const Contact = () => {
                 onChange={(obj) => {setSalutation(obj.value)}}
                 value={salutation}
                 options={salutationOpts} 
-                err={clientError.salutation.msg[0] ? t(clientError.salutation.msg[0]) : ''}
+                err={getErrorMsg('salutation')}
                 // ref={selectSalutRef}
                 noRequire={true}
               />
@@ -176,7 +167,7 @@ const Contact = () => {
               name='firstname'
               onChange={handleChange}
               value={inputData.firstname} 
-              err={clientError.firstname.msg[0] ? t(clientError.firstname.msg[0]) : ''}
+              err={getErrorMsg('firstname')}
             />
           </div>
 
@@ -186,7 +177,7 @@ const Contact = () => {
               name='lastname'
               onChange={handleChange}
               value={inputData.lastname} 
-              err={clientError.lastname.msg[0] ? t(clientError.lastname.msg[0]) : ''}
+              err={getErrorMsg('lastname')}
             />
           </div>
 
@@ -197,7 +188,7 @@ const Contact = () => {
               name='email'
               onChange={handleChange}
               value={inputData.email} 
-              err={clientError.email.msg[0] ? t(clientError.email.msg[0]) : ''}
+              err={getErrorMsg('email')}
             />
           </div>
 
@@ -208,7 +199,7 @@ const Contact = () => {
               name='phone'
               onChange={handleChange}
               value={inputData.phone} 
-              err={clientError.phone.msg[0] ? t(clientError.phone.msg[0]) : ''}
+              err={getErrorMsg('phone')}
               noRequire={true}
             />
           </div>
@@ -219,7 +210,7 @@ const Contact = () => {
               name='message'
               onChange={handleChange}
               value={inputData.message} 
-              err={clientError.message.msg[0] ? t(clientError.message.msg[0]) : ''}
+              err={getErrorMsg('message')}
             />
           </div>
 

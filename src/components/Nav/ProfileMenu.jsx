@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import { useStateContext } from "../../Contexts/ContextProvider";
 
 import NAVLINKS from "../../Settings/NAVLINKS";
 import GetIconByName from "../Util/GetIconByName";
-import { useStateContext } from "../../Contexts/ContextProvider";
 
 const ProfileMenu = ({ onLogout }) => {
   const { username } = useStateContext();

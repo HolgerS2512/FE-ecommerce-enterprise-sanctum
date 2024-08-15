@@ -6,7 +6,7 @@ const InputInchText = ({
   onChange, 
   err = '', 
   value, 
-  nextTab = 1, 
+  tabIndex = 1, 
   name, 
   readOnly = false,
   noVal,
@@ -35,13 +35,13 @@ const InputInchText = ({
             aria-required="true"
             aria-invalid="false"
             aria-labelledby={label + '-label'}
-            tabIndex={nextTab}
+            tabIndex={tabIndex}
             rows={6}
             cols='auto'
           />
         </div>
         {!noVal && Boolean(err?.length) && <p 
-          tabIndex={nextTab}
+          tabIndex={tabIndex}
           className='xfs-v1-i-fb'
           aria-readonly={err ?? ''}
         >{err}</p>}

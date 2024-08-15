@@ -40,3 +40,17 @@
 .short-layout {
   @include d-center;
 }
+
+// Account
+.acc-dist {
+  margin-top: 11rem;
+}
+
+// Backgrounds
+.bg-trans-black {
+  background-color: rgba(0 0 0 / 25%);
+}
+
+.wrap35r {
+  max-width: 35rem;
+}

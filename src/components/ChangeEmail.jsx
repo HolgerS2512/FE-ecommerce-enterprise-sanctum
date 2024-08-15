@@ -1,20 +1,24 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { redirect } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
+import { useNotification } from "../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
 
-import BlankForm from "./BlankForm"
-import InputValidation from "../Modules/InputValidation";
-import InputPinCode from "./Util/InputPinCode";
-import ROUTES from "../Settings/ROUTES";
 import axiosClient from '../axios-clint';
+import ValidationManager, { createValidator } from "../Modules/ValidationManager";
+import ClientErrorManager from "../Modules/ClientErrorManager";
+import ROUTES from "../Settings/ROUTES";
+
+import BlankForm from "./BlankForm"
+import InputPinCode from "./Util/InputPinCode";
 import EmailLongAddition from "./Helpers/EmailLongAddition";
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 import InputInchForwardField from "./Util/InputInchForwardField";
 
 const ChangeEmail = () => {
   // Common
-  const { user, setUser, setSessionToken, setNotification } = useStateContext();
+  const { user, setUser, setSessionToken } = useStateContext();
+  const { setNotification } = useNotification();
   const {t} = useTranslation();
   // Input States
   const [current_email] = useState(user.email);
@@ -42,6 +46,9 @@ const ChangeEmail = () => {
   const [httpStatus, setHttpStatus] = useState({ visible: false });
   // Input Pincode
   const [editResp, setEditResp] = useState({ visible: false });
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
     if (canUpdate) {
@@ -144,9 +151,9 @@ const ChangeEmail = () => {
     const n_val = newEmailRef.current.value;
     const co_val = confirmEmailRef.current.value;
 
-    const c_check = {...InputValidation({ email: c_val })};
-    const n_check = {...InputValidation({ email: n_val })};
-    const co_check = {...InputValidation({ email: co_val })};
+    const c_check = {...ValidationManager({ email: c_val })};
+    const n_check = {...ValidationManager({ email: n_val })};
+    const co_check = {...ValidationManager({ email: co_val })};
 
     const c_checked = !Boolean(Object.keys(c_check).length);
     const n_checked = !Boolean(Object.keys(n_check).length);
@@ -165,15 +172,9 @@ const ChangeEmail = () => {
   }, [hasValid, hasValNewOld, hasValConfirm]);
 
   const handlePin = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setPin(value);
-
-    if (value.length > 0) {
-      const check = {...InputValidation({ pin: value })};
-      const checked = Boolean(Object.keys(check).length);
-
-      clientError.pin.msg = checked ? check.pin : [];
-    }
+    val('pin', value);
   }
   
   return (
@@ -199,7 +200,7 @@ const ChangeEmail = () => {
               setEmail(e.target.value);
             }}
             value={email} 
-            nextTab={canUpdate ? -1 : 1} // canUpdate request state
+            tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             ref={newEmailRef}
             err={hasVal ? !hasValConfirm || !hasValNewOld : false}
@@ -214,7 +215,7 @@ const ChangeEmail = () => {
               setEmailConfirmation(e.target.value);
             }}
             value={email_confirmation} 
-            nextTab={canUpdate ? -1 : 1} // canUpdate request state
+            tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             ref={confirmEmailRef}
             err={hasVal ? !hasValConfirm || !hasValNewOld : false}
@@ -226,7 +227,7 @@ const ChangeEmail = () => {
             type='email'
             onChange={handleChange}
             value={current_email} 
-            nextTab={-1} // canUpdate request state
+            tabIndex={-1} // canUpdate request state
             readOnly={true} // canUpdate request state
             err={hasVal ? !hasValNewOld || Boolean(clientError.current_email.msg.length) : false}
           />
@@ -249,7 +250,7 @@ const ChangeEmail = () => {
               label={t('input.pin')} 
               onChange={handlePin}
               value={pin} 
-              err={clientError.pin.msg[0] ? t(clientError.pin.msg[0], { chars: 5 }) : ''}
+              err={getErrorMsg('pin')}
               onSubmit={handleSubmitEdit}
               response={editResp}
             />

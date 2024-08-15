@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next'
 import { Checkmark, Xclose, Warning } from '../../components/icon/Icons'
 
@@ -8,6 +8,11 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
   const { msg, status } = notification;
   const [timer, setTimer] = useState(notification.timer ?? 8);
   const { t } = useTranslation();
+  const targetRef = useRef(null);
+
+  useEffect(() => {
+    targetRef.current.focus();
+  }, [notification.visible]);
 
   useEffect(() => nTimeout(timer), []);
 
@@ -56,15 +61,16 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
         <div className='xfs-un-msg'>
           <div className='xfs-un-msgc'>
             <p 
+              ref={targetRef}
               aria-label={(msg.includes('SQLSTATE') ? t('http.5') : msg) + t('close_timer_msg', { timer })}
               role="alert" 
               aria-live="assertive"
               aria-atomic="true" 
               tabIndex={1} 
-              className='h6 text text-center'
-              >{msg.includes('SQLSTATE') ? t('http.5') : msg}
+              className='h6 text text-center ncss-focus'
+            >{msg.includes('SQLSTATE') ? t('http.5') : msg}
             </p>
-            <p className='h6 text text-center'>{t('close_timer_msg', { timer })}</p>
+            <p tabIndex={1} className='h6 text text-center ncss-focus'>{t('close_timer_msg', { timer })}</p>
           </div>
           <CloseBtn onClick={onClose} />
         </div>

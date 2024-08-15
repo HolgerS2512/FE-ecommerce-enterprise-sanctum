@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useState } from 'react'
 import ReactSelect from 'react-select'
 
 const Select = forwardRef(({ 
@@ -6,22 +6,23 @@ const Select = forwardRef(({
   onChange, 
   value, 
   name, 
-  err, 
+  err = '', 
   readOnly, 
   col = false, 
   noRequire = false, 
   ariaLabel,
-  nextTab,
+  tabIndex,
+  limit = true,
 }, ref) => {
   const [changeFocus, setChangeFocus] = useState(false);
 
   return (
-    <fieldset className={'xfs-s1-control' + (col ? ' ' + col : '')}>
+    <fieldset className={'xfs-s1-control' + (col ? ' ' + col : '')} style={limit ? {} : { maxWidth: '100%' }}>
       <div className={`xfs-s1-wrapper notouch noevent ${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
         <span className={`xfs-s1-label notouch noevent${changeFocus || (Boolean(value) || Boolean(ref?.current?.getValue()[0]?.value)) ? '' : ' active'}${noRequire ? ' noRequire' : ''}`}>{name}</span>
         <ReactSelect 
           placeholder=''
-          tabIndex={nextTab ?? 1}
+          tabIndex={tabIndex ?? 1}
           setValue={value}
           onChange={onChange}
           options={options} 
@@ -38,6 +39,8 @@ const Select = forwardRef(({
             },
           })}
           aria-label={ariaLabel}
+          aria-invalid={Boolean(err.length)}
+          aria-required={!noRequire}
         />
       </div>
     </fieldset>

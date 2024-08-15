@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
-import { getAjax } from '../../../Modules/ServerRequests.js';
 import { useTranslation } from "react-i18next";
+import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
 
 import axiosClient from '../../../axios-clint.js';
+import { createValidator } from '../../../Modules/ValidationManager.jsx';
+import { getAjax } from '../../../Modules/ServerRequests.js';
+import ROUTES from '../../../Settings/ROUTES.js';
+
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
 import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import InputVerifyCode from '../../../components/Util/InputVerifyCode.jsx';
@@ -13,27 +16,33 @@ import ShortHeader from '../../../common/ShortHeader.jsx';
 import Footer from '../../../common/Footer.jsx';
 import UserMessenger from '../../Notifications/UserMessenger.jsx';
 import PolicyPicker from '../../../components/Auth/PolicyPicker.jsx';
-import ROUTES from '../../../Settings/ROUTES.js';
-import InputValidation from '../../../Modules/InputValidation.jsx';
+import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
 
 const THISPATH = window.location.pathname;
 const THROTTLE = 5;
 
 const VerifyEmail = () => {
+  // Common
   const { setLookup } = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  // Input states
   const [pin, setPin] = useState('');
   const [email, setEmail] = useState('');
-  const [btnLoader, setBtnLoader] = useState(false);
+  // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ 
     visible: false,
     msg: '',
   });
-  const [clientError, setClientError] = useState({ pin: { msg: [] } });
+  const [clientError] = useState({ pin: { msg: [] } });
+  // States
   const [isLoading, setLoading] = useState(true);
+  const [btnLoader, setBtnLoader] = useState(false);
   const [userMSG] = useState({});
   const [throttle, setThrottle] = useState(THROTTLE);
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
     loadEmail();
@@ -67,11 +76,9 @@ const VerifyEmail = () => {
   }
 
   const handleSubmit = async () => {
-    const check = {...InputValidation({ pin : pin })};
+    const check = [ !val('pin', pin) ];
 
-    if (Boolean(Object.keys(check).length)) {
-      setClientError({ pin: { msg: check.pin } });
-    } else {
+    if (Boolean(check.length) && check.every((v) => v)) {
       try {
         const res = await axiosClient.post(THISPATH, { pin : pin });
         if (res.data.status) {
@@ -95,10 +102,7 @@ const VerifyEmail = () => {
     setPin(value);
 
     if (Boolean(value) || value > 6) {
-      const check = {...InputValidation({ pin: value })};
-      const checked = Boolean(Object.keys(check).length);
-
-      setClientError( { pin: { msg: checked ? check.pin : [] } } );
+      val('pin', value);
     }
   }
 
@@ -141,10 +145,11 @@ const VerifyEmail = () => {
             label={t('input.pin')} 
             onChange={handleChange}
             value={pin} 
+            name='pin'
             col='mt-3'
             emailVal={email}
             setHttpErr={handleHttpErr}
-            err={clientError.pin.msg[0] ? t(clientError.pin.msg[0], { chars: 5 }) : ''}
+            err={getErrorMsg('pin')}
           />
 
           <PolicyPicker />

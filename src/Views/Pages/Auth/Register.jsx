@@ -1,32 +1,41 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStateContext } from './../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
 
 import axiosClient from '../../../axios-clint.js';
+import ValidationManager, { createValidator } from './../../../Modules/ValidationManager.jsx';
+import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
+import ROUTES from '../../../Settings/ROUTES.js';
+
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
-import InputValidation from './../../../Modules/InputValidation.jsx';
 import PolicyPickerCheckbox from '../../../components/Auth/PolicyPickerCheckbox.jsx';
 import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import InputInchField from '../../../components/Util/InputInchField.jsx';
 import PasswordAddition from '../../../components/Helpers/PasswordAddition.jsx';
 import PasswordField from '../../../components/Util/PasswordField.jsx';
-import ROUTES from '../../../Settings/ROUTES.js';
 
 const Register = () => {
+  // Common
   const { lookup } = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [email] = useState(lookup || '');
-  const [password, setPassword] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
+  const inputBP = {
+    firstname: '',
+    lastname: '',
+    password: '',
+    email: lookup || '',
+  };
+  // Input States
+  const [inputData, setInputData] = useState(inputBP);
   const [isTacChecked, _setIsTacChecked] = useState(false);
   const [tacErr, setTacErr] = useState(false);
+  // States
   const [btnLoader, setBtnLoader] = useState(false);
   const [hasVal, setHasVal] = useState(false);
   const [hasValChars, setHasValChars] = useState(false);
   const [hasValAddition, setHasValAddition] = useState(false);
+  // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ visible: false });
   const [clientError] = useState({
     firstname: { msg: [] },
@@ -34,20 +43,23 @@ const Register = () => {
     password: { msg: [] },
     email: { msg: [] },
   });
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
-    if (!email) navigate(ROUTES.auth.LOOKUP);
+    if (!inputData.email) navigate(ROUTES.auth.LOOKUP);
   }, []);
 
   const handleSubmit = async () => {
     const payload = {
-      firstname: firstname.trim(),
-      lastname: (lastname[0].toUpperCase() + lastname.substring(1)).trim(),
-      email: email.trim(),
-      password: password.trim(),
+      firstname: (inputData.firstname[0].toUpperCase() + inputData.firstname.substring(1)).trim(),
+      lastname: (inputData.lastname[0].toUpperCase() + inputData.lastname.substring(1)).trim(),
+      email: inputData.email.trim(),
+      password: inputData.password.trim(),
     };
 
-    const check = {...InputValidation(payload)};
+    const check = {...ValidationManager(payload)};
 
     setHasVal(true);
 
@@ -56,7 +68,7 @@ const Register = () => {
 
       Object.keys(check).forEach((name) => {
         clientError[name].msg = check[name] ?? [];
-        if (name === 'password') passValidation(password);
+        if (name === 'password') passValidation(inputData.password);
       });
     } else {
       try {
@@ -73,43 +85,13 @@ const Register = () => {
   }
 
   const handleChange = (e) => {
-    const value = e.target.value;
-    const name = e.target.name.toLowerCase();
-
-    switch (name) {
-      case 'firstname': 
-          setFirstname(value);
-          handleValidation(name, value);
-        break;
-      case 'lastname': 
-          setLastname(value);
-          handleValidation(name, value);
-        break;
-      case 'password': 
-          setPassword(value);
-          handlePassword(value);
-        break;
-      default:
-        break;
-    }
-  }
-
-  const handleValidation = (name, value) => {
-    const check = {...InputValidation({ [name]: value })};
-
-    clientError[name].msg = check[name] ?? [];
-  }
-
-  const handlePassword = (value) => {
-    if (value.length >= 8 && !hasVal) {
-      setHasVal(true);
-      passValidation(value);
-    }
-    if (hasVal) passValidation(value);
+    const { name, value } = e.target;
+    setInputData({ ...inputData, [name]: value });
+    val(name, value);
   }
 
   const passValidation = (value) => {
-    const check = {...InputValidation({ password: value })};
+    const check = {...ValidationManager({ password: value })};
     const checked = !Boolean(Object.keys(check).length);
 
     setHasValChars(value.length >= 8);
@@ -135,11 +117,11 @@ const Register = () => {
       submitBtnText={t('signup')}
       extra={      
         <div className='d-flex mb-3 mb-md-4'>
-          <span className='me-1 fw-semibold'>{email}</span>
+          <span className='me-1 fw-semibold'>{inputData.email}</span>
           <Link 
             className='cg-link' 
             to={ROUTES.auth.LOOKUP} 
-            aria-label={`${email} ${t('edit')}`} 
+            aria-label={`${inputData.email} ${t('edit')}`} 
             tabIndex={1}
           >{t('edit')}</Link>
         </div>}
@@ -152,8 +134,8 @@ const Register = () => {
           label={t('input.firstname')} 
           name='firstname'
           onChange={handleChange}
-          value={firstname} 
-          err={clientError.firstname.msg[0] ? t(clientError.firstname.msg[0]) : ''}
+          value={inputData.firstname} 
+          err={getErrorMsg('firstname')}
         />
 
         <InputInchField
@@ -161,16 +143,17 @@ const Register = () => {
           label={t('input.lastname')} 
           name='lastname'
           onChange={handleChange}
-          value={lastname} 
-          err={clientError.lastname.msg[0] ? t(clientError.lastname.msg[0]) : ''}
+          value={inputData.lastname} 
+          err={getErrorMsg('lastname')}
         />
       </div>
 
       <PasswordField
         label={t('input.password_k')} 
         onChange={handleChange}
-        value={password} 
-        err={clientError.password.msg[0] ? t(clientError.password.msg[0]) : ''}
+        value={inputData.password} 
+        name='password'
+        err={getErrorMsg('password')}
         noVal={true}
       />
 

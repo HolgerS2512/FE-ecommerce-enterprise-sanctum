@@ -15,7 +15,12 @@ export const input = {
   pin: "Code",
   phone: "Telefonnummer",
   message: "Nachricht",
-
+  address: "Adresse",
+  zip: "Postleitzahl",
+  location: 'Ort',
+  details: 'Abteilung, Apt., Gebäude',
+  country: 'Land/Region',
+  state: 'Bundesland',
 
 }
 

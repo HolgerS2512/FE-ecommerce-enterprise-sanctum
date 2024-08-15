@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-const JumpLink = ({ role, link, nextTab }) => {
+const JumpLink = ({ role, link, tabIndex }) => {
   const {t} = useTranslation();
 
   return (
@@ -10,7 +10,7 @@ const JumpLink = ({ role, link, nextTab }) => {
       href={`#${link}`} 
       className="src-only" 
       aria-label={t(`sro_${link}`)} 
-      tabIndex={nextTab ?? 1}
+      tabIndex={tabIndex ?? 1}
     >
       {t(`sro_${link}`)}
     </a>

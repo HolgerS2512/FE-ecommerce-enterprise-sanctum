@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useStateContext } from "../Contexts/ContextProvider";
+import { useNotification } from "../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
 
-import ROUTES from "../Settings/ROUTES";
 import axiosClient from '../axios-clint';
+import { createValidator } from "../Modules/ValidationManager";
+import ClientErrorManager from "../Modules/ClientErrorManager";
+import ROUTES from "../Settings/ROUTES";
+
 import DateModel from "../Modules/DateModel";
-import InputValidation from "../Modules/InputValidation";
 import BlankForm from "./BlankForm"
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 import InputInchField from "./Util/InputInchField";
@@ -13,7 +16,8 @@ import Select from "./Util/Select";
 
 const ChangePersonal = ({ closeLoader }) => {
   // Common
-  const { user, setUsername, setUserProps, setNotification } = useStateContext();
+  const { user, setUsername, setUserProps } = useStateContext();
+  const { setNotification } = useNotification();
   const {t} = useTranslation();
 
   const salutationOpts = [
@@ -52,7 +56,9 @@ const ChangePersonal = ({ closeLoader }) => {
   const [httpStatus, setHttpStatus] = useState({ visible: false });
   // DateModel & Options
   const date = new DateModel(selectYear, selectMonth, selectDay);
-
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
     setUserValues();
@@ -127,7 +133,6 @@ const ChangePersonal = ({ closeLoader }) => {
           setUsername(payload.firstname);
         } 
       } catch (err) {
-        console.log(err)
         const { message } = err.response.data;
         setHttpStatus({ visible: true, msg: message });
       }
@@ -146,7 +151,7 @@ const ChangePersonal = ({ closeLoader }) => {
     ];
   }
 
-  const handleChaneInput = (e) => {
+  const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
     val(name, value);
@@ -165,14 +170,6 @@ const ChangePersonal = ({ closeLoader }) => {
   const handleChangeYear = (obj) => {
     setSelectYear(obj.value);
     val('year', obj.value);
-  }
-
-  const val = (name, value) => {
-    const check = {...InputValidation({ [name]: value })};
-    const checked = Boolean(Object.keys(check).length);
-
-    clientError[name].msg = checked ? check[name] : [];
-    return checked;
   }
 
   return (
@@ -204,9 +201,9 @@ const ChangePersonal = ({ closeLoader }) => {
           <InputInchField
             label={t('input.firstname')} 
             name='firstname'
-            onChange={handleChaneInput}
+            onChange={handleChangeInput}
             value={inputData.firstname} 
-            err={clientError.firstname.msg[0] ? t(clientError.firstname.msg[0]) : ''}
+            err={getErrorMsg('firstname')}
           />
         </div>
 
@@ -214,9 +211,9 @@ const ChangePersonal = ({ closeLoader }) => {
           <InputInchField
             label={t('input.lastname')} 
             name='lastname'
-            onChange={handleChaneInput}
+            onChange={handleChangeInput}
             value={inputData.lastname} 
-            err={clientError.lastname.msg[0] ? t(clientError.lastname.msg[0]) : ''}
+            err={getErrorMsg('lastname')}
           />
         </div>
 
@@ -231,7 +228,7 @@ const ChangePersonal = ({ closeLoader }) => {
               value={selectDay}
               options={date.getDays()} 
               ref={selectDayRef}
-              err={clientError.day.msg[0] ? t(clientError.day.msg[0]) : ''}
+              err={getErrorMsg('day')}
               col='b-day'
             />
             <Select 
@@ -241,7 +238,7 @@ const ChangePersonal = ({ closeLoader }) => {
               value={selectMonth}
               options={calcMonths()} 
               ref={selectMonthRef}
-              err={clientError.month.msg[0] ? t(clientError.month.msg[0]) : ''}
+              err={getErrorMsg('month')}
               col='b-month'
             />
             <Select 
@@ -251,7 +248,7 @@ const ChangePersonal = ({ closeLoader }) => {
               value={selectYear}
               options={date.getYears()} 
               ref={selectYearRef}
-              err={clientError.year.msg[0] ? t(clientError.year.msg[0]) : ''}
+              err={getErrorMsg('year')}
               col='b-year'
             />
           </div>

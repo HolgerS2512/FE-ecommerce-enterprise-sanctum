@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { Refresh, Checkmark, Xclose } from '../icon/Icons';
 
-const InputPinCode = ({ col, label, onChange, err, value, nextTab = 1, noVal, onSubmit, response }) => {
+const InputPinCode = ({ col, label, onChange, err, value, tabIndex = 1, noVal, onSubmit, response }) => {
   const THROTTLE = 60;
   const { t } = useTranslation();
   const [changeFocus, setChangeFocus] = useState(false);
@@ -72,6 +72,7 @@ const InputPinCode = ({ col, label, onChange, err, value, nextTab = 1, noVal, on
             id={label} 
             className='xfs-v1-input'
             type='text'
+            name='pin'
             onChange={onChange} 
             value={value}
             onFocus={() => setChangeFocus(true)}
@@ -79,7 +80,7 @@ const InputPinCode = ({ col, label, onChange, err, value, nextTab = 1, noVal, on
             aria-required="true"
             aria-invalid="false"
             aria-labelledby={label + '-label'}
-            tabIndex={nextTab}
+            tabIndex={tabIndex}
           />
             <button 
               disabled={throttle !== THROTTLE}
@@ -88,7 +89,7 @@ const InputPinCode = ({ col, label, onChange, err, value, nextTab = 1, noVal, on
               aria-label={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : t('new_pin')}
               aria-busy={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : ''}
               onClick={handleClick}
-              tabIndex={nextTab}
+              tabIndex={tabIndex}
             >
               <Refresh size={28} />
             </button>

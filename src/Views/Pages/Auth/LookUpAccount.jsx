@@ -4,32 +4,39 @@ import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
 
 import axiosClient from '../../../axios-clint.js';
+import { createValidator } from './../../../Modules/ValidationManager.jsx';
+import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
+import ROUTES from '../../../Settings/ROUTES.js';
+
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
-import InputValidation from './../../../Modules/InputValidation.jsx';
 import PolicyPicker from '../../../components/Auth/PolicyPicker.jsx';
 import InputInchField from '../../../components/Util/InputInchField.jsx';
 import AuthForm from '../../../components/Auth/AuthForm.jsx';
-import ROUTES from '../../../Settings/ROUTES.js';
 
 const LookUpAccount = () => {
+  // Common
   const { setLookup, lookup, token } = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  // Input states
   const [email, setEmail] = useState(lookup || '');
+  // States
   const [btnLoader, setBtnLoader] = useState(false);
+  // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ visible: false });
-  const [clientError, setClientError] = useState({ email: { msg: [] } });
+  const [clientError] = useState({ email: { msg: [] } });
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
     if (token) navigate(ROUTES.pages.HOME);
   }, []);
 
   const handleSubmit = async () => {
-    const check = {...InputValidation({ email: email })};
+    const check = [ !val('email', email) ];
 
-    if (Boolean(Object.keys(check).length)) {
-      setClientError({ email: { msg: check.email } });
-    } else {
+    if (Boolean(check.length) && check.every((v) => v)) {
       try {
         const res = await axiosClient.post(ROUTES.auth.LOOKUP, { email: email });
         setLookup(email);
@@ -43,15 +50,9 @@ const LookUpAccount = () => {
   }
   
   const handleChange = (e) => {
-    const value = e.target.value.replaceAll(' ', '');
+    const { name, value } = e.target;
     setEmail(value);
-
-    if (Boolean(value) || value > 6) {
-      const check = {...InputValidation({ email: value })};
-      const checked = Boolean(Object.keys(check).length);
-
-      setClientError( { email: { msg: checked ? check.email : [] } } );
-    }
+    val(name, value);
   }
 
   return (
@@ -72,7 +73,8 @@ const LookUpAccount = () => {
         type='email'
         onChange={handleChange}
         value={email} 
-        err={clientError.email.msg[0] ? t(clientError.email.msg[0]) : ''}
+        name='email'
+        err={getErrorMsg('email')}
       />
 
       <PolicyPicker />

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { postAjax } from '../../Modules/ServerRequests.js';
 import { useTranslation } from "react-i18next";
+import { postAjax } from '../../Modules/ServerRequests.js';
 import { Refresh, Checkmark, Xclose } from '../icon/Icons';
 
 import ROUTES from '../../Settings/ROUTES';
 
-const InputFORGETPWDCode = ({ col, label, onChange, err, value, nextTab, noVal, setHttpErr, emailVal, setResetUrl }) => {
+const InputFORGETPWDCode = ({ col, label, onChange, err = '', value, tabIndex = 1, noVal, setHttpErr, emailValue, setResetUrl }) => {
   const THROTTLE = 60;
   const { t } = useTranslation();
   const [changeFocus, setChangeFocus] = useState(false);
@@ -25,7 +25,7 @@ const InputFORGETPWDCode = ({ col, label, onChange, err, value, nextTab, noVal, 
     throttleBtn(throttle);
     clear();
 
-    postAjax(ROUTES.auth.FORGETPWD, { email : emailVal }, async (resp) => {
+    postAjax(ROUTES.auth.FORGETPWD, { email : emailValue }, async (resp) => {
       const data = await resp;
       const json = await JSON.parse(data.response);
 
@@ -86,9 +86,9 @@ const InputFORGETPWDCode = ({ col, label, onChange, err, value, nextTab, noVal, 
             onFocus={() => setChangeFocus(true)}
             onBlur={() => setChangeFocus(false)}
             aria-required="true"
-            aria-invalid="false"
+            aria-invalid={Boolean(err?.length)}
             aria-labelledby={label + '-label'}
-            tabIndex={nextTab ?? 1}
+            tabIndex={tabIndex ?? 1}
           />
             <button 
               disabled={throttle !== THROTTLE}
@@ -97,7 +97,7 @@ const InputFORGETPWDCode = ({ col, label, onChange, err, value, nextTab, noVal, 
               aria-label={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : t('new_pin')}
               aria-busy={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : ''}
               onClick={handleSubmit}
-              tabIndex={nextTab ?? 3}
+              tabIndex={tabIndex}
             >
               <Refresh size={28} />
             </button>
@@ -105,9 +105,9 @@ const InputFORGETPWDCode = ({ col, label, onChange, err, value, nextTab, noVal, 
         </div>        
 
         {(!noVal && Boolean(err?.length)) && <p 
-          tabIndex={nextTab ? nextTab + 3 : 4}
+          tabIndex={tabIndex}
           className='xfs-v1-i-fb'
-          aria-errormessage={err ?? ''}
+          aria-errormessage={err}
         >{err}</p>}
 
       </fieldset>

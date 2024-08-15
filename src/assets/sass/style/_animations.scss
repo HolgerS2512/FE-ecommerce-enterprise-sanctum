@@ -92,27 +92,7 @@
   }
 }
 
-.a35s {
-  -webkit-animation: 0.35s ease-in-out;
-  -moz-animation: 0.35s ease-in-out;
-  -o-animation: 0.35s ease-in-out;
-  animation: 0.35s ease-in-out;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  -o-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
 
-.a15s {
-  -webkit-animation: 0.15s ease-in-out;
-  -moz-animation: 0.15s ease-in-out;
-  -o-animation: 0.15s ease-in-out;
-  animation: 0.15s ease-in-out;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  -o-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
 .fit-menu-t28 {
   -webkit-animation-name: fadeInTopMenu;
   -moz-animation-name: fadeInTopMenu;
@@ -248,50 +228,177 @@ $fITMcalc: $fadeInTopMenu - 6px;
   }
 }
 
-.fit-greeting {
-  -webkit-animation-name: fadeInRight1r;
-  -moz-animation-name: fadeInRight1r;
-  -o-animation-name: fadeInRight1r;
-  animation-name: fadeInRight1r;
-}
 
-@-webkit-keyframes fadeInRight1r {
-  0% {
-    @include opacity;
-    left: 1rem;
+// Loops
+
+@for $i from 1 through 5 {
+  
+  .a#{$i}5s {
+    -webkit-animation: .1 * $i + .05s ease-in-out;
+    -moz-animation: .1 * $i + .05s ease-in-out;
+    -o-animation: .1 * $i + .05s ease-in-out;
+    animation: .1 * $i + .05s ease-in-out;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
   }
-  100% {
-    @include opacity(1);
-    left: 0;
+
+  .a15sd#{$i}ms {
+    -webkit-animation: 0.15s ease-in-out .1s * $i;
+    -moz-animation: 0.15s ease-in-out .1s * $i;
+    -o-animation: 0.15s ease-in-out .1s * $i;
+    animation: 0.15s ease-in-out .1s * $i;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
   }
-}
-@-moz-keyframes fadeInRight1r {
-  0% {
-    @include opacity;
-    left: 1rem;
+
+  // fade in right ... rem
+  .fir-#{$i}r {
+    -webkit-animation-name: fadeInRight#{$i}rem;
+    -moz-animation-name: fadeInRight#{$i}rem;
+    -o-animation-name: fadeInRight#{$i}rem;
+    animation-name: fadeInRight#{$i}rem;
   }
-  100% {
-    @include opacity(1);
-    left: 0;
+
+  @-webkit-keyframes fadeInRight#{$i}rem {
+    0% {
+      @include opacity;
+      left: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      left: 0;
+    }
   }
-}
-@-o-keyframes fadeInRight1r {
-  0% {
-    @include opacity;
-    left: 1rem;
+  @-moz-keyframes fadeInRight#{$i}rem {
+    0% {
+      @include opacity;
+      left: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      left: 0;
+    }
   }
-  100% {
-    @include opacity(1);
-    left: 0;
+  @-o-keyframes fadeInRight#{$i}rem {
+    0% {
+      @include opacity;
+      left: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      left: 0;
+    }
   }
-}
-@keyframes fadeInRight1r {
-  0% {
-    @include opacity;
-    left: 1rem;
+  @keyframes fadeInRight#{$i}rem {
+    0% {
+      @include opacity;
+      left: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      left: 0;
+    }
   }
-  100% {
-    @include opacity(1);
-    left: 0;
+
+  // fade in top ... rem
+  .fit-#{$i}r {
+    -webkit-animation-name: fadeInTop#{$i}rem;
+    -moz-animation-name: fadeInTop#{$i}rem;
+    -o-animation-name: fadeInTop#{$i}rem;
+    animation-name: fadeInTop#{$i}rem;
+  }
+
+  @-webkit-keyframes fadeInTop#{$i}rem {
+    0% {
+      @include opacity;
+      top: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      top: 0;
+    }
+  }
+  @-moz-keyframes fadeInTop#{$i}rem {
+    0% {
+      @include opacity;
+      top: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      top: 0;
+    }
+  }
+  @-o-keyframes fadeInTop#{$i}rem {
+    0% {
+      @include opacity;
+      top: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      top: 0;
+    }
+  }
+  @keyframes fadeInTop#{$i}rem {
+    0% {
+      @include opacity;
+      top: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      top: 0;
+    }
+  }
+
+  // fade in bottom ... rem
+  .fib-#{$i}r {
+    -webkit-animation-name: fadeInBottom#{$i}rem;
+    -moz-animation-name: fadeInBottom#{$i}rem;
+    -o-animation-name: fadeInBottom#{$i}rem;
+    animation-name: fadeInBottom#{$i}rem;
+  }
+
+  @-webkit-keyframes fadeInBottom#{$i}rem {
+    0% {
+      @include opacity;
+      bottom: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      bottom: 0;
+    }
+  }
+  @-moz-keyframes fadeInBottom#{$i}rem {
+    0% {
+      @include opacity;
+      bottom: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      bottom: 0;
+    }
+  }
+  @-o-keyframes fadeInBottom#{$i}rem {
+    0% {
+      @include opacity;
+      bottom: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      bottom: 0;
+    }
+  }
+  @keyframes fadeInBottom#{$i}rem {
+    0% {
+      @include opacity;
+      bottom: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      bottom: 0;
+    }
   }
 }

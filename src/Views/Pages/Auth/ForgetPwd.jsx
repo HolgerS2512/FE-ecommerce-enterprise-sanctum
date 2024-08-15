@@ -4,38 +4,47 @@ import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
 
 import axiosClient from '../../../axios-clint.js';
+import ValidationManager, { createValidator } from '../../../Modules/ValidationManager.jsx';
+import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
+import ROUTES from '../../../Settings/ROUTES.js';
+
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
-import InputValidation from '../../../Modules/InputValidation.jsx';
 import InputForgetCode from '../../../components/Util/InputForgetCode.jsx';
 import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import PasswordAddition from '../../../components/Helpers/PasswordAddition.jsx';
 import PasswordField from '../../../components/Util/PasswordField.jsx';
-import ROUTES from '../../../Settings/ROUTES.js';
 import UserMessenger from '../../Notifications/UserMessenger.jsx';
 
 const THROTTLE = 5;
 
 const FORGETPWDPwd = () => {
+  // Common
   const { lookup } = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  // Input states
   const [email] = useState(lookup || '');
   const [password, setPassword] = useState('');
   const [pin, setPin] = useState('');
+  // States
   const [btnLoader, setBtnLoader] = useState(false);
   const [hasVal, setHasVal] = useState(false);
   const [hasValChars, setHasValChars] = useState(false);
   const [hasValAddition, setHasValAddition] = useState(false);
-  const [httpStatus, setHttpStatus] = useState({ visible: false });
   const [url, setUrl] = useState('');
+  const [throttle, setThrottle] = useState(THROTTLE);
+  const [_, setRender] = useState(false);
+  // Errorhandling
+  const [httpStatus, setHttpStatus] = useState({ visible: false });
   const [clientError] = useState({
     pin: { msg: [] },
     password: { msg: [] },
     email: { msg: [] },
   });
   const [userMSG] = useState({});
-  const [throttle, setThrottle] = useState(THROTTLE);
-  const [_, setRender] = useState(false);
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
     if (!email) navigate(ROUTES.auth.LOOKUP);
@@ -48,7 +57,7 @@ const FORGETPWDPwd = () => {
       password: password,
     };
 
-    const check = {...InputValidation(payload)};
+    const check = {...ValidationManager(payload)};
 
     setHasVal(true);
 
@@ -76,12 +85,10 @@ const FORGETPWDPwd = () => {
   }
 
   const handlePin = (e) => {
-    const value = e.target.value;
+    const { name, value } = e.target;
     setPin(value);
-
     if (Boolean(value) || value > 6) {
-      const check = {...InputValidation({ pin: value })};
-      clientError.pin.msg = check.pin ?? [];
+      val(name, value);
     }
   }
 
@@ -100,7 +107,7 @@ const FORGETPWDPwd = () => {
   }
 
   const passValidation = (value) => {
-    const check = {...InputValidation({ password: value })};
+    const check = {...ValidationManager({ password: value })};
     const checked = !Boolean(Object.keys(check).length);
 
     setHasValChars(value.length >= 8);
@@ -148,30 +155,28 @@ const FORGETPWDPwd = () => {
               className='cg-link' 
               to={ROUTES.auth.LOOKUP} 
               aria-label={`${email} ${t('edit')}`} 
-              tabIndex={2}
+              tabIndex={1}
             >{t('edit')}</Link>
           </div>}
       >
-        {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} tabIndex={2} />}
+        {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
 
         <InputForgetCode
           label={t('input.pin')} 
           onChange={handlePin}
           value={pin}
           col='mt-3'
-          emailVal={email}
-          nextTab={2}
+          emailValue={email}
           setHttpErr={handleHttpErr}
           setResetUrl={setResetUrl}
-          err={clientError.pin.msg[0] ? t(clientError.pin.msg[0], { chars: 5 }) : ''}
+          err={getErrorMsg('pin')}
         />
 
         <PasswordField
-          nextTab={7}
           label={t('input.password_k')} 
           onChange={handlePasswordValue}
           value={password} 
-          err={clientError.password.msg[0] ? t(clientError.password.msg[0]) : ''}
+          err={getErrorMsg('password')}
           noVal={true}
         />
 
@@ -179,7 +184,6 @@ const FORGETPWDPwd = () => {
           checked={hasVal}
           chars={hasValChars}
           addition={hasValAddition}
-          nextTab={10}
         />
 
       </AuthForm>

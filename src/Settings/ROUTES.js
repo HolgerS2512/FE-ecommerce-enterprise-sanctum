@@ -17,7 +17,7 @@ const ROUTES = {
     PROFILE: '/account/profile',
     ORDERS: '/account/orders',
     WISHLIST: '/wishlist',
-    ADDRESS: '/account/address',
+    ADDRESSES: '/account/addresses',
     PAYMENTMETHODS: '/account/payment',
     // Password Methods
     PASSWORD: {

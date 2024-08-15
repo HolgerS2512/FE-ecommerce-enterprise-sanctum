@@ -1,20 +1,24 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { redirect } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
+import { useNotification } from "../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
 
+import ValidationManager, { createValidator } from "../Modules/ValidationManager";
+import ClientErrorManager from "../Modules/ClientErrorManager";
+import ROUTES from "../Settings/ROUTES";
+
 import BlankForm from "./BlankForm"
-import InputValidation from "../Modules/InputValidation";
 import PasswordLongAddition from "./Helpers/PasswordLongAddition";
 import InputPinCode from "./Util/InputPinCode";
-import ROUTES from "../Settings/ROUTES";
 import axiosClient from '../axios-clint';
 import PasswordForwardField from "./Util/PasswordForwardField";
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 
 const ChangePassword = () => {
   // Common
-  const { setUser, setSessionToken, setNotification } = useStateContext();
+  const { setUser, setSessionToken } = useStateContext();
+  const { setNotification } = useNotification();
   const {t} = useTranslation();
   // Input States
   const [current_password, setCurrentPassword] = useState('');
@@ -44,6 +48,9 @@ const ChangePassword = () => {
   const [httpStatus, setHttpStatus] = useState({ visible: false });
   // Input Pincode
   const [editResp, setEditResp] = useState({ visible: false });
+  // Validation
+  const { val } = createValidator(clientError);
+  const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
     if (canUpdate) {
@@ -148,9 +155,9 @@ const ChangePassword = () => {
     const n_val = newPwdRef.current.value;
     const co_val = confirmPwdRef.current.value;
 
-    const c_check = {...InputValidation({ password: c_val })};
-    const n_check = {...InputValidation({ password: n_val })};
-    const co_check = {...InputValidation({ password: co_val })};
+    const c_check = {...ValidationManager({ password: c_val })};
+    const n_check = {...ValidationManager({ password: n_val })};
+    const co_check = {...ValidationManager({ password: co_val })};
 
     const c_checked = !Boolean(Object.keys(c_check).length);
     const n_checked = !Boolean(Object.keys(n_check).length);
@@ -170,15 +177,9 @@ const ChangePassword = () => {
   }, [hasValChars, hasValAddition, hasValNewOld, hasValConfirm]);
 
   const handlePin = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setPin(value);
-
-    if (value.length > 0) {
-      const check = {...InputValidation({ pin: value })};
-      const checked = Boolean(Object.keys(check).length);
-
-      clientError.pin.msg = checked ? check.pin : [];
-    }
+    val('pin', value);
   }
 
   return (
@@ -197,7 +198,7 @@ const ChangePassword = () => {
 
         <div className="col-md-6 col-lg-5">
           <PasswordForwardField
-            nextTab={canUpdate ? -1 : 1} // canUpdate request state
+            tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             label={t('input.password_n')} 
             onChange={(e) => {
@@ -212,7 +213,7 @@ const ChangePassword = () => {
         </div>
         <div className="col-md-6 col-lg-5">
           <PasswordForwardField
-            nextTab={canUpdate ? -1 : 1} // canUpdate request state
+            tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             label={t('input.password_nc')} 
             name='password_confirmation'
@@ -228,7 +229,7 @@ const ChangePassword = () => {
         </div>
         <div className="col-md-6 col-lg-5">
           <PasswordForwardField
-            nextTab={canUpdate ? -1 : 1} // canUpdate request state
+            tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             label={t('input.password_c')} 
             name='current_password'
@@ -261,7 +262,7 @@ const ChangePassword = () => {
               label={t('input.pin')} 
               onChange={handlePin}
               value={pin} 
-              err={clientError.pin.msg[0] ? t(clientError.pin.msg[0], { chars: 5 }) : ''}
+              err={getErrorMsg('pin')}
               onSubmit={handleSubmitEdit}
               response={editResp}
             />

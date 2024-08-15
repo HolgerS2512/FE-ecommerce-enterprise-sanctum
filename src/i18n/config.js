@@ -9,6 +9,8 @@ import { input as inputDe } from "./de/input.js";
 import { input as inputEn } from "./en/input.js";
 import { months as monthsDe } from "./de/months.js";
 import { months as monthsEn } from "./en/months.js";
+import { countries as countriesDe } from "./de/countries.js";
+import { countries as countriesEn } from "./en/countries.js";
 
 i18n
   // Add React bindings as a plugin.
@@ -64,6 +66,7 @@ i18n
           http: httpDe,
           error: errorsDe,
           input: inputDe,
+          country: countriesDe,
           all_months: monthsDe,
           FORGETPWD_pwd_greeting:
             "Bestätige deine E-Mail-Adresse und gib ein neues Kennwort ein.",
@@ -95,9 +98,8 @@ i18n
           wishlist: "Wunschzettel",
           account_settings: "Kontoeinstellungen",
           overview: "Übersicht",
-          address: "Adresse",
+          addresses: "Adressen",
           payment_methods: "Zahlungsarten",
-          imprint: "Impressum",
           data_protection: "Datenschutz",
           agbs: "AGB's",
           cancellation_policy: "Widerrufsbelehrungen",
@@ -121,7 +123,8 @@ i18n
           change_password: "Passwort ändern",
           change_personal: "Personelle Daten ändern",
           personal_data: "Persönliche Daten",
-          mark_required: "Die mit einem Stern (*) markierten Felder sind Pflichtfelder.",
+          mark_required:
+            "Die mit einem Stern (*) markierten Felder sind Pflichtfelder.",
           no_required: "Kein Pflichtfeld",
           year: "Jahr",
           month: "Monat",
@@ -133,8 +136,16 @@ i18n
           mx: "Divers",
           birthday: "Geburstag",
           dateofbirth: "Geburtsdatum",
-          not_found: 'Wir können die Seite, die du suchst, nicht finden.',
-          not_found_2: 'Wir entschuldigen uns für die Unannehmlichkeiten.',
+          not_found: "Wir können die Seite, die du suchst, nicht finden.",
+          not_found_2: "Wir entschuldigen uns für die Unannehmlichkeiten.",
+          saved_delivery_address: "Gespeicherte Lieferadressen",
+          zero_address:
+            "Du hast aktuell keine Lieferadressen hinterlegt.Füge eine Adresse hinzu, um den Bezahlvorgang zu beschleunigen.",
+          add_address: "Adresse hinzufügen",
+          as_primary_address: 'Als Standardversandadresse verwenden',
+          close_window: 'Dieses Fenster schließen',
+          tab_select_field: 'Auswahlfeld Enter taste drücken zum bearbeiten',
+          empty: 'leer',
         },
       },
       en: {
@@ -159,6 +170,7 @@ i18n
           error: errorsEn,
           input: inputEn,
           all_months: monthsEn,
+          country: countriesEn,
           policy_p_1: "By continuing, you agree to xFinity Software ",
           policy_p_2: " and acknowledge that you have read xFinity Software ",
           policy_p_3: ".",
@@ -184,7 +196,7 @@ i18n
           wishlist: "Wishlist",
           account_settings: "Account settings",
           overview: "Overview",
-          address: "Address",
+          addresses: "Addresses",
           payment_methods: "Payment Methods",
           imprint: "Imprint",
           data_protection: "Privacy Policy",
@@ -224,7 +236,14 @@ i18n
           dateofbirth: "Date of birth",
           not_found: "We can't find the page you are looking for.",
           not_found_2: "Sorry for the inconvenience.",
-
+          saved_delivery_address: "Saved delivery addresses",
+          zero_address:
+            "You currently have no delivery addresses stored.Add an address to speed up the payment process.",
+          add_address: "Add address",
+          as_primary_address: 'Use as default shipping address',
+          close_window: 'Close this window',
+          tab_select_field: 'Selection field Press Enter key to edit',
+          empty: 'empty',
         },
       },
     },

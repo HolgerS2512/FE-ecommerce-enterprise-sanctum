@@ -12,18 +12,21 @@ import './assets/js/index.js';
 import "typeface-open-sans";
 import Loading from './components/Helpers/Loading.jsx';
 import { LayoutProvider } from './Contexts/LayoutProvider.jsx';
+import { NotificationProvider } from './Contexts/NotificationProvider.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   //<React.StrictMode>
     <Suspense fallback={<Loading />}>
-      <QueryClientProvider client={queryClient}>
-          <ContextProvider>
-        <LayoutProvider>
-            <RouterProvider router={ router } />
-        </LayoutProvider>
-          </ContextProvider>
-      </QueryClientProvider>
+      <NotificationProvider>
+        <QueryClientProvider client={queryClient}>
+            <ContextProvider>
+          <LayoutProvider>
+              <RouterProvider router={ router } />
+          </LayoutProvider>
+            </ContextProvider>
+        </QueryClientProvider>
+      </NotificationProvider>
     </Suspense>
   //</React.StrictMode>,
 )

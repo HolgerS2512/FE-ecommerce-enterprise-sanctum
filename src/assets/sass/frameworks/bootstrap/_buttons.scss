@@ -67,11 +67,11 @@
     border-color: var(--#{$prefix}btn-hover-border-color);
     outline: 0;
     // Avoid using mixin so we can pass custom focus shadow properly
-    @if $enable-shadows {
-      box-shadow: var(--#{$prefix}btn-box-shadow), var(--#{$prefix}btn-focus-box-shadow);
-    } @else {
-      box-shadow: var(--#{$prefix}btn-focus-box-shadow);
-    }
+    // @if $enable-shadows {
+    //   box-shadow: var(--#{$prefix}btn-box-shadow), var(--#{$prefix}btn-focus-box-shadow);
+    // } @else {
+    //   box-shadow: var(--#{$prefix}btn-focus-box-shadow);
+    // }
   }
 
   .btn-check:focus-visible + & {

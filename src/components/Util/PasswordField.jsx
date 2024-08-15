@@ -8,7 +8,7 @@ const PasswordField = ({
   onChange, 
   err = '', 
   value, 
-  nextTab, 
+  tabIndex, 
   noVal, 
   readOnly = false, 
   name = 'password', 
@@ -55,7 +55,7 @@ const PasswordField = ({
             aria-required="true"
             aria-invalid="false"
             aria-labelledby={cLabel() + '-label'}
-            tabIndex={nextTab ?? 1}
+            tabIndex={tabIndex ?? 1}
             autoComplete={autoComplete}
           />
             <button 
@@ -65,13 +65,13 @@ const PasswordField = ({
               onMouseDown={handleMouseDown}
               aria-description={t('pwd_src_only')}
               aria-current={!showPassword ? t('pwd_visible') : t('pwd_hidden')}
-              tabIndex={nextTab ?? 1}
+              tabIndex={tabIndex ?? 1}
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </button>
         </div>
         {(!noVal && Boolean(err?.length)) && <p 
-          tabIndex={nextTab ?? 1}
+          tabIndex={tabIndex ?? 1}
           className='xfs-v1-i-fb'
           aria-live="polite"
           aria-readonly={err ?? ''}

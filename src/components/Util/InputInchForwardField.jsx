@@ -7,7 +7,7 @@ const InputInchForwardField = forwardRef(({
   onChange, 
   err = false, 
   value, 
-  nextTab = 1, 
+  tabIndex = 1, 
   name, 
   readOnly = false,
   noVal = true 
@@ -37,7 +37,7 @@ const InputInchForwardField = forwardRef(({
             aria-required="true"
             aria-invalid="false"
             aria-labelledby={label + '-label'}
-            tabIndex={nextTab}
+            tabIndex={tabIndex}
           />
         </div>
       </fieldset>

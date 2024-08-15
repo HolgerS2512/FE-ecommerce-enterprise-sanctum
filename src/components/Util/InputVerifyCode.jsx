@@ -5,7 +5,7 @@ import { Refresh, Checkmark, Xclose } from '../icon/Icons';
 
 import ROUTES from '../../Settings/ROUTES';
 
-const InputVerifyCode = ({ col, label, onChange, err, value, nextTab = 1, noVal, setHttpErr, emailVal }) => {
+const InputVerifyCode = ({ col, label, onChange, err = '', value, tabIndex = 1, noVal, setHttpErr, emailVal, name }) => {
   const THROTTLE = 60;
   const { t } = useTranslation();
   const [changeFocus, setChangeFocus] = useState(false);
@@ -74,14 +74,15 @@ const InputVerifyCode = ({ col, label, onChange, err, value, nextTab = 1, noVal,
             id={label} 
             className='xfs-v1-input'
             type='text'
+            name={name}
             onChange={onChange} 
             value={value}
             onFocus={() => setChangeFocus(true)}
             onBlur={() => setChangeFocus(false)}
             aria-required="true"
-            aria-invalid="false"
+            aria-invalid={Boolean(err?.length)}
             aria-labelledby={label + '-label'}
-            tabIndex={nextTab}
+            tabIndex={tabIndex}
           />
             <button 
               disabled={throttle !== THROTTLE}
@@ -90,14 +91,14 @@ const InputVerifyCode = ({ col, label, onChange, err, value, nextTab = 1, noVal,
               aria-label={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : t('new_pin')}
               aria-busy={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : ''}
               onClick={handleSubmit}
-              tabIndex={nextTab}
+              tabIndex={tabIndex}
             >
               <Refresh size={28} />
             </button>
         </div>        
 
         {(!noVal && Boolean(err?.length)) && <p 
-          tabIndex={nextTab}
+          tabIndex={tabIndex}
           className='xfs-v1-i-fb'
           aria-errormessage={err ?? ''}
         >{err}</p>}

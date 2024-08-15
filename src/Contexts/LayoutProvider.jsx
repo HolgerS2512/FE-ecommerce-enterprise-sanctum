@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useNotification } from "./NotificationProvider";
+
 import ROUTES from "../Settings/ROUTES";
 import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
-import { useStateContext } from "./ContextProvider";
 
 const StateContext = createContext({
 	categories: null,
@@ -10,7 +11,7 @@ const StateContext = createContext({
 })
 
 export const LayoutProvider = ({ children }) => {
-	const { setNotification } = useStateContext();
+	const { setNotification } = useNotification();
 	const cookieManager = new CookieManager();
   const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(cookieManager.getCookie('L_CD'))) || '');
 

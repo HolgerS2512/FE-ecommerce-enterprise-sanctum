@@ -15,7 +15,7 @@ const PersonalProfile = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <div className="container-xl mt-5 pt-5">
+      <div className="container-xl acc-dist">
 
         <h1 tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>
         <div className="p mb-5">{t('check_your_personality')}</div>

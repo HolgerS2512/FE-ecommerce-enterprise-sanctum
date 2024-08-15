@@ -13,6 +13,7 @@ import ROUTES from "./Settings/ROUTES.js";
 import Middleware from './common/Middleware.jsx';
 import Contact from "./Views/Pages/Contact.jsx";
 import PersonalProfile from "./Views/Pages/Account/PersonalProfile.jsx";
+import Addresses from './Views/Pages/Account/Addresses.jsx';
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
 
@@ -63,8 +64,28 @@ const router = createBrowserRouter([
 				element: <Middleware />,
 				children: [
 					{
+						// '/account'
+						path: ROUTES.account.OVERVIEW,
+						element: <PersonalProfile />
+					},
+					{
 						// '/account/profile'
 						path: ROUTES.account.PROFILE,
+						element: <PersonalProfile />
+					},
+					{
+						// '/account/orders'
+						path: ROUTES.account.ORDERS,
+						element: <PersonalProfile />
+					},
+					{
+						// '/account/addresses'
+						path: ROUTES.account.ADDRESSES,
+						element: <Addresses />
+					},
+					{
+						// '/account/payment'
+						path: ROUTES.account.PAYMENTMETHODS,
 						element: <PersonalProfile />
 					},
 				]

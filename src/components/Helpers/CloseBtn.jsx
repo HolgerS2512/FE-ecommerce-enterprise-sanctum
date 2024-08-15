@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Close } from '../icon/Icons';
 
-const CloseBtn = ({ onClick }) => {
+const CloseBtn = ({ onClick, ariaLabel = 'close_msg' }) => {
   const { t } = useTranslation();
 
   return (
@@ -9,7 +9,7 @@ const CloseBtn = ({ onClick }) => {
       <button 
         className='btn-nostyle' 
         tabIndex={1} 
-        aria-label={t('close_msg')}
+        aria-label={t(ariaLabel)}
         onClick={onClick}
       >
         <div className='xfs-cbody'>

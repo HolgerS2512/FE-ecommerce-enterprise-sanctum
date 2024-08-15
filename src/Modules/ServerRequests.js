@@ -57,14 +57,14 @@ export const getFetch = async (path) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
     if (response.ok) {
     } else {
       const data = await response.json();
       // const { message } = err?.response?.data;
       // throw new Error(message);
-      console.log(data);
+      // console.log(data);
     }
   } catch (err) {
     const { message } = err?.response?.data;

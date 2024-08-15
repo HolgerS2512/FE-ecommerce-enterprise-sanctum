@@ -15,7 +15,11 @@ export const input = {
   pin: "Code",
   phone: "Phone",
   message: "Message",
-
-
+  address: "Address",
+  zip: "Postal code",
+  location: 'Location',
+  details: 'Department, Apt., Building',
+  country: 'Country/Region',
+  state: 'State',
 }
 

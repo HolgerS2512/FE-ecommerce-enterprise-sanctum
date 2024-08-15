@@ -272,3 +272,10 @@
   }
 }
 
+.ncss-focus {
+  &:focus, &:focus-within {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}

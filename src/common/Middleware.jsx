@@ -1,11 +1,16 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
 import ROUTES from "../Settings/ROUTES";
+import Loading from "../components/Helpers/Loading";
 
 const Middleware = () => {
-  const { token } = useStateContext();
+  const { token, userError, isUserLoading } = useStateContext();
 
-  return (token) ? <Outlet /> : <Navigate to={ROUTES.pages.HOME} />
+  if (isUserLoading) return <Loading/>;
+
+  if (userError) return <Navigate to={ROUTES.pages.HOME} />;
+    
+  return (token) ? <Outlet /> : <Navigate to={ROUTES.pages.HOME} />;
 }
 
-export default Middleware
+export default Middleware;
