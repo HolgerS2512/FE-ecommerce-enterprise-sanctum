@@ -16,7 +16,7 @@ import Select from "./Util/Select";
 
 const ChangePersonal = ({ closeLoader }) => {
   // Common
-  const { user, setUsername, setUserProps } = useStateContext();
+  const { user, setUsername, setUserProps, isUserLaoding } = useStateContext();
   const { setNotification } = useNotification();
   const {t} = useTranslation();
 
@@ -30,8 +30,8 @@ const ChangePersonal = ({ closeLoader }) => {
   // Input States
   const [salutation, setSalutation] = useState(user.salutation || salutationOpts[0]);
   const [inputData, setInputData] = useState({
-    firstname: user.firstname,
-    lastname: user.lastname,
+    firstname: '',
+    lastname: '',
   });
 
 	const [selectDay, setSelectDay] = useState('');
@@ -61,8 +61,10 @@ const ChangePersonal = ({ closeLoader }) => {
   const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
-    setUserValues();
-  }, []);
+    if (Boolean(Object.keys(user).length)) {
+      setUserValues();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (selectDay > date.getDays().length) {
@@ -103,6 +105,10 @@ const ChangePersonal = ({ closeLoader }) => {
         }
       });
     }
+    setInputData({
+      firstname: user.firstname,
+      lastname: user.lastname,
+    })
     setTimeout(() => closeLoader(), 200);
   }
 
@@ -122,7 +128,9 @@ const ChangePersonal = ({ closeLoader }) => {
       };
 
       try {
-        const res = await axiosClient.put(ROUTES.account.DATA.UPDATE, payload);
+        const route = `${ROUTES.account.PROFILE}/${user.id}`;
+        const res = await axiosClient.put(route, payload);
+
         if (res.data.status) {
           setNotification({
             visible : true,

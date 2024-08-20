@@ -1,6 +1,7 @@
 import axios from "axios";
 import { redirect } from "react-router-dom";
 import ROUTES from "./Settings/ROUTES";
+// import CookieManager from "./Modules/CookieManager";
 
 const axiosClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
@@ -8,8 +9,12 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
+  // const cookieManager = new CookieManager();
   const token = localStorage.getItem("xFs_at");
+  // const CSRF_TOKEN = cookieManager.getCookie('xFs_csL');
+
   config.headers.Authorization = `Bearer ${token}`;
+  // config.headers['X-CSRF-TOKEN'] = CSRF_TOKEN;
   return config;
 });
 
@@ -22,10 +27,10 @@ axiosClient.interceptors.response.use(
     if (response.status === 404) {
       redirect(ROUTES.error.NOTFOUND);
     }
-    // if (response.status === 401) {
-    //   localStorage.removeItem("xFs_at");
-    //   window.location.reload();
-    // } else 
+
+    if (response.status === 401) {
+      localStorage.removeItem("xFs_at");
+    }
 
     throw error;
   }

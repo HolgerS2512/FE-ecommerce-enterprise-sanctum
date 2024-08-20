@@ -13,8 +13,10 @@ const BlankForm = ({
     btnPos = 'start',
     require = true,
     styles={},
+    secondBtn,
+    btnDisabled = false,
   }) => {
-  const {t} = useTranslation()
+  const {t} = useTranslation();
 
   return (
     <>
@@ -28,7 +30,10 @@ const BlankForm = ({
         {children}
 
         {require && <small>{t('mark_required')}</small>}
-        <LoadButton isLoading={isLoading} text={submitBtnText} btnClass={loadBtnClass} position={btnPos} />
+
+        <LoadButton isLoading={isLoading} text={submitBtnText} btnClass={loadBtnClass} position={btnPos} disabled={btnDisabled}>
+          {secondBtn ?? null}
+        </LoadButton>
       </form>
     </>
   )

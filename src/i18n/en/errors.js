@@ -26,10 +26,10 @@ export const errors = {
   year: "Please enter a valid year.",
   message: "Please enter valid text.",
 
-  address: "Please enter a valid address.",
+  street: "Please enter a valid address.",
   details: "Please provide valid information.",
   zip: "Please enter a valid zip code.",
-  location: "Please enter a valid location.",
+  city: "Please enter a valid City.",
   state: "Please enter a valid state.",
   country: "Please select your country.",
 };

@@ -1,47 +1,125 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"
 
+import { useStateContext } from "../../../Contexts/ContextProvider";
+import { find } from "../../../Modules/ObjectHelper";
+import ROUTES from "../../../Settings/ROUTES";
+import AesCryptographer from "../../../Modules/AesCryptographer";
+import axiosClient from "../../../axios-clint";
+
 import Loading from "../../../components/Helpers/Loading";
 import ZeroAddress from "../../../components/Account/ZeroAddress";
 import WindowForm from "../../../components/WindowForm";
-import AddAddress from "../../../components/Account/AddAddress";
+import StoreAddress from "../../../components/Account/StoreAddress";
 import AddressLoader from "../../../components/Account/AddressLoader";
 import RegularBtn from "../../../components/Helpers/RegularBtn";
 
+const cryptographer = new AesCryptographer();
+
 const Addresses = () => {
+  // Common
+  const { user } = useStateContext();
   const {t} = useTranslation();
+  // DB fill
+  const [addresses, setAddresses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // States
   const [addAddress, setAddAddress] = useState(false);
+  const [editData, setEditData] = useState({});
+  // Errorhandling
+  const [httpStatus, setHttpStatus] = useState({ visible: false });
 
   useEffect(() => {
-    const body = document.querySelector('body');
-    body.style.overflow = (addAddress ? 'hidden' : 'auto');
+    if (isLoading) {
+      loadAddress();
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    bodyOverflow();
   }, [addAddress]);
 
-  const hasAddess = true; // Hat user schon eine addresse?
+	const loadAddress = async () => {
+    try {
+      const res = await axiosClient.get(ROUTES.account.ADDRESSES);
+
+      if (res.data.status) {
+        const decrypted = cryptographer.decrypt(res.data.data);
+
+        setAddresses(JSON.parse(decrypted));
+      } 
+    } catch (err) {
+      const { message } = err.response.data;
+      setNotification({
+        visible: true,
+        status: 'e',
+        msg: message,
+      });
+    }
+	}
 
   const closeLoader = () => setIsLoading(false);
 
   // WindowForm events
+  const bodyOverflow = () => {
+    const body = document.querySelector('body');
+    body.style.overflow = (addAddress ? 'hidden' : 'auto');
+  }
   const openWindow = () => setAddAddress(true);
-  const closeWindow = () => setAddAddress(false);
+
+  const closeWindow = () => {
+    setIsLoading(true);
+    setAddAddress(false);
+    setHttpStatus({});
+  }
+
+  // Edit events
+  const handleDataEmpty = () => setEditData({});
+
+  const handleEditClick = (e) => {
+    const id = Number(e.target.dataset.id);
+    setEditData(find(addresses).byId(id));
+    openWindow();
+  }
 
   return (
     <>
       {isLoading && <Loading />}
 
-      <WindowForm open={addAddress} onClose={closeWindow} h1={t('add_address')}>
-        <AddAddress open={addAddress} onClose={closeWindow} />
+      <WindowForm open={addAddress} onClose={() => setAddAddress(false)} h1={t('add_address')}>
+        <StoreAddress 
+          data={editData} 
+          user={user}
+          setDataEmpty={handleDataEmpty} 
+          open={addAddress} 
+          onClose={closeWindow} 
+          httpStatus={httpStatus}
+          setHttpStatus={setHttpStatus}
+        />
       </WindowForm>
 
-      <div className="container-xl acc-dist">
+      <div className="container acc-dist">
         <div className="wrap35r">
 
           <h1 tabIndex={1} aria-description={t('saved_delivery_address')}>{t('saved_delivery_address')}</h1>
 
-          {hasAddess ? <AddressLoader closeLoader={closeLoader} /> : <ZeroAddress />}
+          {Boolean(addresses.length) 
+            ? <AddressLoader 
+                onClick={handleEditClick} 
+                closeLoader={closeLoader} 
+                user={user}
+                addresses={addresses} 
+              /> 
+            : <ZeroAddress />
+          }
 
-          <RegularBtn onClick={openWindow} position="end" ariaLabel={t('add_address')} text={t('add_address')} />
+          <RegularBtn 
+            onClick={openWindow} 
+            disabled={addresses.length >= 8} 
+            position="end" 
+            ariaLabel={t('add_address')} 
+            text={t('add_address')}
+          />
 
         </div>
       </div>

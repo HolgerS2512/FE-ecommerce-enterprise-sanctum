@@ -41,7 +41,10 @@ const Login = () => {
   }, []);
 
   const handleSubmit = async () => {
-    const check = validPayload();
+    const check = [
+      !val('email', inputData.email),
+      !val('password', inputData.password),
+    ];
 
     if (Boolean(check.length) && check.every((v) => v)) {
       const payload = {

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next"
 
 const HttpStatusMsg = ({ msg = '', tabIndex = 1 }) => {

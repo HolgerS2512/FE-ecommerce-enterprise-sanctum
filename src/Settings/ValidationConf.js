@@ -10,9 +10,9 @@ export const Regex = {
   year: /^[0-9]{4}$/,
   phone: /^[\+0]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
   zip: /^\d{4,5}(-\d{4})?$|^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$|^\d{3}-\d{4}$/,
-  location: /^(?![\s'.-]+$)[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\s'.-]+$/,
+  city: /^(?![\s'.-]+$)[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\s'.-]+$/,
   details: /^(?:[A-Za-z0-9\s\-/.,#]*)?$/,
-  address: /^([A-Za-zäöüÄÖÜß.\-\s]+)\s+(\d{1,4}[a-zA-Z]?(?:[-\s]\d{1,4}[a-zA-Z]?)?)$/,
+  street: /^([A-Za-zäöüÄÖÜß.\-\s]+)\s+(\d{1,4}[a-zA-Z]?(?:[-\s]\d{1,4}[a-zA-Z]?)?)$/,
   country: /^[A-Z]{2}$/,
   state: /^([a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\s'.-]*)$/,
 };
@@ -40,7 +40,7 @@ export const Rules = {
     min: 8,
     max: 255,
   },
-  address: {
+  street: {
     min: 6,
     max: 150,
   },

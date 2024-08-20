@@ -20,11 +20,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Suspense fallback={<Loading />}>
       <NotificationProvider>
         <QueryClientProvider client={queryClient}>
-            <ContextProvider>
-          <LayoutProvider>
-              <RouterProvider router={ router } />
-          </LayoutProvider>
-            </ContextProvider>
+          <ContextProvider>
+            <LayoutProvider>
+                <RouterProvider router={ router } />
+            </LayoutProvider>
+          </ContextProvider>
         </QueryClientProvider>
       </NotificationProvider>
     </Suspense>

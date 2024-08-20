@@ -52,6 +52,9 @@ body {
 
   .btn {
     line-height: 2;
+    @include userSelect;
+    @include pointerEv;
+    white-space: nowrap;
   }
 }
 

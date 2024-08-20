@@ -447,3 +447,28 @@ $app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
     flex: 1 0 20%;
   }
 }
+
+
+.mt-225r {
+  margin-top: 2.25rem;
+}
+
+.btn-sm-link {
+  font-size: .875em;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+
+  height: max-content;
+  padding: 2px;
+
+  @include transition(.05s);
+
+  &:hover, &:focus, &:focus-within {
+    color: #8c8fa0;
+  }
+  &:focus, &:focus-within {
+    box-shadow: 0 0 0 2px rgb(17, 91, 252);
+  }
+}

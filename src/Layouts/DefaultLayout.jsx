@@ -12,9 +12,9 @@ const DefaultLayout = () => {
 
 	const hasToken = token !== '';
 
-	fetch('https://api.escuelajs.co/api/v1/categories')
-    .then(res=>res.json())
-    .then(json=>console.log(json))
+	// fetch('https://api.escuelajs.co/api/v1/categories')
+  //   .then(res=>res.json())
+  //   .then(json=>console.log(json))
 
 	return (
 		<>

@@ -25,10 +25,10 @@ export const errors = {
   year: "Bitte geben Sie ein gültiges Jahr ein.",
   message: "Bitte geben Sie gültigen Text ein.",
 
-  address: "Bitte geben Sie eine gültige Adresse ein.",
+  street: "Bitte geben Sie eine gültige Adresse ein.",
   details: "Bitte machen Sie gültige Angaben.",
   zip: "Bitte geben Sie eine gültige Postleitzahl ein.",
-  location: "Bitte geben Sie ein gültigen Ort ein.",
+  city: "Bitte geben Sie ein gültigen Ort ein.",
   state: "Bitte geben Sie ein gültiges Bundesland an.",
   country: "Bitte wählen Sie Ihr Land aus.",
 };

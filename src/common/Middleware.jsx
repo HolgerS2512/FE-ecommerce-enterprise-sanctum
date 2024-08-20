@@ -4,11 +4,11 @@ import ROUTES from "../Settings/ROUTES";
 import Loading from "../components/Helpers/Loading";
 
 const Middleware = () => {
-  const { token, userError, isUserLoading } = useStateContext();
+  const { token, error, isUserLaoding:isLoading } = useStateContext();
 
-  if (isUserLoading) return <Loading/>;
+  if (isLoading) return <Loading/>;
 
-  if (userError) return <Navigate to={ROUTES.pages.HOME} />;
+  if (error) return <Navigate to={ROUTES.pages.HOME} />;
     
   return (token) ? <Outlet /> : <Navigate to={ROUTES.pages.HOME} />;
 }

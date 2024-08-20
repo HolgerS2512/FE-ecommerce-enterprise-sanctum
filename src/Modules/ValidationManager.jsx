@@ -18,7 +18,7 @@ const ValidationManager = (obj) => {
       case 'lastname':
       case 'email':
       case 'pin':
-      case 'address':
+      case 'street':
         // regex
         if (!(Regex[name]).test(value)) {
           reObj[name] = [];
@@ -42,7 +42,7 @@ const ValidationManager = (obj) => {
       case 'phone':
       case 'details':
       case 'zip':
-      case 'location':
+      case 'city':
       case 'country':
       case 'state':
         // regex
@@ -100,6 +100,7 @@ export const createValidator = (clientError) => {
       const checked = Boolean(Object.keys(check).length);
       
       clientError[name].msg = checked ? check[name] : [];
+      
       return checked;
     }
   } 

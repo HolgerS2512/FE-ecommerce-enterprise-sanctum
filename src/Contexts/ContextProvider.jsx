@@ -12,11 +12,8 @@ const cryptographer = new AesCryptographer();
 const StateContext = createContext({
 	user: null,
 	username: null,
-	addresses: null,
 	token: null,
 	lookup: null,
-	userError: null,
-	isUserLoading: null,
 	setUser: () => {},
 	setUsername: () => {},
 	setUserProps: () => {},
@@ -27,18 +24,14 @@ const StateContext = createContext({
 export const ContextProvider = ({ children }) => {
 	const { setNotification } = useNotification();
 	const [user, setUser] = useState({});
-	const [addresses, setAddresses] = useState({});
 	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
 	const [lookup, setLookup] = useState('');
 	const [username, _setUsername] = useState(cryptographer.decrypt(localStorage.getItem("aC_us")) || '');
-	const [userError, setUserError] = useState(false);
-	const [isUserLoading, setIsUserLoading] = useState(false);
 
 	const hasToken = token !== '';
 	const hasUser = Boolean(Object.keys(user).length);
-	const hasAddress = Boolean(Object.keys(addresses).length);
 
-	const { data, isLoading, error } = useQuery({
+	const { data, isLoading: isUserLaoding, error } = useQuery({
 			queryKey: ['user'],
 			queryFn: () => FetchAsync(ROUTES.account.PROFILE),
 			staleTime: SESSION_LENGTH,
@@ -46,27 +39,12 @@ export const ContextProvider = ({ children }) => {
 			enabled: hasToken && !hasUser, // Execute only if condition is met
 	});
 
-	const { data: addressData, isLoading: isAddressLoading, error: addressErr } = useQuery({
-			queryKey: ['addresses'],
-			queryFn: () => FetchAsync(ROUTES.account.ADDRESSES),
-			staleTime: SESSION_LENGTH,
-			cacheTime: SESSION_LENGTH * 2,
-			enabled: !hasAddress, // Execute only if condition is met
-	});
-
-	useEffect(() => {
-		loadAddress();
-	}, [addressData, isAddressLoading, addressErr]);
-
 	useEffect(() => {
 		loadUser();
-		setUserError(Boolean(error));
-		setIsUserLoading(isLoading);
-	}, [data, isLoading, error]);
+	}, [isUserLaoding]);
 
 	const loadUser = async () => {
-		setIsUserLoading(true);
-    if (data && !isLoading && error === null) {
+    if (data && !isUserLaoding && error === null) {
 			const decrypted = cryptographer.decrypt(data);
 
       setUser(JSON.parse(decrypted));
@@ -78,20 +56,6 @@ export const ContextProvider = ({ children }) => {
       });
     }
 	};
-
-	const loadAddress = async () => {
-		if (addressData !== null && !isAddressLoading && addressErr === null) {
-			const decrypted = cryptographer.decrypt(addressData);
-
-      setAddresses(JSON.parse(decrypted));
-		} else if (addressErr) {
-      setNotification({
-        visible: true,
-        status: 'e',
-        msg: error.message,
-      });
-    }
-	}
 
 	const setSessionToken = (token) => {
 		setToken(token);
@@ -124,11 +88,10 @@ export const ContextProvider = ({ children }) => {
 		<StateContext.Provider value={{
 			user,
 			username,
-			addresses,
 			token,
 			lookup,
-			userError,
-			isUserLoading,
+			error,
+			isUserLaoding,
 			setUser,
 			setUsername,
 			setUserProps,

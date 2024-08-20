@@ -29,10 +29,6 @@ const ROUTES = {
       EDIT: '/edit/email',
       UPDATE: '/update/email',
     },
-    // Personal Methods
-    DATA: {
-      UPDATE: '/update/user/personal/data',
-    },
   },
   // External
   external: {

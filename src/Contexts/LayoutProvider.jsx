@@ -13,7 +13,8 @@ const StateContext = createContext({
 export const LayoutProvider = ({ children }) => {
 	const { setNotification } = useNotification();
 	const cookieManager = new CookieManager();
-  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(cookieManager.getCookie('L_CD'))) || '');
+	const layoutCookie = cookieManager.getCookie('L_CD') ?? 'L_CD';
+  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(layoutCookie)) || '');
 
   useEffect(() => {
     if (categories === '') loadCategories();
@@ -22,10 +23,12 @@ export const LayoutProvider = ({ children }) => {
 	const loadCategories = async () => {
 		try {
 			const res = await axiosClient.get(ROUTES.pages.CATEGORIES);
+			
 			if (res.data.status) {
+				const cookie = cookieManager.getCookie('L_CD');
 				setCategories(res.data.data);
 				setTimeout(() => {
-					localStorage.setItem(cookieManager.getCookie('L_CD'), JSON.stringify(res.data.data));
+					localStorage.setItem(cookie ?? 'L_CD', JSON.stringify(res.data.data));
 				}, 200);
 			}
 		} catch (err) {
