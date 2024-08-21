@@ -207,6 +207,7 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
           msg : res.data.message,
         });
         onClose();
+        clearPrevValues();
       } 
     } catch (err) {
       const { message } = err.response.data;

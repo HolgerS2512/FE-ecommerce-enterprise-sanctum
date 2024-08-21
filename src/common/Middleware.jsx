@@ -1,16 +1,34 @@
-import { Navigate, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
+
 import ROUTES from "../Settings/ROUTES";
 import Loading from "../components/Helpers/Loading";
 
 const Middleware = () => {
-  const { token, error, isUserLaoding:isLoading } = useStateContext();
+  const { token, error, isUserLaoding } = useStateContext();
+  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
 
-  if (isLoading) return <Loading/>;
+	useEffect(() => {
+    if (!isLoading) {
+      setIsLoading(true);
+    }
+  }, [location]);
 
-  if (error) return <Navigate to={ROUTES.pages.HOME} />;
+  if (error || !token) return <Navigate to={ROUTES.pages.HOME} />;
     
-  return (token) ? <Outlet /> : <Navigate to={ROUTES.pages.HOME} />;
+  if (token) {
+    return (
+      <>
+        {isLoading && <Loading/>}
+
+        <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
+          <Outlet context={{ isLoading, setIsLoading }} />
+        </div>
+      </>
+    );
+  }
 }
 
 export default Middleware;

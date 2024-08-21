@@ -81,7 +81,7 @@ const ChangePersonal = ({ closeLoader }) => {
     });
   };
 
-  const setUserValues = () => {
+  const setSalutValues = () => {
     const uSal = user.salutation;
 
     if (uSal) {
@@ -93,18 +93,26 @@ const ChangePersonal = ({ closeLoader }) => {
     } else {
       selectSalutRef?.current?.setValue(salutationOpts[0]);
     }
+  }
 
+  const setBirthday = () => {
     if (user.birthday) {
       const split = user.birthday.split('-');
 
       selectDayRef?.current?.setValue({ value:split[2], label:split[2] });
       selectYearRef?.current?.setValue({ value:split[0], label:split[0] });
+
       calcMonths().forEach((opt) => {
         if (opt.value === split[1]) {
           selectMonthRef?.current?.setValue({ value:split[1], label: opt.label });
         }
       });
     }
+  }
+
+  const setUserValues = () => {
+    setSalutValues();
+    setBirthday();
     setInputData({
       firstname: user.firstname,
       lastname: user.lastname,
@@ -226,7 +234,7 @@ const ChangePersonal = ({ closeLoader }) => {
         </div>
 
 
-        <div className="col-md-6 col-lg-5">
+        <div>
           <small className="b-small" tabIndex={1}>{t('dateofbirth')}</small>
           <div className="birth">
             <Select 

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { useTranslation } from "react-i18next"
 
 import { useStateContext } from "../../../Contexts/ContextProvider";
@@ -7,7 +8,6 @@ import ROUTES from "../../../Settings/ROUTES";
 import AesCryptographer from "../../../Modules/AesCryptographer";
 import axiosClient from "../../../axios-clint";
 
-import Loading from "../../../components/Helpers/Loading";
 import ZeroAddress from "../../../components/Account/ZeroAddress";
 import WindowForm from "../../../components/WindowForm";
 import StoreAddress from "../../../components/Account/StoreAddress";
@@ -19,13 +19,14 @@ const cryptographer = new AesCryptographer();
 const Addresses = () => {
   // Common
   const { user } = useStateContext();
+  const { isLoading, setIsLoading } = useOutletContext();
   const {t} = useTranslation();
   // DB fill
   const [addresses, setAddresses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [editData, setEditData] = useState({});
   // States
   const [addAddress, setAddAddress] = useState(false);
-  const [editData, setEditData] = useState({});
+  const [hasResponse, setHasResponse] = useState(false);
   // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ visible: false });
 
@@ -42,10 +43,10 @@ const Addresses = () => {
 	const loadAddress = async () => {
     try {
       const res = await axiosClient.get(ROUTES.account.ADDRESSES);
+      const { data, status } = res.data;
 
-      if (res.data.status) {
-        const decrypted = cryptographer.decrypt(res.data.data);
-
+      if (status) {
+        const decrypted = cryptographer.decrypt(data);
         setAddresses(JSON.parse(decrypted));
       } 
     } catch (err) {
@@ -56,6 +57,7 @@ const Addresses = () => {
         msg: message,
       });
     }
+    setHasResponse(true);
 	}
 
   const closeLoader = () => setIsLoading(false);
@@ -68,9 +70,10 @@ const Addresses = () => {
   const openWindow = () => setAddAddress(true);
 
   const closeWindow = () => {
-    setIsLoading(true);
     setAddAddress(false);
     setHttpStatus({});
+    setHasResponse(false);
+    setIsLoading(true); 
   }
 
   // Edit events
@@ -82,11 +85,49 @@ const Addresses = () => {
     openWindow();
   }
 
-  return (
-    <>
-      {isLoading && <Loading />}
+  const regularBtn = (
+    <RegularBtn 
+      onClick={openWindow} 
+      disabled={addresses.length >= 8} 
+      position="end" 
+      ariaLabel={t('add_address')} 
+      text={t('add_address')}
+    />
+  );
 
-      <WindowForm open={addAddress} onClose={() => setAddAddress(false)} h1={t('add_address')}>
+  const container = () => {
+    return (
+      <div className="container acc-dist">
+        <div className="wrap35r">
+
+          <h1 tabIndex={1} aria-description={t('saved_delivery_address')}>{t('saved_delivery_address')}</h1>
+
+          { hasResponse &&
+            (Boolean(addresses.length) 
+            ? <AddressLoader 
+                onClick={handleEditClick} 
+                closeLoader={closeLoader} 
+                user={user}
+                addresses={addresses} 
+                btn={regularBtn}
+              /> 
+            : <ZeroAddress closeLoader={closeLoader} btn={regularBtn} />)
+          }
+
+        </div>
+      </div>
+    )
+  };
+
+  const MemoizedContainer = React.memo(container);
+
+  return (
+    <div className="position-relative">
+      <WindowForm 
+        open={addAddress} 
+        onClose={() => setAddAddress(false)} 
+        h1={t('add_address')}
+      >
         <StoreAddress 
           data={editData} 
           user={user}
@@ -98,33 +139,10 @@ const Addresses = () => {
         />
       </WindowForm>
 
-      <div className="container acc-dist">
-        <div className="wrap35r">
+      <MemoizedContainer />
 
-          <h1 tabIndex={1} aria-description={t('saved_delivery_address')}>{t('saved_delivery_address')}</h1>
-
-          {Boolean(addresses.length) 
-            ? <AddressLoader 
-                onClick={handleEditClick} 
-                closeLoader={closeLoader} 
-                user={user}
-                addresses={addresses} 
-              /> 
-            : <ZeroAddress />
-          }
-
-          <RegularBtn 
-            onClick={openWindow} 
-            disabled={addresses.length >= 8} 
-            position="end" 
-            ariaLabel={t('add_address')} 
-            text={t('add_address')}
-          />
-
-        </div>
-      </div>
-    </>
-  )
+    </div>
+  );
 }
 
 export default Addresses

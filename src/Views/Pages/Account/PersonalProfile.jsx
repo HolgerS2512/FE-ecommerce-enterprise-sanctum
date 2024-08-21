@@ -1,21 +1,19 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next"
+import { useOutletContext } from "react-router-dom";
 
 import ChangePassword from "../../../components/ChangePassword";
 import ChangeEmail from "../../../components/ChangeEmail";
 import ChangePersonal from "../../../components/ChangePersonal";
-import Loading from "../../../components/Helpers/Loading";
 
 const PersonalProfile = () => {
   const {t} = useTranslation();
-  const [isLoading, setIsLoading] = useState(true);
+  const { setIsLoading } = useOutletContext();
 
   const closeLoader = () => setIsLoading(false);
 
   return (
-    <>
-      {isLoading && <Loading />}
-      <div className="container-xl acc-dist">
+    <div className="container acc-dist">
+      <div className="wrap70r">
 
         <h1 tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>
         <div className="p mb-5">{t('check_your_personality')}</div>
@@ -75,7 +73,7 @@ const PersonalProfile = () => {
         </section>
 
       </div>
-    </>
+    </div>
   )
 }
 

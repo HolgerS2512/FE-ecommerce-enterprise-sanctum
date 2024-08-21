@@ -2,16 +2,20 @@ import { useEffect } from "react"
 import { useTranslation } from "react-i18next";
 import { find } from "../../Modules/ObjectHelper";
 
-const AddressLoader = ({ closeLoader, onClick, user, addresses }) => {
+const AddressLoader = ({ closeLoader, onClick, user, addresses, btn }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    handleLoader();
+  }, [user, addresses]);
+
+  const handleLoader = () => {
     const hasUser = Boolean(Object.keys(user).length);
-    const hasAddresses = Boolean(addresses.length);
-    if (hasUser && hasAddresses) {
+
+    if (hasUser) {
       setTimeout(() => closeLoader(), 70);
     }
-  }, [user, addresses]);
+  }
 
   const renderHTML = (obj) => {
     if (!obj) return;
@@ -44,20 +48,24 @@ const AddressLoader = ({ closeLoader, onClick, user, addresses }) => {
   const active = renderHTML(find(addresses).byActiveFirst());
 
   return (
-    <div className="mb-5 mt-225r p fw-semibold">
+    <>
+      <div className="mb-5 mt-225r p fw-semibold">
 
-      {active !== undefined && <div className="mb-1">{t('standard_delivery_address') + ':'}</div>}
+        {active !== undefined && <div className="mb-1">{t('standard_delivery_address') + ':'}</div>}
 
-      {active}
+        {active}
 
-      {find(addresses).byNoneActive().map((addr, i) => (
-        <div key={i}>
-          {!(i === 0 && active === undefined) && <hr/>}
-          {renderHTML(addr)}
-        </div>
-      ))}
+        {find(addresses).byNoneActive().map((addr, i) => (
+          <div key={i}>
+            {!(i === 0 && active === undefined) && <hr/>}
+            {renderHTML(addr)}
+          </div>
+        ))}
 
-    </div>
+      </div>
+
+      {btn}
+    </>
   )
 }
 

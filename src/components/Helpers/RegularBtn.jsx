@@ -8,6 +8,7 @@ const RegularBtn = ({
   color = 'dark', 
   disabled = false,
   classes, 
+  type,
 }) => {
   return (
     <div className={`text-${position}`}>
@@ -17,6 +18,7 @@ const RegularBtn = ({
         aria-label={ariaLabel}
         onClick={onClick}
         disabled={disabled}
+        type={type ?? 'button'}
       >
         <div className={`btn btn-${color}`}>
           {text}

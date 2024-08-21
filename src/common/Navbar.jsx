@@ -10,22 +10,9 @@ import GetIconByName from '../components/Util/GetIconByName';
 import GenerateMenuHtml from "./GenerateMenuHtml";
 
 const Navbar = ({ categories, user, hasToken }) => {
-  const { setUser, setUsername, setSessionToken } = useStateContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
   const hasUser = Boolean(Object.keys(user).length);
-
-  const handleLogout = (e) => {
-    axiosClient.get(ROUTES.auth.LOGOUT).then((res) => {
-      if (res.status === 204) {
-        setUser({});
-        setSessionToken('');
-        setUsername('');
-        window.location.reload(); 
-      }
-    });
-    e.preventDefault();
-  };
 
   return (
     <nav role="navigation" className='main-nav'>
@@ -38,7 +25,7 @@ const Navbar = ({ categories, user, hasToken }) => {
 
         <div className='nav-s1w nav-s1we'>
             {hasToken 
-            ? <ProfileMenu onLogout={handleLogout} /> 
+            ? <ProfileMenu /> 
             : <Link
                 to={hasUser ? ROUTES.account.PROFILE : ROUTES.auth.LOOKUP}
                 aria-label={hasUser ? t('personal_profile') : t('signip')}

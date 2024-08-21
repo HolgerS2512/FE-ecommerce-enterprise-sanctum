@@ -13,9 +13,16 @@ import ROUTES from "./Settings/ROUTES.js";
 import Middleware from './common/Middleware.jsx';
 import Contact from "./Views/Pages/Contact.jsx";
 import PersonalProfile from "./Views/Pages/Account/PersonalProfile.jsx";
-import Addresses from './Views/Pages/Account/Addresses.jsx';
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
+
+const Addresses = lazy(() => import('./Views/Pages/Account/Addresses.jsx'));
+
+const loader = async () => {
+	console.log('loader')
+  return null;
+};
+
 
 const router = createBrowserRouter([
 	{
@@ -62,6 +69,7 @@ const router = createBrowserRouter([
 				// /account
 				path: ROUTES.account.route,
 				element: <Middleware />,
+				// loader: loader,
 				children: [
 					{
 						// '/account'

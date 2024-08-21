@@ -4,6 +4,7 @@ import { FetchAsync } from '../Modules/ServerRequests';
 import AesCryptographer from '../Modules/AesCryptographer';
 import ROUTES from "../Settings/ROUTES";
 import { useNotification } from "./NotificationProvider";
+import axiosClient from "../axios-clint";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
@@ -19,6 +20,7 @@ const StateContext = createContext({
 	setUserProps: () => {},
 	setSessionToken: () => {},
 	setLookup: () => {},
+	logout: () => {},
 })
 
 export const ContextProvider = ({ children }) => {
@@ -82,6 +84,18 @@ export const ContextProvider = ({ children }) => {
     }));
 	}
 
+	const logout = (e) => {
+    e.preventDefault();
+    axiosClient.get(ROUTES.auth.LOGOUT).then((res) => {
+      if (res.status === 204) {
+        setUser({});
+        setSessionToken('');
+        setUsername('');
+        window.location.reload(); 
+      }
+    });
+  };
+
 	// if (hasToken && !hasUser && error === null) return;
 
 	return (
@@ -97,6 +111,7 @@ export const ContextProvider = ({ children }) => {
 			setUserProps,
 			setSessionToken,
 			setLookup,
+			logout,
 		}}>
 			{ children }
 		</StateContext.Provider>
