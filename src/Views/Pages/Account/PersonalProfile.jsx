@@ -1,18 +1,25 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"
 import { useOutletContext } from "react-router-dom";
 
-import ChangePassword from "../../../components/ChangePassword";
-import ChangeEmail from "../../../components/ChangeEmail";
-import ChangePersonal from "../../../components/ChangePersonal";
+import ChangePassword from "../../../components/Account/ChangePassword";
+import ChangeEmail from "../../../components/Account/ChangeEmail";
+import ChangePersonal from "../../../components/Account/ChangePersonal";
 
 const PersonalProfile = () => {
   const {t} = useTranslation();
-  const { setIsLoading } = useOutletContext();
+  const { isLoading, setIsLoading } = useOutletContext();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(!isLoading);
+  }, [isLoading]);
 
   const closeLoader = () => setIsLoading(false);
 
+
   return (
-    <div className="container acc-dist">
+    <div className="container acc-dist hidden" style={visible ? { visibility: 'visible' } : null}>
       <div className="wrap70r">
 
         <h1 tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>

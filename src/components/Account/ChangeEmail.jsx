@@ -1,19 +1,19 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { redirect } from "react-router-dom";
-import { useStateContext } from "../Contexts/ContextProvider";
-import { useNotification } from "../Contexts/NotificationProvider";
+import { useStateContext } from "../../Contexts/ContextProvider";
+import { useNotification } from "../../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
 
-import axiosClient from '../axios-clint';
-import ValidationManager, { createValidator } from "../Modules/ValidationManager";
-import ClientErrorManager from "../Modules/ClientErrorManager";
-import ROUTES from "../Settings/ROUTES";
+import axiosClient from '../../axios-clint';
+import ValidationManager, { createValidator } from "../../Modules/ValidationManager";
+import ClientErrorManager from "../../Modules/ClientErrorManager";
+import ROUTES from "../../Settings/ROUTES";
 
-import BlankForm from "./BlankForm"
-import InputPinCode from "./Util/InputPinCode";
-import EmailLongAddition from "./Helpers/EmailLongAddition";
-import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
-import InputInchForwardField from "./Util/InputInchForwardField";
+import BlankForm from "../BlankForm"
+import InputPinCode from "../Util/InputPinCode";
+import EmailLongAddition from "../Helpers/EmailLongAddition";
+import HttpStatusMsg from "../../Views/Notifications/HttpStatusMsg";
+import InputInchForwardField from "../Util/InputInchForwardField";
 
 const ChangeEmail = () => {
   // Common

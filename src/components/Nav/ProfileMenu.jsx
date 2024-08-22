@@ -37,6 +37,7 @@ const ProfileMenu = () => {
       <li>
         <ul className="d-dropdown a35s fit-menu-t28">
           <span className="h4">{t(name)}</span>
+          <hr className="my-1" />
 
           {Object.values(links).map((l, i) => (
             <li key={i}>
@@ -50,6 +51,7 @@ const ProfileMenu = () => {
             </li>
           ))}
 
+          <hr className="my-1" />
           <li>
             <a 
               href='#'

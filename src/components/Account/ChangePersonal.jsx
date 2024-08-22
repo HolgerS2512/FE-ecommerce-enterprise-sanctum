@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { useStateContext } from "../Contexts/ContextProvider";
-import { useNotification } from "../Contexts/NotificationProvider";
+import { useStateContext } from "../../Contexts/ContextProvider";
+import { useNotification } from "../../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
 
-import axiosClient from '../axios-clint';
-import { createValidator } from "../Modules/ValidationManager";
-import ClientErrorManager from "../Modules/ClientErrorManager";
-import ROUTES from "../Settings/ROUTES";
+import axiosClient from '../../axios-clint';
+import { createValidator } from "../../Modules/ValidationManager";
+import ClientErrorManager from "../../Modules/ClientErrorManager";
+import ROUTES from "../../Settings/ROUTES";
 
-import DateModel from "../Modules/DateModel";
-import BlankForm from "./BlankForm"
-import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
-import InputInchField from "./Util/InputInchField";
-import Select from "./Util/Select";
+import DateModel from "../../Modules/DateModel";
+import BlankForm from "../BlankForm"
+import HttpStatusMsg from "../../Views/Notifications/HttpStatusMsg";
+import InputInchField from "../Util/InputInchField";
+import Select from "../Util/Select";
 
 const ChangePersonal = ({ closeLoader }) => {
   // Common

@@ -27,6 +27,7 @@ const Addresses = () => {
   // States
   const [addAddress, setAddAddress] = useState(false);
   const [hasResponse, setHasResponse] = useState(false);
+  const [visible, setVisible] = useState(false);
   // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ visible: false });
 
@@ -34,6 +35,7 @@ const Addresses = () => {
     if (isLoading) {
       loadAddress();
     }
+    setVisible(!isLoading);
   }, [isLoading]);
 
   useEffect(() => {
@@ -122,7 +124,7 @@ const Addresses = () => {
   const MemoizedContainer = React.memo(container);
 
   return (
-    <div className="position-relative">
+    <div className='position-relative hidden' style={visible ? { visibility: 'visible' } : null}>
       <WindowForm 
         open={addAddress} 
         onClose={() => setAddAddress(false)} 

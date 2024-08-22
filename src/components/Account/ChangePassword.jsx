@@ -1,19 +1,19 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { redirect } from "react-router-dom";
-import { useStateContext } from "../Contexts/ContextProvider";
-import { useNotification } from "../Contexts/NotificationProvider";
+import { useStateContext } from "../../Contexts/ContextProvider";
+import { useNotification } from "../../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
 
-import ValidationManager, { createValidator } from "../Modules/ValidationManager";
-import ClientErrorManager from "../Modules/ClientErrorManager";
-import ROUTES from "../Settings/ROUTES";
+import ValidationManager, { createValidator } from "../../Modules/ValidationManager";
+import ClientErrorManager from "../../Modules/ClientErrorManager";
+import ROUTES from "../../Settings/ROUTES";
 
-import BlankForm from "./BlankForm"
-import PasswordLongAddition from "./Helpers/PasswordLongAddition";
-import InputPinCode from "./Util/InputPinCode";
-import axiosClient from '../axios-clint';
-import PasswordForwardField from "./Util/PasswordForwardField";
-import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
+import BlankForm from "../BlankForm"
+import PasswordLongAddition from "../Helpers/PasswordLongAddition";
+import InputPinCode from "../Util/InputPinCode";
+import axiosClient from '../../axios-clint';
+import PasswordForwardField from "../Util/PasswordForwardField";
+import HttpStatusMsg from "../../Views/Notifications/HttpStatusMsg";
 
 const ChangePassword = () => {
   // Common
