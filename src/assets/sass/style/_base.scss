@@ -88,3 +88,8 @@ a svg {
 #main {
   margin-bottom: 6.25rem;
 }
+
+.no-action {
+  @include userSelect;
+  @include pointerEv;
+}

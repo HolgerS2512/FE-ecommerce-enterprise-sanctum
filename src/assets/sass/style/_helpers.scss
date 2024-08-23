@@ -35,6 +35,9 @@
 
 // Click window
 .window {
+  max-width: 660px;
+}
+.window {
   $window-dist: 8dvh;
   $scroll-padding: .1rem;
 
@@ -43,7 +46,6 @@
 
   width: 100%;
   height: max-content;
-  max-width: 660px;
   max-height: calc(100% - $window-dist);
 
   position: relative;
@@ -72,6 +74,15 @@
     @media (min-height:900px) {
       // height: 100%;
     }
+  }
+}
+
+.window-inner {
+  max-width: 600px;
+  padding: 1rem;
+
+  @media (min-width:576px) {
+    padding: 1.5rem;
   }
 }
 

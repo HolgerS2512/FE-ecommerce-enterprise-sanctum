@@ -35,7 +35,7 @@ const WindowForm = ({ children, open, onClose, h1 }) => {
     }
   };
 
-  const primaryWindow = 'fixed-top bg-trans-black w-100 h-100 d-sm-flex justify-content-center align-items-center';
+  const primaryWindow = 'fixed-top bg-trans-black w-100 h-100 d-sm-flex justify-content-center align-items-center no-action';
 
   return (
     <div className={open ? primaryWindow : 'd-none'}>

@@ -19,6 +19,7 @@ const ROUTES = {
     WISHLIST: '/wishlist',
     ADDRESSES: '/account/addresses',
     PAYMENTMETHODS: '/account/payment',
+    SETTINGS: '/account/settings',
     // Password Methods
     PASSWORD: {
       EDIT: '/edit/password',

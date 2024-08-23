@@ -13,6 +13,10 @@ import ROUTES from "./Settings/ROUTES.js";
 import Middleware from './common/Middleware.jsx';
 import Contact from "./Views/Pages/Contact.jsx";
 import PersonalProfile from "./Views/Pages/Account/PersonalProfile.jsx";
+import Overview from "./Views/Pages/Account/Overview.jsx";
+import Orders from "./Views/Pages/Account/Orders.jsx";
+import PaymentMethods from "./Views/Pages/Account/PaymentMethods.jsx";
+import Settings from "./Views/Pages/Account/Settings.jsx";
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
 
@@ -74,7 +78,7 @@ const router = createBrowserRouter([
 					{
 						// '/account'
 						path: ROUTES.account.OVERVIEW,
-						element: <PersonalProfile />
+						element: <Overview />
 					},
 					{
 						// '/account/profile'
@@ -84,7 +88,7 @@ const router = createBrowserRouter([
 					{
 						// '/account/orders'
 						path: ROUTES.account.ORDERS,
-						element: <PersonalProfile />
+						element: <Orders />
 					},
 					{
 						// '/account/addresses'
@@ -94,7 +98,12 @@ const router = createBrowserRouter([
 					{
 						// '/account/payment'
 						path: ROUTES.account.PAYMENTMETHODS,
-						element: <PersonalProfile />
+						element: <PaymentMethods />
+					},
+					{
+						// '/account/settings'
+						path: ROUTES.account.SETTINGS,
+						element: <Settings />
 					},
 				]
 				// ! ---> Protected Account Routes END <--- !

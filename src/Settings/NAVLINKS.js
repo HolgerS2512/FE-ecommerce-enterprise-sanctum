@@ -26,6 +26,10 @@ const NAVLINKS = {
         name: 'payment_methods',
         link: ROUTES.account.PAYMENTMETHODS,
       },
+      SETTINGS: {
+        name: 'account_settings',
+        link: ROUTES.account.SETTINGS,
+      },
     },
     icon: 'Profile',
   },

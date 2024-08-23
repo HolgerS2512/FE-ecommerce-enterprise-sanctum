@@ -44,6 +44,8 @@ const ChangePersonal = ({ closeLoader }) => {
   const selectYearRef = useRef();
   // States
   const [isLoading, setIsLoading] = useState(false);
+  const [hasUpdate, setHasUpdate] = useState(true);
+  const [updateAllowed, setUpdateAllowed] = useState(false);
   // Errorhandling
   const [clientError] = useState({
     firstname: { msg: [] },
@@ -118,6 +120,7 @@ const ChangePersonal = ({ closeLoader }) => {
       lastname: user.lastname,
     })
     setTimeout(() => closeLoader(), 200);
+    setUpdateAllowed(true);
   }
 
   const handleSubmit = async (e) => {
@@ -153,6 +156,8 @@ const ChangePersonal = ({ closeLoader }) => {
         setHttpStatus({ visible: true, msg: message });
       }
     }
+    setHasUpdate(true);
+    setUpdateAllowed(false);
     setIsLoading(false);
   }
 
@@ -171,21 +176,36 @@ const ChangePersonal = ({ closeLoader }) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
     val(name, value);
+    setLockDown();
   }
 
   const handleChangeDay = (obj) => {
     setSelectDay(obj.value);
     val('day', obj.value);
+    setLockDown();
   }
 
   const handleChangeMonth = (obj) => {
     setSelectMonth(obj.value);
     val('month', obj.value);
+    setLockDown();
   }
 
   const handleChangeYear = (obj) => {
     setSelectYear(obj.value);
     val('year', obj.value);
+    setLockDown();
+  }
+
+  const handleChangeSalut = (obj) => {
+    setSalutation(obj.value);
+    setLockDown();
+  }
+
+  const setLockDown = () => {
+    if (updateAllowed && hasUpdate) {
+      setHasUpdate(false);
+    }
   }
 
   return (
@@ -193,6 +213,7 @@ const ChangePersonal = ({ closeLoader }) => {
       onSubmit={handleSubmit}
       isLoading={isLoading}
       submitBtnText={t('save_changes')}
+      btnDisabled={hasUpdate}
     >
 
       {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
@@ -204,7 +225,7 @@ const ChangePersonal = ({ closeLoader }) => {
             <Select 
               name={t('salutation')}
               ariaLabel={`${t('salutation')} ${t('no_required')}`}
-              onChange={(obj) => {setSalutation(obj.value)}}
+              onChange={handleChangeSalut}
               value={salutation}
               options={salutationOpts} 
               ref={selectSalutRef}

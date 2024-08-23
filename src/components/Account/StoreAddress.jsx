@@ -16,7 +16,7 @@ import Select from '../Util/Select';
 import GetCountryOpts from "../../Settings/GetCountryOpts";
 import RegularBtn from "../Helpers/RegularBtn";
 
-const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, setHttpStatus }) => {
+const StoreAddress = ({ data, user, hasResponse, setDataEmpty, open, onClose, httpStatus, setHttpStatus, setWindowInner, windowInnerQuest, setWindowInnerQuest }) => {
   // Common
   const { setNotification } = useNotification();
   const {t} = useTranslation();
@@ -63,6 +63,7 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
   const [isLoading, setIsLoading] = useState(false);
   const [hasData, setHasData] = useState(false);
   const [hasUpdate, setHasUpdate] = useState(true);
+  const [updateAllowed, setUpdateAllowed] = useState(false);
   // Errorhandling
   const [clientError, setClientError] = useState(errBP);
   // Validation
@@ -80,7 +81,17 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
   useEffect(() => {
     dataGuard();
     clearPrevValues();
+    if (hasResponse && open) {
+      setUpdateAllowed(true);
+    }
   }, [open]);
+
+  useEffect(() => {
+    if (windowInnerQuest) {
+      deleteAddress();
+      setWindowInnerQuest(false);
+    }
+  }, [windowInnerQuest]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +120,7 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
         setHttpStatus({ visible: true, msg: message });
       }
     }
-    clearPrevValues()
+    clearPrevValues();
   }
 
   const validPayload = () => {
@@ -137,18 +148,25 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
       return;
     }
     val(name, value);
-    if (open && hasUpdate) setHasUpdate(false);
+    setLockDown();
   }
 
   const handleSelectChange = (obj) => {
     const { value } = obj;
     setPayload({ ...payload, country: value });
     val('country', value);
+    setLockDown();
   }
 
   const handleCheckbox = () => {
     setActiveAddr((prev) => !prev);
-    if (open && hasUpdate) setHasUpdate(false);
+    setLockDown();
+  }
+
+  const setLockDown = () => {
+    if (open && updateAllowed && hasUpdate) {
+      setHasUpdate(false);
+    }
   }
 
   const loadAddress = () => {
@@ -186,6 +204,7 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
       setIsStandard(false);
       setNavigatorLanguage();
       setHasUpdate(true);
+      setUpdateAllowed(false);
     }
     setIsLoading(false);
   }
@@ -197,6 +216,11 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
   }
 
   const handleDelete = async (e) => {
+    e.preventDefault();
+    setWindowInner(true);
+  }
+
+  const deleteAddress = async () => {
     try {
       const res = await axiosClient.delete(`${ROUTES.account.ADDRESSES}/${data.id}`);
 
@@ -217,7 +241,7 @@ const StoreAddress = ({ data, user, setDataEmpty, open, onClose, httpStatus, set
         msg : message,
       });
     }
-    e.preventDefault();
+    setWindowInner(false);
   }
 
   const deleteBtn = (

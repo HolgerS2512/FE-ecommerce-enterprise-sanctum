@@ -31,6 +31,8 @@ const ChangeEmail = () => {
   // States
   const [canUpdate, setCanUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasUpdate, setHasUpdate] = useState(true);
+  const [updateAllowed, setUpdateAllowed] = useState(false);
   // Validation
   const [hasVal, setHasVal] = useState(false);
   const [hasValid, setHasValid] = useState(false);
@@ -53,6 +55,7 @@ const ChangeEmail = () => {
   useEffect(() => {
     if (!Boolean(current_email.length) && user.email !== undefined) {
       setCurrentEmail(user.email);
+      setUpdateAllowed(true);
     }
   }, [user.email]);
 
@@ -99,6 +102,8 @@ const ChangeEmail = () => {
         }
       }
     }
+    setHasUpdate(true);
+    setUpdateAllowed(false);
     setIsLoading(false);
   }
 
@@ -150,6 +155,7 @@ const ChangeEmail = () => {
     if (hasVal) {
       emailValidation();
     }
+    setLockDown();
   }
 
   const emailValidation = useCallback(() => {
@@ -182,6 +188,12 @@ const ChangeEmail = () => {
     setPin(value);
     val('pin', value);
   }
+
+  const setLockDown = () => {
+    if (updateAllowed && hasUpdate) {
+      setHasUpdate(false);
+    }
+  }
   
   return (
     <BlankForm
@@ -191,6 +203,7 @@ const ChangeEmail = () => {
       }}
       isLoading={isLoading}
       submitBtnText={canUpdate ? t('save_changes') : t('request_code')} // canUpdate request state
+      btnDisabled={hasUpdate}
     >
 
       {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}

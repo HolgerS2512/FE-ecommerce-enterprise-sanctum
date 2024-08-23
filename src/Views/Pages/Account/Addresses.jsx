@@ -13,6 +13,7 @@ import WindowForm from "../../../components/WindowForm";
 import StoreAddress from "../../../components/Account/StoreAddress";
 import AddressLoader from "../../../components/Account/AddressLoader";
 import RegularBtn from "../../../components/Helpers/RegularBtn";
+import WindowChild from "../../../components/WindowChild";
 
 const cryptographer = new AesCryptographer();
 
@@ -28,6 +29,9 @@ const Addresses = () => {
   const [addAddress, setAddAddress] = useState(false);
   const [hasResponse, setHasResponse] = useState(false);
   const [visible, setVisible] = useState(false);
+  // Special window
+  const [windowInner, setWindowInner] = useState(false);
+  const [wiQuest, setWiQuest] = useState(false);
   // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ visible: false });
 
@@ -133,12 +137,20 @@ const Addresses = () => {
         <StoreAddress 
           data={editData} 
           user={user}
+          hasResponse={hasResponse}
           setDataEmpty={handleDataEmpty} 
           open={addAddress} 
           onClose={closeWindow} 
           httpStatus={httpStatus}
           setHttpStatus={setHttpStatus}
+          setWindowInner={setWindowInner}
+          windowInnerQuest={wiQuest}
+          setWindowInnerQuest={setWiQuest}
         />
+        {windowInner && <WindowChild 
+          setWindowInner={setWindowInner}
+          setQuest={setWiQuest}
+        />}
       </WindowForm>
 
       <MemoizedContainer />

@@ -149,6 +149,7 @@ i18n
           standard_delivery_address: 'Standardlieferadresse',
           delete: 'Löschen',
           update: 'Aktualisieren',
+          delete_address_action: 'Sind Sie sicher, dass Sie diese Adresse löschen wollen?',
         },
       },
       en: {
@@ -250,6 +251,7 @@ i18n
           standard_delivery_address: 'Standard delivery address',
           delete: 'Delete',
           update: 'Update',
+          delete_address_action: 'Are you sure you want to delete this address?',
         },
       },
     },

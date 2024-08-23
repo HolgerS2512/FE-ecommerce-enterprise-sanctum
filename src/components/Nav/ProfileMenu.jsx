@@ -36,7 +36,7 @@ const ProfileMenu = () => {
       </li>
       <li>
         <ul className="d-dropdown a35s fit-menu-t28">
-          <span className="h4">{t(name)}</span>
+          <span className="h5 fw-semibold">{t(name)}</span>
           <hr className="my-1" />
 
           {Object.values(links).map((l, i) => (

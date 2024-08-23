@@ -32,6 +32,7 @@ const ChangePassword = () => {
   // States
   const [canUpdate, setCanUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasUpdate, setHasUpdate] = useState(true);
   // Validation
   const [hasVal, setHasVal] = useState(false);
   const [hasValChars, setHasValChars] = useState(false);
@@ -96,6 +97,7 @@ const ChangePassword = () => {
         }
       }
     }
+    setHasUpdate(true);
     setIsLoading(false);
   }
 
@@ -148,6 +150,7 @@ const ChangePassword = () => {
     if (hasVal) {
       passValidation();
     }
+    setLockDown();
   }
 
   const passValidation = useCallback(() => {
@@ -182,6 +185,12 @@ const ChangePassword = () => {
     val('pin', value);
   }
 
+  const setLockDown = () => {
+    if (hasUpdate) {
+      setHasUpdate(false);
+    }
+  }
+
   return (
     <BlankForm
       onSubmit={(e) => {
@@ -190,6 +199,7 @@ const ChangePassword = () => {
       }}
       isLoading={isLoading}
       submitBtnText={canUpdate ? t('save_changes') : t('request_code')} // canUpdate request state
+      btnDisabled={hasUpdate}
     >
 
       {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
