@@ -21,7 +21,7 @@ const ChangeEmail = () => {
   const { setNotification } = useNotification();
   const {t} = useTranslation();
   // Input States
-  const [current_email] = useState(user.email);
+  const [current_email, setCurrentEmail] = useState('');
   const [email, setEmail] = useState('');
   const [email_confirmation, setEmailConfirmation] = useState('');
   const [pin, setPin] = useState('');
@@ -49,6 +49,12 @@ const ChangeEmail = () => {
   // Validation
   const { val } = createValidator(clientError);
   const { getErrorMsg } = ClientErrorManager(clientError);
+
+  useEffect(() => {
+    if (!Boolean(current_email.length) && user.email !== undefined) {
+      setCurrentEmail(user.email);
+    }
+  }, [user.email]);
 
   useEffect(() => {
     if (canUpdate) {
