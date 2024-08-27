@@ -94,7 +94,7 @@ const DeleteAccount = ({ onClose }) => {
         onSubmit={handleSubmit}
         isLoading={false}
         submitBtnText={t('cancel')}
-        submitByMainBtn={false}
+        mainBtnType={'button'}
         mainBtnFn={onClose}
         btnPos='end'
         require={false}

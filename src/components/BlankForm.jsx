@@ -15,8 +15,8 @@ const BlankForm = ({
     styles={},
     secondBtn,
     btnDisabled = false,
-    submitByMainBtn,
-    mainBtnFn = null,
+    mainBtnType = '',
+    mainBtnFn = () => {},
   }) => {
   const {t} = useTranslation();
 
@@ -39,7 +39,7 @@ const BlankForm = ({
           btnClass={loadBtnClass} 
           position={btnPos} 
           disabled={btnDisabled}
-          type={submitByMainBtn ?? null}
+          type={mainBtnType}
           onClick={mainBtnFn}
         >
           {secondBtn ?? null}
