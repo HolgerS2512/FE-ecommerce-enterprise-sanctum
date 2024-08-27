@@ -35,21 +35,21 @@ const WindowForm = ({ children, open, onClose, h1 }) => {
     }
   };
 
-  const primaryWindow = 'fixed-top bg-trans-black w-100 h-100 d-sm-flex justify-content-center align-items-center no-action';
+  const primaryWindow = 'fixed-top bg-trans-black w-100 h-100 d-flex justify-content-center align-items-end align-items-sm-center no-action';
 
   return (
     <div className={open ? primaryWindow : 'd-none'}>
       <div className="window a15sd1ms fit-4r">
 
         <div className='mb-3 d-flex justify-content-between align-items-center pe-3 pe-sm-4'>
-          <p
-            className="h4 fw-semibold"
+          <span
+            className="h4 fw-semibold me-5 pe-2"
             tabIndex={1} 
             aria-label={h1}
             ref={targetRef}
             id="jls"
             onKeyDown={handleTabPress}
-          >{h1}</p>
+          >{h1}</span>
 
           <CloseBtn onClick={onClose} ariaLabel='close_window' />
         </div>

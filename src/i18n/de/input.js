@@ -21,6 +21,7 @@ export const input = {
   details: 'Abteilung, Apt., Gebäude',
   country: 'Land/Region',
   state: 'Bundesland',
+  address: 'Adresse',
 
 }
 

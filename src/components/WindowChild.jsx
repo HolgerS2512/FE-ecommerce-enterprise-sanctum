@@ -56,19 +56,24 @@ const WindowChild = ({ setQuest, setWindowInner }) => {
           onKeyDown={handleTabPressStart}
         >{t('delete_address_action')}</span>
 
-        <RegularBtn
-          onClick={cancel} 
-          ariaLabel={t('cancel')} 
-          text={t('cancel')}
-          classes='w-100'
-          color="secondary"
-        />
-        <RegularBtn
-          onClick={answer} 
-          ariaLabel={t('delete')} 
-          text={t('delete')}
-          classes='w-100'
-        />
+        <div className='d-md-flex justify-content-center'>
+          <RegularBtn
+            onClick={cancel} 
+            ariaLabel={t('cancel')} 
+            text={t('cancel')}
+            classes='w-100'
+            color="secondary"
+            style={{ minWidth: '160px' }}
+            position='center me-md-4'
+          />
+          <RegularBtn
+            onClick={answer} 
+            ariaLabel={t('delete')} 
+            text={t('delete')}
+            classes='w-100'
+            style={{ minWidth: '160px' }}
+          />
+        </div>
 
         <span 
           tabIndex={1} 

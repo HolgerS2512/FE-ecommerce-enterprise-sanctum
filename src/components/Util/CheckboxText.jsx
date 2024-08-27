@@ -7,11 +7,12 @@ const CheckboxText = ({
   text, 
   disabled = false, 
   name = 'thisCheck', 
+  required = false,
 }) => {
   const [isHover, setIsHover] = useState(false);
 
   const handleClick = () => {
-    const spanEl = document.querySelector('#pulse');
+    const spanEl = document.querySelector('#pulse-' + name);
     spanEl.classList.add('has-pulse');
     setTimeout(() => spanEl.classList.remove('has-pulse'), 250);
   }
@@ -19,19 +20,19 @@ const CheckboxText = ({
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleClick();
-      setIsChecked();
+      setIsChecked(e);
       e.preventDefault();
     }
   }
 
   return (
     <label 
-      className="form-check-label pulse-control d-flex" 
+      className='form-check-label pulse-control d-flex'
       htmlFor={name}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <span id='pulse' className={isHover ? 'pulse' : ''}></span>
+      <span id={'pulse-' + name} className={isHover ? 'pulse' : ''}></span>
       <div className="form-check">
         <input 
           className='form-check-input me-3'
@@ -46,6 +47,7 @@ const CheckboxText = ({
           onClick={handleClick}
           aria-labelledby={name}
           aria-checked={isChecked}
+          aria-required={required}
           tabIndex={1}
           disabled={disabled}
         />

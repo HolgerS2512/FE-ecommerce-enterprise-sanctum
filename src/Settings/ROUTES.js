@@ -20,6 +20,8 @@ const ROUTES = {
     ADDRESSES: '/account/addresses',
     PAYMENTMETHODS: '/account/payment',
     SETTINGS: '/account/settings',
+    // Addition
+    SUBSCRIBERS: '/account/settings/subscriber',
     // Password Methods
     PASSWORD: {
       EDIT: '/edit/password',
@@ -38,17 +40,22 @@ const ROUTES = {
   // Pages
   pages: {
     // Common
-    CATEGORIES: '/all/categories',
     HOME: '/',
-    SALE: '/sale',
-    NEW: '/new',
+    // SALE: '/sale',
+    // NEW: '/new',
     // Service/Help
     IMPRINT: '/imprint',
     PRIVACY: '/privacy_policy',
     TOU: '/terms_of_use',
     CANCELLATIONPOLICY: '/cancellation_policy',
     SHIPPINGPAYMENT: '/shipping_and_payment',
+    CUSTOMERSERVICE: '/help#contact',
     CONTACT: '/contact',
+  },
+  //
+  request: {
+    CATEGORIES: '/all/categories',
+    PRODUCTS: '/all/products',
   },
   // Errors
   error: {

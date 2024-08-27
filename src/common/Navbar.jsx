@@ -1,17 +1,21 @@
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useStateContext } from '../Contexts/ContextProvider';
+import { useLayoutContext } from "../Contexts/LayoutProvider";
 import { useTranslation } from 'react-i18next';
 
-import axiosClient from './../axios-clint';
 import ROUTES from '../Settings/ROUTES';
 import ProfileMenu from '../components/Nav/ProfileMenu';
 import NAVLINKS from '../Settings/NAVLINKS';
 import GetIconByName from '../components/Util/GetIconByName';
 import GenerateMenuHtml from "./GenerateMenuHtml";
 
-const Navbar = ({ categories, user, hasToken }) => {
+const Navbar = () => {
+  const { token, user } = useStateContext();
+	const { categories, products } = useLayoutContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
+
+	const hasToken = token !== '';
   const hasUser = Boolean(Object.keys(user).length);
 
   return (
@@ -41,7 +45,7 @@ const Navbar = ({ categories, user, hasToken }) => {
       <section className='nav-container'>
         <div className='d-flex justify-content-between w-50'>
           <ul>
-            {categories && <GenerateMenuHtml categories={categories} />}
+            {categories && <GenerateMenuHtml categories={categories} products={products} />}
           </ul>
         </div>
 

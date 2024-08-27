@@ -22,8 +22,8 @@ const PersonalProfile = () => {
     <div className="container acc-dist hidden" style={visible ? { visibility: 'visible' } : null}>
       <div className="wrap70r">
 
-        <h1 tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>
-        <div className="p mb-5">{t('check_your_personality')}</div>
+        <h1 className="mb-5" tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>
+        {/* <div className="p mb-5">{t('check_your_personality')}</div> */}
 
         <section className="accordion" id="changePersonalData">
 
@@ -53,7 +53,7 @@ const PersonalProfile = () => {
             </div>
             {/* Access Data */}
             <h2 className="accordion-header">
-              <button tabIndex={1} className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#changeEmail" aria-expanded="true" aria-controls="changeEmail">
+              <button tabIndex={1} className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#changeEmail" aria-expanded="false" aria-controls="changeEmail">
                 {t('change_email')}
               </button>
             </h2>

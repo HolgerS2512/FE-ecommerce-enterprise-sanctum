@@ -73,7 +73,7 @@ const ValidationManager = (obj) => {
         }
         // regex
         if (!(Regex[name]).test(value)) {
-          reObj[name].push(`error.${name}`);
+          reObj[name].push('error.password');
         }
         // length (min, max)
         if ((Rules[name].min) >= value.length) {

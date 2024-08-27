@@ -1,29 +1,25 @@
 import { Outlet } from "react-router-dom";
-import { useStateContext } from "../Contexts/ContextProvider.jsx";
-import { useLayoutContext } from "../Contexts/LayoutProvider.jsx";
 
 import Navbar from "./../common/Navbar.jsx";
 import Footer from "./../common/Footer.jsx";
 import JumpLink from "../components/Helpers/JumpLink.jsx";
 
 const DefaultLayout = () => {
-	const { token, user } = useStateContext();
-	const { categories } = useLayoutContext();
 
-	const hasToken = token !== '';
+	// useEffect(() => {
+	// FetchAsync('/version/manager')
+  //   .then(res=>res.json())
+  //   .then(json=>console.log(json))
 
 	// fetch('https://api.escuelajs.co/api/v1/categories')
   //   .then(res=>res.json())
   //   .then(json=>console.log(json))
+	// }, []);
 
 	return (
 		<>
 			<JumpLink role='navigation' link='main' />
-			<Navbar 
-				categories={categories} 
-				user={user ?? {}} 
-				hasToken={hasToken}
-			/>
+			<Navbar />
 			<main role="main" id="main">
 				<Outlet />
 			</main>

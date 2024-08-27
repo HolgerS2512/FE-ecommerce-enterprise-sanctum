@@ -7,6 +7,7 @@ import axiosClient from '../../../axios-clint.js';
 import ValidationManager, { createValidator } from './../../../Modules/ValidationManager.jsx';
 import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
 import ROUTES from '../../../Settings/ROUTES.js';
+import COMPANY from '../../../Settings/COMPANY.js';
 
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
 import PolicyPickerCheckbox from '../../../components/Auth/PolicyPickerCheckbox.jsx';
@@ -14,6 +15,9 @@ import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import InputInchField from '../../../components/Util/InputInchField.jsx';
 import PasswordAddition from '../../../components/Helpers/PasswordAddition.jsx';
 import PasswordField from '../../../components/Util/PasswordField.jsx';
+import CheckboxText from '../../../components/Util/CheckboxText.jsx';
+
+const companyName = COMPANY.name;
 
 const Register = () => {
   // Common
@@ -25,6 +29,7 @@ const Register = () => {
     lastname: '',
     password: '',
     email: lookup || '',
+    newsletter: false,
   };
   // Input States
   const [inputData, setInputData] = useState(inputBP);
@@ -71,6 +76,10 @@ const Register = () => {
         if (name === 'password') passValidation(inputData.password);
       });
     } else {
+      if (inputData.newsletter) {
+        payload.newsletter_subscriber = true;
+      }
+
       try {
         const res = await axiosClient.post(ROUTES.auth.REGISTER, payload);
         if (res.data.status) {
@@ -88,6 +97,9 @@ const Register = () => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
     val(name, value);
+    if (name === 'password') {
+      passValidation(value);
+    }
   }
 
   const passValidation = (value) => {
@@ -102,6 +114,12 @@ const Register = () => {
   const setIsTacChecked = () =>{
     setTacErr(isTacChecked);
     _setIsTacChecked((tac) => !tac);
+  }
+
+  const handleChangeNewsletter = () => {
+    setInputData(
+      { ...inputData, newsletter: !inputData.newsletter }
+    );
   }
 
   return (
@@ -155,6 +173,7 @@ const Register = () => {
         name='password'
         err={getErrorMsg('password')}
         noVal={true}
+        dist={64}
       />
 
       <PasswordAddition 
@@ -162,6 +181,15 @@ const Register = () => {
         chars={hasValChars}
         addition={hasValAddition}
       />
+
+      <div className="cb-text mb-4 pt-2">
+        <CheckboxText 
+          text={t('subscribe_to_newsletter', {companyName})} 
+          isChecked={inputData.newsletter}
+          setIsChecked={handleChangeNewsletter}
+          name='newsletter'
+        />
+      </div>
 
       <PolicyPickerCheckbox 
         isChecked={isTacChecked} 

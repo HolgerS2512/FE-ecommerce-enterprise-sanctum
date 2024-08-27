@@ -1,6 +1,6 @@
 import BtnSpinner from "../Helpers/BtnSpinner"
 
-const LoadButton = ({ isLoading, text, position, btnClass, children, disabled }) => {
+const LoadButton = ({ isLoading, text, position, btnClass, children, disabled, type, onClick = () => {} }) => {
   // Jumplink to start id='jts'
   let guard = true;
   const handleTabPress = (e) => {
@@ -22,12 +22,13 @@ const LoadButton = ({ isLoading, text, position, btnClass, children, disabled })
       <button 
         id="jle"
         className='btn-nostyle xfs-btn' 
-        type={isLoading ? 'button' : 'submit'}
+        type={type ?? (isLoading ? 'button' : 'submit')}
         aria-label={text}
         aria-busy={isLoading}
         tabIndex={1}
         onKeyDown={handleTabPress}
         disabled={disabled ?? false}
+        onClick={onClick}
       >
         <div className={'btn btn-dark' + (btnClass ? ` ${btnClass}` : '') + (disabled ? ' disabled' : '')}>
           {isLoading ? <BtnSpinner /> : text}

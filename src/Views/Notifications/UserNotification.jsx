@@ -10,9 +10,7 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
   const { t } = useTranslation();
   const targetRef = useRef(null);
 
-  useEffect(() => {
-    targetRef.current.focus();
-  }, [notification.visible]);
+  useEffect(() => targetRef.current.focus(), [notification.visible]);
 
   useEffect(() => nTimeout(timer), []);
 

@@ -27,7 +27,7 @@ const NAVLINKS = {
         link: ROUTES.account.PAYMENTMETHODS,
       },
       SETTINGS: {
-        name: 'account_settings',
+        name: 'settings',
         link: ROUTES.account.SETTINGS,
       },
     },
@@ -80,6 +80,10 @@ const NAVLINKS = {
       SHIPPINGPAYMENT: {
         name: 'payment_shipping',
         link: ROUTES.pages.SHIPPINGPAYMENT,
+      },
+      CUSTOMERSERVICE: {
+        name: 'customer_service',
+        link: ROUTES.pages.CUSTOMERSERVICE,
       },
     },
     icon: 'ServiceHelp',

@@ -17,29 +17,35 @@
 // privacy policy text
 .policy-notice {
   padding: 1rem 0 .25rem 0;
-
-  p {
+}
+.policy-notice,
+.cb-text {
+  p, label {
     font-weight: $link-weight;
     color: $link-grey-text;
     max-width: 380x;
     width: 100%;
-    -moz-pointer-events: none;
-    pointer-events: none;
     
     a {
       color: $link-grey;
-      -moz-pointer-events: all;
-      pointer-events: all;
       
       &:hover {
         color: $link-hover;
       }
     }
   }
+  p {
+    @include pointerEv;
+    
+    a {
+      @include pointerEv(all);
+    }
+  }
 }
 // privacy policy text :hover
-.policy-notice.error {
-  p {
+.policy-notice.error,
+.cb-text.error {
+  p, label {
     color: $danger-err;
 
     a {

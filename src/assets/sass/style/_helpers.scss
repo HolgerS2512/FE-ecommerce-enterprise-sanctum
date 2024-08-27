@@ -79,10 +79,14 @@
 
 .window-inner {
   max-width: 600px;
-  padding: 1rem;
+  padding: 1rem 1rem 2.5rem 1rem;
 
   @media (min-width:576px) {
-    padding: 1.5rem;
+    padding: .75rem 1.5rem 1.75rem 1.5rem;
+  }
+
+  span {
+    line-height: 1.5;
   }
 }
 

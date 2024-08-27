@@ -5,7 +5,8 @@
 .accordion {
   // scss-docs-start accordion-css-vars
   --#{$prefix}accordion-color: #{$accordion-color};
-  --#{$prefix}accordion-bg: #{$accordion-bg};
+  // --#{$prefix}accordion-bg: #{$accordion-bg};
+  --#{$prefix}accordion-bg: transparent;
   --#{$prefix}accordion-transition: #{$accordion-transition};
   --#{$prefix}accordion-border-color: #{$accordion-border-color};
   --#{$prefix}accordion-border-width: #{$accordion-border-width};

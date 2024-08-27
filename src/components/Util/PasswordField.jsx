@@ -13,6 +13,7 @@ const PasswordField = ({
   readOnly = false, 
   name = 'password', 
   autoComplete='current-password',
+  dist = 80,
 }) => {
   const { t } = useTranslation();
   const [changeFocus, setChangeFocus] = useState(false);
@@ -34,7 +35,7 @@ const PasswordField = ({
 
   return (
     <div className={col ?? ''}>
-      <fieldset className='xfs-v1-control' style={noVal ? { minHeight: 80 + 'px' } : {}}>
+      <fieldset className='xfs-v1-control' style={noVal ? { minHeight: dist + 'px' } : {}}>
         <div className={`xfs-v1-wrapper${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
           <label 
             className={`xfs-v1-label${changeFocus || Boolean(value.length) ? '' : ' active'}`} 

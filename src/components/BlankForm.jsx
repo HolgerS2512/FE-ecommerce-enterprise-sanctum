@@ -15,6 +15,8 @@ const BlankForm = ({
     styles={},
     secondBtn,
     btnDisabled = false,
+    submitByMainBtn,
+    mainBtnFn = null,
   }) => {
   const {t} = useTranslation();
 
@@ -31,7 +33,15 @@ const BlankForm = ({
 
         {require && <small>{t('mark_required')}</small>}
 
-        <LoadButton isLoading={isLoading} text={submitBtnText} btnClass={loadBtnClass} position={btnPos} disabled={btnDisabled}>
+        <LoadButton 
+          isLoading={isLoading} 
+          text={submitBtnText} 
+          btnClass={loadBtnClass} 
+          position={btnPos} 
+          disabled={btnDisabled}
+          type={submitByMainBtn ?? null}
+          onClick={mainBtnFn}
+        >
           {secondBtn ?? null}
         </LoadButton>
       </form>
