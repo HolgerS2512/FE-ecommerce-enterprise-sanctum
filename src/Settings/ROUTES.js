@@ -21,7 +21,7 @@ const ROUTES = {
     PAYMENTMETHODS: '/account/payment',
     SETTINGS: '/account/settings',
     // Addition
-    SUBSCRIBERS: '/account/settings/subscriber',
+    PRIVACYSETTINGS: '/account/settings/privacy',
     // Password Methods
     PASSWORD: {
       EDIT: '/edit/password',
@@ -52,10 +52,16 @@ const ROUTES = {
     CUSTOMERSERVICE: '/help#contact',
     CONTACT: '/contact',
   },
-  //
+  // Only fetch request
   request: {
+    COOKIE: '/settings/cookie',
     CATEGORIES: '/all/categories',
     PRODUCTS: '/all/products',
+  },
+  // Only fetch request without cookies
+  withoutCookies: {
+    CATEGORIES: '/all/categories/noCookie',
+    PRODUCTS: '/all/products/noCookie',
   },
   // Errors
   error: {

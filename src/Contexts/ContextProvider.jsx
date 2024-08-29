@@ -2,9 +2,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { FetchAsync } from '../Modules/ServerRequests';
 import AesCryptographer from '../Modules/AesCryptographer';
-import ROUTES from "../Settings/ROUTES";
 import { useNotification } from "./NotificationProvider";
 import axiosClient from "../axios-clint";
+import ROUTES from "../Settings/ROUTES";
+import { CookieSlug } from "../Settings/Cookies";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
@@ -24,11 +25,13 @@ const StateContext = createContext({
 })
 
 export const ContextProvider = ({ children }) => {
+	// Common
 	const { setNotification } = useNotification();
+	// Kernel
 	const [user, setUser] = useState({});
-	const [token, setToken] = useState(localStorage.getItem("xFs_at") || '');
+	const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
 	const [lookup, setLookup] = useState('');
-	const [username, _setUsername] = useState(cryptographer.decrypt(localStorage.getItem("aC_us")) || '');
+	const [username, _setUsername] = useState(cryptographer.decrypt(localStorage.getItem(CookieSlug.username)) || '');
 
 	const hasToken = token !== '';
 	const hasUser = Boolean(Object.keys(user).length);
@@ -62,18 +65,18 @@ export const ContextProvider = ({ children }) => {
 	const setSessionToken = (token) => {
 		setToken(token);
 		if (token) {
-			localStorage.setItem("xFs_at", token);
+			localStorage.setItem(CookieSlug.auth, token);
 		} else {
-			localStorage.removeItem("xFs_at");
+			localStorage.removeItem(CookieSlug.auth);
 		}
 	}
 
 	const setUsername = (name) => {
 		_setUsername(name);
 		if (name) {
-			localStorage.setItem("aC_us", cryptographer.encrypt(name));
+			localStorage.setItem(CookieSlug.username, cryptographer.encrypt(name));
 		} else {
-			localStorage.removeItem("aC_us");
+			localStorage.removeItem(CookieSlug.username);
 		}
 	}
 

@@ -1,0 +1,123 @@
+#ccb.cookie-active {
+  @include filter;
+}
+
+#cookie-window {
+  $ccgrey: rgb(214, 214, 214);
+
+  width: 100dvw;
+  min-height: 380px;
+  height: 100%;
+  max-height: 100dvh;
+  background-color: rgba(0 0 0 / 25%);
+  z-index: calc(9 * 10);
+  overflow: auto;
+  padding: 7px;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  @include filter(blur(0));
+  @include d-center;
+
+  .cc-wrapper {
+    background-color: white;
+    border-radius: .25rem;
+    padding: .5rem 0 1rem 0;
+
+    width: 900px;
+    max-width: 100%;
+    height: min-content;
+    overflow: auto;
+
+    .cc-header {
+      width: 100%;
+    }
+
+    .cc-body {
+      position: relative;
+
+      &::after, &::before {
+        content: '';
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        left: 0;
+      }
+
+      &::after {
+        bottom: 1px;
+        @include backLinear(to top, white 0, transparent 100%);
+      }
+
+      &::before {
+        top: 0;
+        @include backLinear(to top, transparent 0, white 100%);
+      }
+    }
+    .cc-overflow {
+      width: 100%;
+      padding: 4px;
+      border-bottom: 1px solid $ccgrey;
+      margin: 0 0 .85rem 0;
+      overflow-y: auto;
+
+      .ccb-inner {
+        max-height: 100%;
+        padding: 1.5rem .5rem;
+
+        span {
+          font-size: 15px;
+        }
+      }
+    }
+
+  }
+
+  .cc-btn {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem 0;
+    white-space: nowrap;
+    font-size: 1em;
+    font-weight: 600;
+    position: relative;
+    @include transition;
+    border-bottom: 1px solid $ccgrey;
+  }
+  .cc-btn.active {
+    color: $swiper-main-clr;
+  }
+  .cc-btn.active {
+    border-bottom: 1px solid $swiper-main-clr;
+  }
+
+  .powered {
+    font-size: .8em;
+    text-decoration: none;
+    .company {
+      font-size: 1.1em;
+      font-weight: 600;
+    }
+  }
+}
+.btn {
+  border-radius: 2px;
+
+  .btn-i {
+    @include d-center;
+    position: relative;
+    left: 2.5%;
+    
+    .i {
+      margin: 0 0 2px 8px;
+    }
+  }
+
+  &:hover {
+    .btn-i .i {
+      margin: 0 0 2px 14px;
+      transition: margin 0.3s ease;
+    }
+  }
+}

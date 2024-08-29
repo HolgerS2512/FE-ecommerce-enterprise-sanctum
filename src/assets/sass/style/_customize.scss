@@ -488,13 +488,15 @@ $app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
       font-size: 1.4rem;
       color: black;
     }
+  }
+}
 
-    .rl-link {
-      color: black;
+li, .p {
+  .inside-link {
+    color: black;
 
-      &:hover, &:focus {
-        color: #5f5f5f;
-      }
+    &:hover, &:focus {
+      color: #5f5f5f;
     }
   }
 }

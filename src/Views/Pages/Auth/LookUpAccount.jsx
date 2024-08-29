@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '../../../Contexts/NotificationProvider.jsx';
+import { useCookieContext } from '../../../Contexts/CookieProvider.jsx';
 import { useStateContext } from '../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +17,8 @@ import AuthForm from '../../../components/Auth/AuthForm.jsx';
 
 const LookUpAccount = () => {
   // Common
+  const { setNotification } = useNotification();
+  const { DSGVO, showCookieConsens } = useCookieContext();
   const { setLookup, lookup, token } = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -30,6 +34,15 @@ const LookUpAccount = () => {
   const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
+    if (!DSGVO) {
+      showCookieConsens();
+      navigate(ROUTES.pages.HOME);
+      setNotification({
+        visible: true,
+        status: 'w',
+        msg: t('cookie_required_request_route'),
+      });
+    }
     if (token) navigate(ROUTES.pages.HOME);
   }, []);
 

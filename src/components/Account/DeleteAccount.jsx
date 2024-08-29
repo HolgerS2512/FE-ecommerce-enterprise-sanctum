@@ -84,7 +84,7 @@ const DeleteAccount = ({ onClose }) => {
         <span className='p fw-semibold regular-list'>{t('consequence_delete_konto')}</span>
         <ul className='p fw-semibold regular-list'>
           <li>{t('consequence_no_action_account', {companyName})}</li>
-          <li>{t('consequence_da_infos')}<Link tabIndex={1} className='rl-link' to={ROUTES.pages.CUSTOMERSERVICE} aria-label={t('customer_service')}>{t('customer_service')}</Link>{t('consequence_da_infoe')}</li>
+          <li>{t('consequence_da_infos')}<Link tabIndex={1} className='inside-link' to={ROUTES.pages.CUSTOMERSERVICE} aria-label={t('customer_service')}>{t('customer_service')}</Link>{t('consequence_da_infoe')}</li>
         </ul>
 
         <span className='p fw-semibold'>{t('information_note_da', {companyName})}</span>

@@ -102,7 +102,7 @@ const router = createBrowserRouter([
 					},
 					{
 						// '/account/settings'
-						path: ROUTES.account.SETTINGS,
+						path: `${ROUTES.account.SETTINGS}/:slug?`,
 						element: <Settings />
 					},
 				]

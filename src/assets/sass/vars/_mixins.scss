@@ -62,12 +62,12 @@
   opacity: $val;
 }
 
-@mixin backLinear() {
-  background-image: -webkit-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
-  background-image: -moz-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
-  background-image: -ms-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
-  background-image: -o-linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
-  background-image: linear-gradient(30deg,  white 0% , rgb(220, 220, 220) 100%);
+@mixin backLinear($deg: 30deg, $clr1: white 0%, $clr2: rgb(220, 220, 220) 100%) {
+  background-image: -webkit-linear-gradient($deg,  $clr1 , $clr2);
+  background-image: -moz-linear-gradient($deg,  $clr1 , $clr2);
+  background-image: -ms-linear-gradient($deg,  $clr1 , $clr2);
+  background-image: -o-linear-gradient($deg,  $clr1 , $clr2);
+  background-image: linear-gradient($deg,  $clr1 , $clr2);
 }
 
 @mixin pointerEv( $ev : 'none' ) {
@@ -84,4 +84,12 @@
   -ms-user-select: $ev;
   -o-user-select: $ev;
   user-select: $ev;
+}
+
+@mixin filter( $filter: blur(4px) ) {
+  -webkit-filter: $filter;
+  -moz-filter: $filter;
+  -ms-filter: $filter;
+  -o-filter: $filter;
+  filter: $filter;
 }

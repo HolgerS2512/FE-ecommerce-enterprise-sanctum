@@ -11,6 +11,8 @@ import { months as monthsDe } from "./de/months.js";
 import { months as monthsEn } from "./en/months.js";
 import { countries as countriesDe } from "./de/countries.js";
 import { countries as countriesEn } from "./en/countries.js";
+import { cookie as cookieDe } from "./de/cookie.js";
+import { cookie as cookieEn } from "./en/cookie.js";
 
 i18n
   // Add React bindings as a plugin.
@@ -68,6 +70,7 @@ i18n
           input: inputDe,
           country: countriesDe,
           all_months: monthsDe,
+          cookie: cookieDe,
           FORGETPWD_pwd_greeting:
             "Bestätige deine E-Mail-Adresse und gib ein neues Kennwort ein.",
           policy_pi_1: "Ich stimmst den ",
@@ -143,33 +146,52 @@ i18n
           zero_address:
             "Du hast aktuell keine Lieferadressen hinterlegt.Füge eine Adresse hinzu, um den Bezahlvorgang zu beschleunigen.",
           add_address: "Adresse hinzufügen",
-          as_primary_address: 'Als Standardversandadresse verwenden',
-          close_window: 'Dieses Fenster schließen',
-          tab_select_field: 'Auswahlfeld Enter taste drücken zum bearbeiten',
-          empty: 'leer',
-          standard_delivery_address: 'Standardlieferadresse',
-          delete: 'Löschen',
-          update: 'Aktualisieren',
-          delete_address_action: 'Sind Sie sicher, dass Sie diese Adresse löschen wollen?',
-          subscribe_to_newsletter: 'Registriere dich für E-Mails, um aktuelle Informationen von {{ companyName }} zu Produkten und Angeboten sowie deinen Vorteilen als Kunde zu erhalten.',
-          yes_want_emails: 'Ja, ich möchte E-Mails erhalten.',
-          community_informations: 'Erhalte exklusive Infos zu neuen Produkten, aktuellen Angeboten und deinen Vorteilen als Teil unserer Community.',
-          notification_setting: 'Mitteilungseinstellung',
-          change_general_notifications: 'Allgemeine Mitteilung ändern',
-          delete_account: 'Konto löschen',
-          question_delete_account: 'Möchtest du dein Konto wirklich löschen?',
-          checkbox_delete_account: 'Ja, ich möchte mein Konto löschen. Ich kann diesen Vorgang nicht rückgängig machen.',
-          customer_service: 'Kundenservice',
-          benefits_account_holders: 'Als Kontoinhaber kannst du derzeit folgende Vorteile nutzen:',
-          benefits_fast_payment: 'Schnelle Bezahlvorgänge bei jedem Einkauf',
-          benefits_personal_wishlist: 'Eine persönliche Wunschliste, auf der du Produkte dauerhaft speichern kannst',
-          benefits_exclusive_newsletter: 'Exklusive Infos zu neuen Produkten, aktuellen Angeboten und deinen Vorteilen als Teil unserer Community',
-          consequence_delete_konto: 'Das Löschen deines Kontos bedeutet Folgendes:',
-          consequence_no_action_account: 'Du kannst nicht mehr auf dein {{ companyName }} Konto zugreifen',
-          consequence_da_infos: 'Informationen zu deinen Bestellungen erhältst du nur, indem du den ',
-          consequence_da_infoe: ' kontaktierst.',
-          information_note_da: 'Informationen, die auf sozialen Netzwerken und Plattformen außerhalb von {{ companyName }} geteilt wurden, sind nicht betroffen.',
-          change_cookie_settings: 'Cookie-Einstellungen ändern',
+          as_primary_address: "Als Standardversandadresse verwenden",
+          close_window: "Dieses Fenster schließen",
+          tab_select_field: "Auswahlfeld Enter taste drücken zum bearbeiten",
+          empty: "leer",
+          standard_delivery_address: "Standardlieferadresse",
+          delete: "Löschen",
+          update: "Aktualisieren",
+          delete_address_action:
+            "Sind Sie sicher, dass Sie diese Adresse löschen wollen?",
+          subscribe_to_newsletter:
+            "Registriere dich für E-Mails, um aktuelle Informationen von {{ companyName }} zu Produkten und Angeboten sowie deinen Vorteilen als Kunde zu erhalten.",
+          yes_want_emails: "Ja, ich möchte E-Mails erhalten.",
+          community_informations:
+            "Erhalte exklusive Infos zu neuen Produkten, aktuellen Angeboten und deinen Vorteilen als Teil unserer Community.",
+          notification_setting: "Mitteilungseinstellung",
+          change_general_notifications: "Allgemeine Mitteilung ändern",
+          delete_account: "Konto löschen",
+          question_delete_account: "Möchtest du dein Konto wirklich löschen?",
+          checkbox_delete_account:
+            "Ja, ich möchte mein Konto löschen. Ich kann diesen Vorgang nicht rückgängig machen.",
+          customer_service: "Kundenservice",
+          benefits_account_holders:
+            "Als Kontoinhaber kannst du derzeit folgende Vorteile nutzen:",
+          benefits_fast_payment: "Schnelle Bezahlvorgänge bei jedem Einkauf",
+          benefits_personal_wishlist:
+            "Eine persönliche Wunschliste, auf der du Produkte dauerhaft speichern kannst",
+          benefits_exclusive_newsletter:
+            "Exklusive Infos zu neuen Produkten, aktuellen Angeboten und deinen Vorteilen als Teil unserer Community",
+          consequence_delete_konto:
+            "Das Löschen deines Kontos bedeutet Folgendes:",
+          consequence_no_action_account:
+            "Du kannst nicht mehr auf dein {{ companyName }} Konto zugreifen",
+          consequence_da_infos:
+            "Informationen zu deinen Bestellungen erhältst du nur, indem du den ",
+          consequence_da_infoe: " kontaktierst.",
+          information_note_da:
+            "Informationen, die auf sozialen Netzwerken und Plattformen außerhalb von {{ companyName }} geteilt wurden, sind nicht betroffen.",
+          change_cookie_settings: "Cookie-Einstellungen ändern",
+          data_protection_setting_txt:
+            "Wir nutzen Cookies und ähnliche Technologien von {{ companyName }} sowie von Dritten, um dein Benutzererlebnis auf unseren Plattformen zu verbessern und dir relevantere Inhalte und Informationen anzuzeigen. Du kannst deine Cookie- und andere Datenschutzeinstellungen unten anpassen.",
+          data_protection_setting_txt2:
+            "Änderungen, die du an den Datenschutzeinstellungen vornimmst, werden dauerhaft gespeichert. Weitere Informationen findest du in unseren ",
+          privacy_and_cookie_policy: "Datenschutz- und Cookie-Richtlinien",
+          cookie_required_request_route:
+            "Um auf diese Funktion zugreifen zu können, müssen Sie der Verwendung von essenziellen Cookies zustimmen, die für den ordnungsgemäßen Betrieb erforderlich sind.",
+          privacy_and_cookie_settings: "Datenschutz- und Cookie-Einstellungen",
         },
       },
       en: {
@@ -195,6 +217,7 @@ i18n
           input: inputEn,
           all_months: monthsEn,
           country: countriesEn,
+          cookie: cookieEn,
           policy_p_1: "By continuing, you agree to {{ companyName }} ",
           policy_p_2: " and acknowledge that you have read {{ companyName }} ",
           policy_p_3: ".",
@@ -265,32 +288,50 @@ i18n
           zero_address:
             "You currently have no delivery addresses stored.Add an address to speed up the payment process.",
           add_address: "Add address",
-          as_primary_address: 'Use as default shipping address',
-          close_window: 'Close this window',
-          tab_select_field: 'Selection field Press Enter key to edit',
-          empty: 'empty',
-          standard_delivery_address: 'Standard delivery address',
-          delete: 'Delete',
-          update: 'Update',
-          delete_address_action: 'Are you sure you want to delete this address?',
-          subscribe_to_newsletter: 'Sign up for emails to receive up-to-date information from {{ companyName }} about products and offers as well as your benefits as a customer.',
-          yes_want_emails: 'Yes, I would like to receive emails.',
-          community_informations: 'Receive exclusive information about new products, current offers and your benefits as part of our community.',
-          notification_setting: 'Notification Setting',
-          change_general_notifications: 'Change General Notification',
-          delete_account: 'Delete Account',
-          checkbox_delete_account: 'Yes, I want to delete my account. I cannot undo this process.',
-          customer_service: 'Customer Service',
-          benefits_account_holders: 'As an account holder, you can currently enjoy the following benefits:',
-          benefits_fast_payment: 'Fast payment processes for every purchase',
-          benefits_personal_wishlist: 'A personal wish list where you can save products permanently',
-          benefits_exclusive_newsletter: 'Exclusive information about new products, current offers and your benefits as part of our community',
-          consequence_delete_konto: 'Deleting your account means the following:',
-          consequence_no_action_account: 'You can no longer access your {{ companyName }} account',
-          consequence_da_infos: 'You can only obtain information about your orders by contacting ',
-          consequence_da_infoe: '.',
-          information_note_da: 'Information shared on social networks and platforms outside of {{ companyName }} is not affected.',
-          change_cookie_settings: 'Change Cookie Settings',
+          as_primary_address: "Use as default shipping address",
+          close_window: "Close this window",
+          tab_select_field: "Selection field Press Enter key to edit",
+          empty: "empty",
+          standard_delivery_address: "Standard delivery address",
+          delete: "Delete",
+          update: "Update",
+          delete_address_action:
+            "Are you sure you want to delete this address?",
+          subscribe_to_newsletter:
+            "Sign up for emails to receive up-to-date information from {{ companyName }} about products and offers as well as your benefits as a customer.",
+          yes_want_emails: "Yes, I would like to receive emails.",
+          community_informations:
+            "Receive exclusive information about new products, current offers and your benefits as part of our community.",
+          notification_setting: "Notification Setting",
+          change_general_notifications: "Change General Notification",
+          delete_account: "Delete Account",
+          checkbox_delete_account:
+            "Yes, I want to delete my account. I cannot undo this process.",
+          customer_service: "Customer Service",
+          benefits_account_holders:
+            "As an account holder, you can currently enjoy the following benefits:",
+          benefits_fast_payment: "Fast payment processes for every purchase",
+          benefits_personal_wishlist:
+            "A personal wish list where you can save products permanently",
+          benefits_exclusive_newsletter:
+            "Exclusive information about new products, current offers and your benefits as part of our community",
+          consequence_delete_konto:
+            "Deleting your account means the following:",
+          consequence_no_action_account:
+            "You can no longer access your {{ companyName }} account",
+          consequence_da_infos:
+            "You can only obtain information about your orders by contacting ",
+          consequence_da_infoe: ".",
+          information_note_da:
+            "Information shared on social networks and platforms outside of {{ companyName }} is not affected.",
+          change_cookie_settings: "Change Cookie Settings",
+          data_protection_setting_txt:
+            "We use cookies and similar technologies from {{ companyName }} and third parties to improve your experience on our platforms and show you more relevant content and information. You can adjust your cookie and other privacy settings below.",
+          data_protection_setting_txt2:
+            "Changes you make to the privacy settings will be saved permanently. For more information, see our ",
+          privacy_and_cookie_policy: "Privacy and Cookie Policy",
+          privacy_and_cookie_settings: "Privacy and Cookie Settings",
+          cookie_required_request_route: "To access this feature, you must consent to the use of essential cookies, which are necessary for the proper functioning of the service.",
         },
       },
     },

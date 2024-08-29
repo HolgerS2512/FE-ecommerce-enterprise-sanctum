@@ -6,6 +6,7 @@ const CheckboxText = ({
   err = '', 
   text, 
   disabled = false, 
+  setDisabled = true,
   name = 'thisCheck', 
   required = false,
 }) => {
@@ -52,7 +53,7 @@ const CheckboxText = ({
           disabled={disabled}
         />
       </div>
-      <span className={disabled ? 'opacity-50' : ''}>
+      <span className={disabled && setDisabled ? 'opacity-50' : ''}>
         {text}
       </span>
     </label>

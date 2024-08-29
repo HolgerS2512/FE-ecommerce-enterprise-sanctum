@@ -66,7 +66,7 @@ const NAVLINKS = {
         link: ROUTES.pages.IMPRINT,
       },
       PRIVACY: {
-        name: 'data_protection',
+        name: 'privacy_and_cookie_policy',
         link: ROUTES.pages.PRIVACY,
       },
       TOU: {

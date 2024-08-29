@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNotification } from '../../Contexts/NotificationProvider';
 
 import axiosClient from '../../axios-clint';
 import ROUTES from '../../Settings/ROUTES';
+import HttpStatusMsg from '../../Views/Notifications/HttpStatusMsg';
 
 import BlankForm from '../BlankForm'
-import HttpStatusMsg from '../../Views/Notifications/HttpStatusMsg';
 import CheckboxText from '../Util/CheckboxText';
-import { useNotification } from '../../Contexts/NotificationProvider';
 
 const NewsletterSubscriber = ({ id, newsletter_subscriber, setUserProps }) => {
   // Common
@@ -37,7 +37,7 @@ const NewsletterSubscriber = ({ id, newsletter_subscriber, setUserProps }) => {
     if (typeof newsletter === 'boolean') {
 
       try {
-        const route = `${ROUTES.account.SUBSCRIBERS}/${id}`;
+        const route = `${ROUTES.account.SETTINGS}/${id}`;
         const payload = { newsletter_subscriber: newsletter };
         const res = await axiosClient.put(route, payload);
 
@@ -60,8 +60,8 @@ const NewsletterSubscriber = ({ id, newsletter_subscriber, setUserProps }) => {
   }
 
   const handleChange = (e) => {
-    const value = e.target.checked;
-    const v = e.key === 'Enter' ? !value : value;
+    const { checked } = e.target;
+    const v = e.key === 'Enter' ? !checked : checked;
     setNewsletter((b) => !b);
     setHasUpdate(newsletter_subscriber === v);
   }

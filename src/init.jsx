@@ -13,19 +13,22 @@ import "typeface-open-sans";
 import Loading from './components/Helpers/Loading.jsx';
 import { LayoutProvider } from './Contexts/LayoutProvider.jsx';
 import { NotificationProvider } from './Contexts/NotificationProvider.jsx';
+import { CookieProvider } from './Contexts/CookieProvider.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   //<React.StrictMode>
     <Suspense fallback={<Loading />}>
       <NotificationProvider>
-        <QueryClientProvider client={queryClient}>
-          <ContextProvider>
-            <LayoutProvider>
-                <RouterProvider router={ router } />
-            </LayoutProvider>
-          </ContextProvider>
-        </QueryClientProvider>
+        <CookieProvider>
+          <QueryClientProvider client={queryClient}>
+            <ContextProvider>
+              <LayoutProvider>
+                  <RouterProvider router={ router } />
+              </LayoutProvider>
+            </ContextProvider>
+          </QueryClientProvider>
+        </CookieProvider>
       </NotificationProvider>
     </Suspense>
   //</React.StrictMode>,

@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNotification } from "./NotificationProvider";
 
+import { CookieSlug } from "../Settings/Cookies";
 import ROUTES from "../Settings/ROUTES";
 import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
+import { useCookieContext } from "./CookieProvider";
+import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 
 const StateContext = createContext({
 	categories: null,
@@ -13,13 +16,16 @@ const StateContext = createContext({
 })
 
 export const LayoutProvider = ({ children }) => {
+	// Common
 	const { setNotification } = useNotification();
+	const { DSGVO, categoryVnr, productVnr } = useCookieContext();
 	const cookieManager = new CookieManager();
-	const layoutCategoryCookie = cookieManager.getCookie('L_CD') ?? 'L_CD';
-	const layoutProductCookie = cookieManager.getCookie('AA_PvAC') ?? 'AA_PvAC';
-  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(layoutCategoryCookie)) || []);
-  const [products, setProducts] = useState(JSON.parse(localStorage.getItem(layoutProductCookie)) || []);
+	// Kernel
+  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(categoryVnr)) || []);
+  const [products, setProducts] = useState(JSON.parse(localStorage.getItem(productVnr)) || []);
 	const [isLoading, setIsLoading] = useState(true);
+	// Errorhandling
+	const [httpStatus, setHttpStatus] = useState({ visible: false });
 
   useEffect(() => {
     (!Boolean(categories.length)) ? loadCategories() : setIsLoading(false);
@@ -28,23 +34,26 @@ export const LayoutProvider = ({ children }) => {
 
 	const loadCategories = async () => {
 		try {
-			const res = await axiosClient.get(ROUTES.request.CATEGORIES);
+			// DSGVO reject
+			const hasRights = DSGVO ? '' : '/1';
+			const route = `${ROUTES.request.CATEGORIES}${hasRights}`;
+			const res = await axiosClient.get(route);
 			
 			if (res.data.status) {
-				const cookie = cookieManager.getCookie('L_CD');
 				setCategories(res.data.data);
-				setTimeout(() => {
-					localStorage.setItem(cookie ?? 'L_CD', JSON.stringify(res.data.data));
-				}, 200);
+				// DSGVO reject
+				if (DSGVO) {
+					const cookie = cookieManager.getCookie(CookieSlug.categories);
+					setTimeout(() => {
+						localStorage.setItem(cookie ?? CookieSlug.categories, JSON.stringify(res.data.data));
+					}, 200);
+				}
 			}
 			setIsLoading(false);
 		} catch (err) {
+			console.log(err)
 			const { message } = err?.response?.data;
-			setNotification({
-				visible : true,
-				status : 'e',
-				msg : message,
-			})
+			setHttpStatus({ visible: true, msg: message });
 		}
 	};
 
@@ -52,26 +61,28 @@ export const LayoutProvider = ({ children }) => {
 		// console.log(categories)
 		return;
 		try {
-			const res = await axiosClient.get(ROUTES.request.PRODUCTS);
+			// DSGVO reject
+			const hasRights = DSGVO ? '' : '/1';
+			const route = `${ROUTES.request.PRODUCTS}${hasRights}`;
+			const res = await axiosClient.get(route);
 			
 			if (res.data.status) {
-				const cookie = cookieManager.getCookie('AA_PvAC');
 				setProducts(res.data.data);
-				setTimeout(() => {
-					localStorage.setItem(cookie ?? 'AA_PvAC', JSON.stringify(res.data.data));
-				}, 200);
+				// DSGVO reject
+				if (DSGVO) {
+					const cookie = cookieManager.getCookie(CookieSlug.products);
+					setTimeout(() => {
+						localStorage.setItem(cookie ?? CookieSlug.products, JSON.stringify(res.data.data));
+					}, 200);
+				}
 			}
 		} catch (err) {
 			const { message } = err?.response?.data;
-			setNotification({
-				visible : true,
-				status : 'e',
-				msg : message,
-			})
+			setHttpStatus({ visible: true, msg: message });
 		}
 	};
 
-	// if (FEHLER BEIM LADEN) then Http error class visible, not setNotification!
+	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg msg={httpStatus.msg} /></div>;
 	
 	if (isLoading) return;
 

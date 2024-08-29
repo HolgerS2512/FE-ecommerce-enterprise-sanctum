@@ -93,3 +93,14 @@
 .hidden {
   visibility: hidden;
 }
+
+.chr-line {
+  background-color: 'none';
+  height: 1px;
+  border-color: #878787;
+  display: none;
+
+}
+#changeDataProtection.show .chr-line {
+  display: block;
+}
