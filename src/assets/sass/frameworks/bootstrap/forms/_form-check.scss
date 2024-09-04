@@ -136,7 +136,8 @@
     @include transition($form-switch-transition);
 
     &:focus {
-      --#{$prefix}form-switch-bg: #{escape-svg($form-switch-focus-bg-image)};
+      // override
+      // --#{$prefix}form-switch-bg: #{escape-svg($form-switch-focus-bg-image)};
     }
 
     &:checked {

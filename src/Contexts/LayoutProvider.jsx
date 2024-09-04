@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNotification } from "./NotificationProvider";
 
 import { CookieSlug } from "../Settings/Cookies";
 import ROUTES from "../Settings/ROUTES";
@@ -17,44 +16,31 @@ const StateContext = createContext({
 
 export const LayoutProvider = ({ children }) => {
 	// Common
-	const { setNotification } = useNotification();
-	const { DSGVO, categoryVnr, productVnr } = useCookieContext();
+	const { DSGVO } = useCookieContext();
 	const cookieManager = new CookieManager();
 	// Kernel
-  const [categories, setCategories] = useState(JSON.parse(localStorage.getItem(categoryVnr)) || []);
-  const [products, setProducts] = useState(JSON.parse(localStorage.getItem(productVnr)) || []);
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	// Errorhandling
 	const [httpStatus, setHttpStatus] = useState({ visible: false });
 
   useEffect(() => {
-    (!Boolean(categories.length)) ? loadCategories() : setIsLoading(false);
+    loadCategories();
 		setTimeout(loadProducts, 20);
   }, []);
 
 	const loadCategories = async () => {
 		try {
-			// DSGVO reject
-			const hasRights = DSGVO ? '' : '/1';
-			const route = `${ROUTES.request.CATEGORIES}${hasRights}`;
-			const res = await axiosClient.get(route);
-			
+			const res = await axiosClient.get(ROUTES.request.CATEGORIES);
 			if (res.data.status) {
 				setCategories(res.data.data);
-				// DSGVO reject
-				if (DSGVO) {
-					const cookie = cookieManager.getCookie(CookieSlug.categories);
-					setTimeout(() => {
-						localStorage.setItem(cookie ?? CookieSlug.categories, JSON.stringify(res.data.data));
-					}, 200);
-				}
 			}
-			setIsLoading(false);
 		} catch (err) {
-			console.log(err)
 			const { message } = err?.response?.data;
 			setHttpStatus({ visible: true, msg: message });
 		}
+		setIsLoading(false);
 	};
 
 	const loadProducts = async () => {

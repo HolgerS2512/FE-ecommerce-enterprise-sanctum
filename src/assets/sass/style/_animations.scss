@@ -1,4 +1,8 @@
 
+.a-opacity {
+  @include opacity;
+}
+
 @-webkit-keyframes pulse-animation {
   0% {
     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);

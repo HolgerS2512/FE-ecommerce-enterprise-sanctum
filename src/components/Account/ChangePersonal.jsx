@@ -16,7 +16,7 @@ import Select from "../Util/Select";
 
 const ChangePersonal = ({ closeLoader }) => {
   // Common
-  const { user, setUsername, setUserProps, isUserLaoding } = useStateContext();
+  const { user,  setUserProps, isUserLaoding } = useStateContext();
   const { setNotification } = useNotification();
   const {t} = useTranslation();
 
@@ -149,7 +149,6 @@ const ChangePersonal = ({ closeLoader }) => {
             msg : res.data.message,
           });
           setUserProps(payload);
-          setUsername(payload.firstname);
         } 
       } catch (err) {
         const { message } = err.response.data;

@@ -1,7 +1,14 @@
 import axios from "axios";
 import { redirect } from "react-router-dom";
 import ROUTES from "./Settings/ROUTES";
-// import CookieManager from "./Modules/CookieManager";
+import CookieManager from "./Modules/CookieManager";
+import { CookieSlug } from "./Settings/Cookies";
+
+const cookieManager = new CookieManager();
+
+const token = cookieManager.getCookie(CookieSlug.auth) || '';
+
+// const CSRF_TOKEN = cookieManager.getCookie('xFs_csL');
 
 const axiosClient = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
@@ -9,10 +16,7 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
-  // const cookieManager = new CookieManager();
-  const token = localStorage.getItem("xFs_at");
-  // const CSRF_TOKEN = cookieManager.getCookie('xFs_csL');
-
+  // const token = localStorage.getItem("xFs_at");
   config.headers.Authorization = `Bearer ${token}`;
   // config.headers['X-CSRF-TOKEN'] = CSRF_TOKEN;
   return config;

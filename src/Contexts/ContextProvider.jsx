@@ -6,6 +6,8 @@ import { useNotification } from "./NotificationProvider";
 import axiosClient from "../axios-clint";
 import ROUTES from "../Settings/ROUTES";
 import { CookieSlug } from "../Settings/Cookies";
+import CookieManager from "../Modules/CookieManager";
+import { useCookieContext } from "./CookieProvider";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
@@ -13,11 +15,9 @@ const cryptographer = new AesCryptographer();
 
 const StateContext = createContext({
 	user: null,
-	username: null,
 	token: null,
 	lookup: null,
 	setUser: () => {},
-	setUsername: () => {},
 	setUserProps: () => {},
 	setSessionToken: () => {},
 	setLookup: () => {},
@@ -26,12 +26,14 @@ const StateContext = createContext({
 
 export const ContextProvider = ({ children }) => {
 	// Common
+	const cookieManager = new CookieManager();
+	const { ccSettings } = useCookieContext();
 	const { setNotification } = useNotification();
 	// Kernel
 	const [user, setUser] = useState({});
-	const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
+	const [token, setToken] = useState(cookieManager.getCookie(CookieSlug.auth) || '');
+	// const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
 	const [lookup, setLookup] = useState('');
-	const [username, _setUsername] = useState(cryptographer.decrypt(localStorage.getItem(CookieSlug.username)) || '');
 
 	const hasToken = token !== '';
 	const hasUser = Boolean(Object.keys(user).length);
@@ -51,8 +53,9 @@ export const ContextProvider = ({ children }) => {
 	const loadUser = async () => {
     if (data && !isUserLaoding && error === null) {
 			const decrypted = cryptographer.decrypt(data);
+			const user = JSON.parse(decrypted);
 
-      setUser(JSON.parse(decrypted));
+      setUser(user);
     } else if (error) {
       setNotification({
         visible: true,
@@ -65,18 +68,18 @@ export const ContextProvider = ({ children }) => {
 	const setSessionToken = (token) => {
 		setToken(token);
 		if (token) {
-			localStorage.setItem(CookieSlug.auth, token);
+			cookieManager.setCookie(
+				CookieSlug.auth, token, { 
+					expires: 60 * 60 * 24 * 10,
+					sameSite: "Strict", 
+				}
+			); // 10 days
+			// localStorage.setItem(CookieSlug.auth, token);
 		} else {
-			localStorage.removeItem(CookieSlug.auth);
-		}
-	}
-
-	const setUsername = (name) => {
-		_setUsername(name);
-		if (name) {
-			localStorage.setItem(CookieSlug.username, cryptographer.encrypt(name));
-		} else {
-			localStorage.removeItem(CookieSlug.username);
+			// localStorage.removeItem(CookieSlug.auth);
+			cookieManager.deleteCookie(CookieSlug.auth, {
+				sameSite: 'Strict',
+			});
 		}
 	}
 
@@ -93,7 +96,6 @@ export const ContextProvider = ({ children }) => {
       if (res.status === 204) {
         setUser({});
         setSessionToken('');
-        setUsername('');
         window.location.reload(); 
       }
     });
@@ -104,13 +106,11 @@ export const ContextProvider = ({ children }) => {
 	return (
 		<StateContext.Provider value={{
 			user,
-			username,
 			token,
 			lookup,
 			error,
 			isUserLaoding,
 			setUser,
-			setUsername,
 			setUserProps,
 			setSessionToken,
 			setLookup,

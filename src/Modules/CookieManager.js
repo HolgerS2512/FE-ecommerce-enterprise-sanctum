@@ -23,7 +23,7 @@ class CookieManager {
     }
 
     if (options.domain) {
-      cookieString += `; domain=${options.domain}`;
+      cookieString += `; domain=${options.domain ?? `${import.meta.env.VITE_API_BASE_URL}`}`;
     }
 
     if (options.secure) {
@@ -55,9 +55,9 @@ class CookieManager {
   // Löscht ein Cookie, indem es mit einem negativen Ablaufdatum gesetzt wird
   deleteCookie(name, path, domain) {
     this.setCookie(name, "", {
-      expires: -1,
-      path: path,
-      domain: domain,
+      expires: 'Thu, 01 Jan 1988 00:00:00 GMT',
+      path: path ?? '/',
+      domain: domain ?? `${import.meta.env.VITE_API_BASE_URL}`.replace('http://', ''),
     });
   }
   

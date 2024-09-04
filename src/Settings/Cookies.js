@@ -3,8 +3,17 @@ import COMPANY from "./COMPANY";
 
 const cookieManager = new CookieManager();
 
+export const cookieStateBP = {
+  necessary: false,
+  preferences: false,
+  statistics: false,
+  marketing: false,
+  unclassified: false,
+};
+
 export const CookieSlug = {
   session: "xFs_csL",
+  cc: "xFs_cCv",
   auth: "xFs_at",
   categories: "L_CD",
   products: "AA_PvAC",
@@ -14,9 +23,11 @@ export const CookieSlug = {
 const Cookies = [
   {
     name: "necessary",
+    required: true,
     data: [
       {
         provider: COMPANY.name,
+        policy: "/policy",
         cookies: [
           {
             slug: CookieSlug.session,
@@ -30,48 +41,14 @@ const Cookies = [
             description: "auth_desc",
             max_storage_period: 10,
             unit: "days",
-            type: "HTML Local Storage",
-          },
-          {
-            slug: CookieSlug.categories,
-            description: "versionsnummer der categorien",
-            max_storage_period: 30,
-            unit: "days",
             type: "HTTP-Cookie",
           },
           {
-            slug: `${
-              cookieManager.getCookie(CookieSlug.categories) ||
-              CookieSlug.categories
-            }`,
-            description: "speichert das eigentliche layout",
-            max_storage_period: "resistant",
-            unit: null,
-            type: "HTML Local Storage",
-          },
-          {
-            slug: CookieSlug.products,
-            description: "versionsnummer der categorien",
-            max_storage_period: 30,
-            unit: "days",
+            slug: CookieSlug.cc,
+            description: "cc_desc",
+            max_storage_period: 6,
+            unit: 'months',
             type: "HTTP-Cookie",
-          },
-          {
-            slug: `${
-              cookieManager.getCookie(CookieSlug.products) ||
-              CookieSlug.products
-            }`,
-            description: "speichert das eigentliche layout",
-            max_storage_period: "resistant",
-            unit: null,
-            type: "HTML Local Storage",
-          },
-          {
-            slug: CookieSlug.username,
-            description: "speichert aus layout zwecken den vornamen",
-            max_storage_period: "resistant",
-            unit: null,
-            type: "HTML Local Storage",
           },
         ],
       },
@@ -79,19 +56,71 @@ const Cookies = [
   },
   {
     name: "preferences",
-    data: [{}],
+    required: false,
+    data: [
+      {
+        provider: COMPANY.name,
+        policy: "/policy",
+        cookies: [
+          // {
+          //   slug: CookieSlug.categories,
+          //   description: "category_version",
+          //   max_storage_period: 30,
+          //   unit: "days",
+          //   type: "HTTP-Cookie",
+          // },
+          // {
+          //   slug: `${
+          //     cookieManager.getCookie(CookieSlug.categories) ||
+          //     CookieSlug.categories
+          //   }`,
+          //   description: "saved_categories",
+          //   max_storage_period: "resistant",
+          //   unit: null,
+          //   type: "HTML Local Storage",
+          // },
+          // {
+          //   slug: CookieSlug.products,
+          //   description: "product_version",
+          //   max_storage_period: 30,
+          //   unit: "days",
+          //   type: "HTTP-Cookie",
+          // },
+          // {
+          //   slug: `${
+          //     cookieManager.getCookie(CookieSlug.products) ||
+          //     CookieSlug.products
+          //   }`,
+          //   description: "saved_products",
+          //   max_storage_period: "resistant",
+          //   unit: null,
+          //   type: "HTML Local Storage",
+          // },
+          // {
+          //   slug: CookieSlug.username,
+          //   description: "saved_user_values",
+          //   max_storage_period: "resistant",
+          //   unit: null,
+          //   type: "HTML Local Storage",
+          // },
+        ],
+      },
+    ],
   },
   {
     name: "statistics",
-    data: [{}],
+    required: false,
+    data: [],
   },
   {
     name: "marketing",
-    data: [{}],
+    required: false,
+    data: [],
   },
   {
     name: "unclassified",
-    data: [{}],
+    required: false,
+    data: [],
   },
 ];
 

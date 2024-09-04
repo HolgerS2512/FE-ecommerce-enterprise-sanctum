@@ -1,11 +1,14 @@
 import axiosClient from "../axios-clint";
+import { CookieSlug } from "../Settings/Cookies";
+import CookieManager from "./CookieManager";
 
 /**
  *
  * Base Values
  *
  */
-const token = localStorage.getItem("xFs_at" || "");
+const cookieManager = new CookieManager();
+const token = cookieManager.getCookie(CookieSlug.auth) || '';
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 const xhr = window.XMLHttpRequest
   ? new XMLHttpRequest()

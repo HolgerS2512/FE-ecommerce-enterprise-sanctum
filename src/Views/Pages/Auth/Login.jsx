@@ -4,7 +4,7 @@ import { useStateContext } from './../../../Contexts/ContextProvider.jsx';
 import { useTranslation } from "react-i18next";
 
 import axiosClient from '../../../axios-clint.js';
-import ValidationManager, { createValidator } from './../../../Modules/ValidationManager.jsx';
+import { createValidator } from './../../../Modules/ValidationManager.jsx';
 import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
 
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
@@ -15,7 +15,7 @@ import ROUTES from '../../../Settings/ROUTES.js';
 
 const Login = () => {
   // Common
-  const {setUser, setUsername, setSessionToken, lookup, setLookup} = useStateContext();
+  const {setUser, setSessionToken, lookup, setLookup} = useStateContext();
   const { t } = useTranslation();
   const navigate = useNavigate();
   // Input states
@@ -55,10 +55,10 @@ const Login = () => {
       try {
         const res = await axiosClient.post(ROUTES.auth.LOGIN, payload);
         if (res?.data) {
+          const { user } = res.data;
           setLookup('');
-          setUser(res.data.user);
-          setUsername(res.data.user.firstname);
-          setSessionToken(res.data.token);
+          setUser(user);
+          // setSessionToken(res.data.token);
           setTimeout(() => window.location.reload(), 0);
           // navigate(ROUTES.pages.HOME);
         } 

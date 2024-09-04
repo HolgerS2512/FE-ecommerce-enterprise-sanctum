@@ -6,12 +6,14 @@ import NAVLINKS from "../../Settings/NAVLINKS";
 import GetIconByName from "../Util/GetIconByName";
 
 const ProfileMenu = () => {
-  const { username, logout } = useStateContext();
+  const { user, logout } = useStateContext();
   const { t } = useTranslation();
   const location = useLocation();
   const { pathname } = location;
   const { links, name, icon } = NAVLINKS.profile;
   const { link: oLink } = links.OVERVIEW;
+  const { firstname } = user;
+  const hasName = firstname !== '';
 
   const handleSelfLink = (e, link) => {
     if (pathname === link) {
@@ -29,8 +31,11 @@ const ProfileMenu = () => {
           className={`${pathname === oLink ? 'nav-active' : ''}`}
           onClick={(e) => handleSelfLink(e, oLink)}
         >
-          {/* className={`vnu576 greeting${hasToken? ' a35s' : ''}${hasUser? ' fit-greeting' : ''}`} */}
-          <span className='vnu576 greeting'>{`${t('greeting')} ${username}`}</span>
+          {/* className={`vnu576 greeting a-opacity a15sd1ms${hasName? ' fir-2r' : ''}`} */}
+          {/* className='vnu576 greeting' */}
+            <span 
+              className={`vnu576 greeting a-opacity a15sd1ms${hasName? ' fir-2r' : ''}`}
+            >{`${t('greeting')} ${firstname}`}</span>
           <GetIconByName name={icon} />
         </Link>
       </li>

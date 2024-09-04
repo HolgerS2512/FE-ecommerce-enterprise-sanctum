@@ -4,6 +4,11 @@ $form-check-input-border: 1px solid rgb(49, 49, 49);
 
 $form-check-input-checked-bg-color: rgb(49, 49, 49);
 
+.btn-dark {
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #6c757d !important;
+  --bs-btn-hover-border-color: #6c757d !important;
+}
 .btn-secondary {
   --bs-btn-color: #000 !important;
   --bs-btn-bg: #fff !important;

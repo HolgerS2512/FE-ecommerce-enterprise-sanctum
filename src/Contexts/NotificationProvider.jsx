@@ -7,11 +7,18 @@ const StateContext = createContext({
 })
 
 export const NotificationProvider = ({ children }) => {
-	const [notification, setNotification] = useState({});
+	const [notification, _setNotification] = useState({});
 
 	const handleCloseNotification = () => {
-		setNotification({});
+		_setNotification({});
 		if (notification.reload) window.location.reload();
+	}
+
+	const setNotification = (obj) => {
+		_setNotification({ visible: false });
+		setTimeout(() => {
+			_setNotification({ ...obj, timer: 8 });
+		}, 0);
 	}
 
 	return (

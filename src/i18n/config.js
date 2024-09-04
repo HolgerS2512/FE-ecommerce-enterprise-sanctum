@@ -192,6 +192,8 @@ i18n
           cookie_required_request_route:
             "Um auf diese Funktion zugreifen zu können, müssen Sie der Verwendung von essenziellen Cookies zustimmen, die für den ordnungsgemäßen Betrieb erforderlich sind.",
           privacy_and_cookie_settings: "Datenschutz- und Cookie-Einstellungen",
+          sro_all_allow: "Direkt zur Cookie Bestätigung springen",
+          name: 'Name',
         },
       },
       en: {
@@ -332,6 +334,8 @@ i18n
           privacy_and_cookie_policy: "Privacy and Cookie Policy",
           privacy_and_cookie_settings: "Privacy and Cookie Settings",
           cookie_required_request_route: "To access this feature, you must consent to the use of essential cookies, which are necessary for the proper functioning of the service.",
+          sro_all_allow: "Jump directly to cookie confirmation",
+          name: 'Name',
         },
       },
     },

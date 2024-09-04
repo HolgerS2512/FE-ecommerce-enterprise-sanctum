@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, useLocation } from "react-router-dom";
 
 import ShortLayout from "./Layouts/ShortLayout.jsx";
 import DefaultLayout from "./Layouts/DefaultLayout.jsx";
@@ -17,6 +17,7 @@ import Overview from "./Views/Pages/Account/Overview.jsx";
 import Orders from "./Views/Pages/Account/Orders.jsx";
 import PaymentMethods from "./Views/Pages/Account/PaymentMethods.jsx";
 import Settings from "./Views/Pages/Account/Settings.jsx";
+import RouteHandler from './common/RouteHandler.jsx';
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
 
@@ -24,11 +25,10 @@ const Addresses = lazy(() => import('./Views/Pages/Account/Addresses.jsx'));
 
 const loader = async () => {
 	console.log('loader')
-  return null;
+  return true;
 };
 
-
-const router = createBrowserRouter([
+const RouteObj = [
 	{
 		// '/'
 		path: ROUTES.pages.HOME,
@@ -142,6 +142,14 @@ const router = createBrowserRouter([
 		path: `${ROUTES.auth.VERIFYEMAIL}/:url`,
 		element: <VerifyEmail />
 	},
+];
+
+const router = createBrowserRouter([
+	{	
+		path: '/',
+		element: <RouteHandler />,
+		children: RouteObj
+	}
 ]);
 
 // Add a fixed delay so you can see the loading state

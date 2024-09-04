@@ -14,6 +14,15 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
 
   useEffect(() => nTimeout(timer), []);
 
+  useEffect(() => {
+    if (timer === 0) {
+      onClose();
+      if (reload) {
+        window.location.reload();
+      }
+    }
+  }, [timer]);
+
   const getStatusClass = (s) => {
     let result = '';
     switch (s) {
@@ -40,9 +49,6 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
 		setTimer(t);
     if (t > 0) {
       setTimeout(() => {nTimeout(--t)}, 1000);
-    } else {
-      onClose();
-      if (reload) window.location.reload();
     }
   }
 
