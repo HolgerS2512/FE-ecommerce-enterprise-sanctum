@@ -55,3 +55,16 @@ export const findInOptions = (data) => {
     },
   }
 }
+
+export const findObjsInArr = (arr) => {
+  return {
+    byLength: () => {
+      if (arr[0] === undefined) return;
+      const counter = [];
+      Object.values(arr).forEach((obj) => {
+        counter.push(obj.cookies.length);
+      });
+      return counter.reduce((a, b) => a + b);
+    }
+  }
+}

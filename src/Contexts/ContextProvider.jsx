@@ -79,6 +79,7 @@ export const ContextProvider = ({ children }) => {
 			// localStorage.removeItem(CookieSlug.auth);
 			cookieManager.deleteCookie(CookieSlug.auth, {
 				sameSite: 'Strict',
+				path: '/',
 			});
 		}
 	}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useCookieContext } from '../../Contexts/CookieProvider';
 import { useNotification } from '../../Contexts/NotificationProvider';
+import { useTranslation } from 'react-i18next';
 
 import axiosClient from '../../axios-clint';
 import ROUTES from '../../Settings/ROUTES';
@@ -10,65 +11,45 @@ import HttpStatusMsg from '../../Views/Notifications/HttpStatusMsg';
 
 import BlankForm from '../BlankForm'
 import CheckboxText from '../Util/CheckboxText';
+import Cookies from '../../Settings/Cookies';
+import CookieProviderObj from '../../common/Cookie/CookieProviderObj';
+import { findObjsInArr } from '../../Modules/ObjectHelper';
 
 const companyName = COMPANY.name;
 
-const DataProtection = ({ id, newsletter_subscriber, setUserProps }) => {
+const DataProtection = () => {
   // Common
   const { isLoading, setIsLoading } = useOutletContext();
+  const { ccSettings, setCcSettings } = useCookieContext();
   const { setNotification } = useNotification();
   const {t} = useTranslation();
   // Input states
-  const inputBP = {
-    required: true,
-    performance: false,
-    experience: false,
-    advertising: false,
-  };
-  const [inputData, setinputData] = useState(inputBP);
+  const [inputData, setinputData] = useState(ccSettings);
   // States
   const [hasUpdate, setHasUpdate] = useState(true);
   const [btnLoader, setBtnLoader] = useState(false);
   // Errorhandling
   const [httpStatus, setHttpStatus] = useState({ visible: false });
 
-  useEffect(() => {
-    if (!isNaN(id)) {
-      // setNewsletter(newsletter_subscriber);
-    }
-  }, [isLoading]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setHttpStatus({});
     setBtnLoader(true);
+    
+    const checkLength = Object.keys(ccSettings).length === Object.keys(inputData).length;
 
-    const check = [];
-    const payload = {
-      value: true,
-      value2: false,
-      value3: true,
-    };
-
-    Object.values(payload).forEach((value) => {
-      check.push(typeof value === 'boolean');
-    });
-
-    console.log(check.every((v) => v))
-    return;
-
-    if (Boolean(check.length) && check.length === Object.keys(inputData).length && check.every((v) => v)) {
+    if (checkLength && canSubmit(inputData)) {
       try {
-        const route = `${ROUTES.request.COOKIE}/${id}`;
-        const res = await axiosClient.put(route, payload);
+        const route = ROUTES.request.COOKIE;
+        const res = await axiosClient.post(route, inputData);
 
         if (res.data.status) {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            msg : t('http.success.update.settings'),
           });
-          // setUserProps(payload);
+          setCcSettings(inputData);
           setHasUpdate(true);
           setIsLoading(true);
         } 
@@ -80,6 +61,29 @@ const DataProtection = ({ id, newsletter_subscriber, setUserProps }) => {
     setBtnLoader(false);
   }
 
+  const canSubmit = (payload) => {
+    payload.consented = true;
+
+    const checkIfBool = [];
+    Object.values(payload).forEach((value) => {
+      checkIfBool.push(typeof value === 'boolean');
+    });
+
+    const compareValues = [];
+    Object.keys(ccSettings).forEach((key) => {
+      const quest = ccSettings[key] === payload[key];
+      compareValues.push(quest);
+    });
+
+    const result = (
+      checkIfBool.every((v) => v) 
+      && compareValues.some((b) => b === false)
+    );
+    setHasUpdate(!result)
+
+    return result;
+  }
+
   const handleChange = (e) => {
     const { name, checked } = e.target;
     const bool = e.key === 'Enter' ? !checked : checked;
@@ -88,11 +92,49 @@ const DataProtection = ({ id, newsletter_subscriber, setUserProps }) => {
   }
 
   const canUpdate = (name, currValue) => {
-    // ungleich dann true
-    const equalCurrValue = inputBP[name] !== currValue;
-    // vergleich hier auf das gesamte obj!
-    // console.log(name, currValue)
-    setHasUpdate(false);
+    const result = [
+      ccSettings[name] === currValue,
+    ];
+    Object.keys(ccSettings).forEach((key) => {
+      if (key !== name) {
+        const quest = ccSettings[key] === inputData[key];
+        result.push(quest);
+      }
+    });
+    setHasUpdate(!(result.some((b) => b === false)));
+  }
+
+  const generateCheckboxHTML = ({ name, data }) => {
+    const notRequired = name === 'necessary';
+    return (
+      <>
+        <hr className='chr-line' />
+        <div className='mb-4 pt-3'>
+          <div className='d-flex align-items-center'>
+            <CheckboxText 
+              text={t(`cookie.${name}`)} 
+              isChecked={inputData[name]}
+              setIsChecked={notRequired ? () => {} : handleChange}
+              name={name}
+              disabled={notRequired ? notRequired : !Boolean(data[0]?.cookies.length)}
+              setDisabled={notRequired ? !notRequired : Boolean(data[0]?.cookies.length)}
+            />
+            <span id="cc-number" className='mb-1'>{findObjsInArr(data).byLength() ?? 0}</span>
+          </div>
+          <div className='my-3'>{t(`cookie.${name}_txt`)}</div>
+
+          {/* References START */}
+          {Boolean(data[0]?.cookies.length) && 
+            Object.values(data).map((obj, i) => (
+              <div key={i} className={`cc-container${Boolean(i) ? ' mt-3' : ''}`}>
+                <CookieProviderObj data={obj} />
+              </div>
+            ))}
+          {/* References END */}
+
+        </div>
+      </>
+    )
   }
 
   return (
@@ -110,52 +152,13 @@ const DataProtection = ({ id, newsletter_subscriber, setUserProps }) => {
       <div tabIndex={1} className='p mb-3'>{t('data_protection_setting_txt2')}<Link className='inside-link' to={ROUTES.pages.PRIVACY} aria-label={t('privacy_and_cookie_policy')}>{t('privacy_and_cookie_policy')}</Link>.</div>
 
       <div className='py-2'>
-        <hr className='chr-line' />
-        <div className='mb-4 pt-3'>
-          <CheckboxText 
-            text={t('cookie_required')} 
-            isChecked={inputData.required}
-            setIsChecked={() => {}}
-            name='required'
-            disabled={true}
-            setDisabled={false}
-          />
-          <div className='mt-3'>{t('cookie_required_txt')}</div>
-        </div>
-        
-        <hr className='chr-line' />
-        <div className='mb-4 pt-3'>
-          <CheckboxText 
-            text={t('cookie_performance')} 
-            isChecked={inputData.performance}
-            setIsChecked={handleChange}
-            name='performance'
-          />
-          <div className='mt-3'>{t('cookie_performance_txt')}</div>
-        </div>
-        
-        <hr className='chr-line' />
-        <div className='mb-4 pt-3'>
-          <CheckboxText 
-            text={t('cookie_experience')} 
-            isChecked={inputData.experience}
-            setIsChecked={handleChange}
-            name='experience'
-          />
-          <div className='mt-3'>{t('cookie_experience_txt')}</div>
-        </div>
-        
-        <hr className='chr-line' />
-        <div className='mb-4 pt-3'>
-          <CheckboxText 
-            text={t('cookie_advertising')} 
-            isChecked={inputData.advertising}
-            setIsChecked={handleChange}
-            name='advertising'
-          />
-          <div className='mt-3'>{t('cookie_advertising_txt')}</div>
-        </div>
 
+        {Cookies.map((cookie, i) => (
+          <div key={i} className="cc-renderer">
+            {generateCheckboxHTML(cookie)}
+          </div>
+        ))}
+        
       </div>
 
     </BlankForm>

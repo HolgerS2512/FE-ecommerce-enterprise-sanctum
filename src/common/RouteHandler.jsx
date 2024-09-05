@@ -13,9 +13,15 @@ const RouteHandler = () => {
   const navigate = useNavigate();
   const [path, setPath] = useState('');
   
-  const requiredDSGVO = {
+  const protectedRoutes = {
     login: ROUTES.auth.LOGIN,
     register: ROUTES.auth.REGISTER,
+  };
+
+  const protectValues = {
+    routes: protectedRoutes, 
+    message: t('cookie_required_request_route'), 
+    state: 'w',
   };
 
   useEffect(() => {
@@ -26,17 +32,17 @@ const RouteHandler = () => {
 
   useEffect(() => {
     setPath(location.pathname);
-    cookieRouteProtector();
+    // routeProtector(protectValues);
   }, [location.pathname]);
 
-  const cookieRouteProtector = () => {
-    Object.values(requiredDSGVO).forEach((route) => {
+  const routeProtector = ({ routes, message, state }) => {
+    Object.values(routes).forEach((route) => {
       if (route === location.pathname && !DSGVO) {
         navigate(ROUTES.pages.HOME);
         setNotification({
           visible: true,
-          status: 'w',
-          msg: t('cookie_required_request_route'),
+          status: state,
+          msg: message,
         });
       }
     });

@@ -1,7 +1,7 @@
-import CookieManager from "../Modules/CookieManager";
+// import CookieManager from "../Modules/CookieManager";
 import COMPANY from "./COMPANY";
 
-const cookieManager = new CookieManager();
+// const cookieManager = new CookieManager();
 
 export const cookieStateBP = {
   necessary: false,
@@ -9,15 +9,16 @@ export const cookieStateBP = {
   statistics: false,
   marketing: false,
   unclassified: false,
+  consented: false,
 };
 
 export const CookieSlug = {
   session: "xFs_csL",
   cc: "xFs_cCv",
   auth: "xFs_at",
-  categories: "L_CD",
-  products: "AA_PvAC",
-  username: "aC_us",
+  // categories: "L_CD",
+  // products: "AA_PvAC",
+  // username: "aC_us",
 };
 
 const Cookies = [
@@ -58,53 +59,53 @@ const Cookies = [
     name: "preferences",
     required: false,
     data: [
-      {
-        provider: COMPANY.name,
-        policy: "/policy",
-        cookies: [
-          // {
-          //   slug: CookieSlug.categories,
-          //   description: "category_version",
-          //   max_storage_period: 30,
-          //   unit: "days",
-          //   type: "HTTP-Cookie",
-          // },
-          // {
-          //   slug: `${
-          //     cookieManager.getCookie(CookieSlug.categories) ||
-          //     CookieSlug.categories
-          //   }`,
-          //   description: "saved_categories",
-          //   max_storage_period: "resistant",
-          //   unit: null,
-          //   type: "HTML Local Storage",
-          // },
-          // {
-          //   slug: CookieSlug.products,
-          //   description: "product_version",
-          //   max_storage_period: 30,
-          //   unit: "days",
-          //   type: "HTTP-Cookie",
-          // },
-          // {
-          //   slug: `${
-          //     cookieManager.getCookie(CookieSlug.products) ||
-          //     CookieSlug.products
-          //   }`,
-          //   description: "saved_products",
-          //   max_storage_period: "resistant",
-          //   unit: null,
-          //   type: "HTML Local Storage",
-          // },
-          // {
-          //   slug: CookieSlug.username,
-          //   description: "saved_user_values",
-          //   max_storage_period: "resistant",
-          //   unit: null,
-          //   type: "HTML Local Storage",
-          // },
-        ],
-      },
+      // {
+      //   provider: COMPANY.name,
+      //   policy: "/policy",
+      //   cookies: [
+      //     {
+      //       slug: CookieSlug.categories,
+      //       description: "category_version",
+      //       max_storage_period: 30,
+      //       unit: "days",
+      //       type: "HTTP-Cookie",
+      //     },
+      //     {
+      //       slug: `${
+      //         cookieManager.getCookie(CookieSlug.categories) ||
+      //         CookieSlug.categories
+      //       }`,
+      //       description: "saved_categories",
+      //       max_storage_period: "resistant",
+      //       unit: null,
+      //       type: "HTML Local Storage",
+      //     },
+      //     {
+      //       slug: CookieSlug.products,
+      //       description: "product_version",
+      //       max_storage_period: 30,
+      //       unit: "days",
+      //       type: "HTTP-Cookie",
+      //     },
+      //     {
+      //       slug: `${
+      //         cookieManager.getCookie(CookieSlug.products) ||
+      //         CookieSlug.products
+      //       }`,
+      //       description: "saved_products",
+      //       max_storage_period: "resistant",
+      //       unit: null,
+      //       type: "HTML Local Storage",
+      //     },
+      //     {
+      //       slug: CookieSlug.username,
+      //       description: "saved_user_values",
+      //       max_storage_period: "resistant",
+      //       unit: null,
+      //       type: "HTML Local Storage",
+      //     },
+      //   ],
+      // },
     ],
   },
   {

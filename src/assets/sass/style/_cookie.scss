@@ -11,10 +11,9 @@ $wrappPb: 1rem;
 $ccMaxAvDVH: calc(100dvh - ($overflowCCmarg + $wrappPt + $wrappPb + $ccheader + $ccfooter + ($windowCCpadd * 2)));
 $ccWindowRadius: 6px;
 $ccBtnRadius: 6px;
+$ccgrey: rgb(214, 214, 214);
 
 #cookie-window {
-  $ccgrey: rgb(214, 214, 214);
-
   width: 100%;
   height: 100%;
   // min-height: 380px;
@@ -29,6 +28,7 @@ $ccBtnRadius: 6px;
   top: 0;
   @include filter(blur(0));
   @include d-center;
+}
 
   .cc-wrapper {
     background-color: white;
@@ -37,6 +37,7 @@ $ccBtnRadius: 6px;
 
     width: 900px;
     height: auto;
+    
 
     .cc-header {
       width: 100%;
@@ -240,30 +241,29 @@ $ccBtnRadius: 6px;
     }
   }
 
-  .btn {
-    border-radius: $ccBtnRadius;
-    min-height: 3rem;
-  
-    .btn-i {
-      @include d-center;
-      position: relative;
-      left: 2.5%;
-      
-      .i {
-        margin: 0 0 2px 8px;
-      }
+#cookie-window .btn {
+  border-radius: $ccBtnRadius;
+  min-height: 3rem;
+
+  .btn-i {
+    @include d-center;
+    position: relative;
+    left: 2.5%;
+    
+    .i {
+      margin: 0 0 2px 8px;
     }
-  
-    &:hover {
-      .btn-i .i {
-        margin: 0 0 2px 14px;
-        transition: margin 0.3s ease;
-      }
+  }
+
+  &:hover {
+    .btn-i .i {
+      margin: 0 0 2px 14px;
+      transition: margin 0.3s ease;
     }
   }
 }
 
-.cc-switch {
+#cookie-window .cc-switch {
   margin-top: 6px;
   width: 4.25em !important;
   height: 2.25em !important;

@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useCookieContext } from "../../Contexts/CookieProvider";
+import Cookies from "../../Settings/Cookies";
 
 import JumpLink from '../../components/Helpers/JumpLink';
 import CookieCategory from "./CookieCategory";
 import { ArrowRight } from "../../components/icon/Icons";
-import Cookies from "../../Settings/Cookies";
 
 const CookieLayout = () => {
   // Common
@@ -39,13 +39,17 @@ const CookieLayout = () => {
     const cc = {}
 
     Object.entries(cookies).forEach((c) => {
-      cc[c[0]] = nullable[c[0]];
+      if (c !== 'consented') {
+        cc[c[0]] = nullable[c[0]];
+      }
     });
+    cc.consented = true;
     setCcSettings(cc);
   }
 
   const handleAllowSelection = (e) => {
     if (view.details) {
+      cookies.consented = true;
       setCcSettings(cookies);
     } else {
       buttonRef.current.click();
@@ -53,11 +57,9 @@ const CookieLayout = () => {
   }
 
   const handleReject = () => {
-    const cc = {}
-    Object.entries(cookies).forEach((c) => {
-      cc[c[0]] = false;
-    });
-    setCcSettings(cc);
+    cookies.necessary = true;
+    cookies.consented = false;
+    setCcSettings(cookies);
   }
 
   const showNullableCategory = () => {

@@ -28,7 +28,7 @@ const CheckboxText = ({
 
   return (
     <label 
-      className='form-check-label pulse-control d-flex'
+      className='form-check-label pulse-control pulse-control-cb d-flex'
       htmlFor={name}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}

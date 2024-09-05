@@ -5,6 +5,7 @@ import Cookies from '../../Settings/Cookies';
 
 import { ArrowDown } from '../../components/icon/Icons';
 import CookieProviderObj from './CookieProviderObj';
+import { findObjsInArr } from '../../Modules/ObjectHelper';
 
 const CookieCategory = ({ cookies, setCookies }) => {
   const {t} = useTranslation();
@@ -12,15 +13,6 @@ const CookieCategory = ({ cookies, setCookies }) => {
   const handleChangeSwitch = (e) => {
     const { name, checked } = e.target;
     setCookies({ ...cookies, [name]: checked });
-  }
-
-  const countCookiesInDataArr = (arr) => {
-    if (arr[0] === undefined) return;
-    const counter = [];
-    Object.values(arr).forEach((obj) => {
-      counter.push(obj.cookies.length);
-    });
-    return counter.reduce((a, b) => a + b);
   }
 
   const sendPromptMsg = () => alert(t('cookie.alert_msg'));
@@ -39,11 +31,11 @@ const CookieCategory = ({ cookies, setCookies }) => {
             aria-controls={`${category.name}`}
             aria-label={t(`cookie.${category.name}`)}
             aria-labelledby='cc-cat-cont'
-            disabled={!Boolean(countCookiesInDataArr(category.data) ?? 0)}
+            disabled={!Boolean(findObjsInArr(category.data).byLength() ?? 0)}
           >
             <i id="cc-icon"><ArrowDown /></i>
             <span className="txt text-start">{t(`cookie.${category.name}`)}</span>
-            <span id="cc-number">{countCookiesInDataArr(category.data) ?? 0}</span>
+            <span id="cc-number">{findObjsInArr(category.data).byLength() ?? 0}</span>
           </button>
 
           <div className="form-switch" onClick={category.required ? sendPromptMsg : ()=>{}}>
@@ -54,7 +46,7 @@ const CookieCategory = ({ cookies, setCookies }) => {
               name={category.name}
               role="switch" 
               checked={category.required || cookies[category.name]} // hier <---- || true oder fallse falls cookie vorhanden!
-              disabled={category.required || !Boolean(countCookiesInDataArr(category.data) ?? 0)}
+              disabled={category.required || !Boolean(findObjsInArr(category.data).byLength() ?? 0)}
               onChange={handleChangeSwitch}
               aria-label={`${t(`cookie.cookie`)}: ${t(`cookie.${category.name}`)} ${cookies[category.name] ? t('cookie.deactivate') : t('cookie.activate')}`}
               aria-expanded={cookies[category.name]}
@@ -65,12 +57,13 @@ const CookieCategory = ({ cookies, setCookies }) => {
         <div id="cc-cat-cont" className="me-sm-3">{t(`cookie.${category.name}_txt`)}</div>
       </div>
 
-      {Boolean(countCookiesInDataArr(category.data)) && 
+      {Boolean(findObjsInArr(category.data).byLength()) && 
         <div className="collapse" id={`${category.name}`}>
           <div className="card card-body mt-2">
             <div className="pb-4 pt-3 ms-xl-5 ms-3">
 
-              {category.data[0] !== undefined && 
+              {/* References */}
+              {Boolean(category.data[0]?.cookies.length) && 
                 Object.values(category.data).map((obj, i) => (
                   <div key={i} className={`cc-container${Boolean(i) ? ' mt-3' : ''}`}>
                     <CookieProviderObj data={obj} />

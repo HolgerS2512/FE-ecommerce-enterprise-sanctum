@@ -122,11 +122,7 @@ const Settings = () => {
               </h2>
               <div id="changeDataProtection" className={`accordion-collapse collapse${isPrivacyActive ? ' show' : ''}`} data-bs-parent="#changeAccountData">
                 <div className="accordion-body">
-                  <DataProtection 
-                    id={id}
-                    newsletter_subscriber={newsletter_subscriber}
-                    setUserProps={setUserProps}
-                  />
+                  <DataProtection />
                 </div>
                 <hr className='chr-line' />
               </div>

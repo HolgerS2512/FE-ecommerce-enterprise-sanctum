@@ -25,10 +25,6 @@ export const CookieProvider = ({ children }) => {
 	// Visible layout events
 	const [visible, setVisible] = useState(!DSGVO);
 
-	useEffect(() => {
-		// console.log()
-	}, []);
-
   useEffect(() => {
 		viewBlur();
 		bodyOverflow();
@@ -40,7 +36,8 @@ export const CookieProvider = ({ children }) => {
 			if (res.data.status) {
 				cookieManager.setCookie(CookieSlug.cc, payload, { 
 					expires: 60 * 60 * 24 * 30 * 6,
-					sameSite: "Lax", 
+					sameSite: "Strict", 
+					path: '/',
 				}); // 6 Months in sec
 			}
 		} catch (err) {
@@ -50,10 +47,26 @@ export const CookieProvider = ({ children }) => {
 	}
 
 	const setCcSettings = (obj) => {
-		saveDsgvoRightsInDB(obj);
-		_setCcSettings(obj);
+		if (confirmNewValues(obj)) {
+			saveDsgvoRightsInDB(obj);
+			_setCcSettings(obj);
+		}
 		(!DSGVO) && setDSGVO(obj.necessary);
 		hiddenCookieConsens();
+	}
+
+	const confirmNewValues = (obj) => {
+		const ccJson = cookieManager.getCookie(CookieSlug.cc);
+		if (ccJson === null) return true;
+
+		const compareValues = [];
+
+		Object.keys(settings).forEach((key) => {
+      const quest = settings[key] === obj[key];
+      compareValues.push(quest);
+		});
+
+		return (compareValues.some((b) => b === false));
 	}
 
 	const viewBlur = () => {

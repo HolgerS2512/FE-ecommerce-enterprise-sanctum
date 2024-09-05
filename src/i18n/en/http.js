@@ -5,4 +5,10 @@ export const http = {
   3: "",
   4: "No account could be found with the specified login details.",
   5: "An error has occurred. Please try again later.",
+
+  success: {
+    update: {
+      settings: 'Your settings have been updated successfully.',
+    }
+  }
 };
