@@ -7,7 +7,7 @@ import axiosClient from "../axios-clint";
 import ROUTES from "../Settings/ROUTES";
 import { CookieSlug } from "../Settings/Cookies";
 import CookieManager from "../Modules/CookieManager";
-import { useCookieContext } from "./CookieProvider";
+import { redirect } from "react-router-dom";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
@@ -27,23 +27,24 @@ const StateContext = createContext({
 export const ContextProvider = ({ children }) => {
 	// Common
 	const cookieManager = new CookieManager();
-	const { ccSettings } = useCookieContext();
 	const { setNotification } = useNotification();
+	// Communication (oauth) cookie - (auth) localstorage
+	const hasAuthCookie = cookieManager.getCookie(CookieSlug.oauth) !== null;
+	if (!hasAuthCookie) localStorage.removeItem(CookieSlug.auth);
 	// Kernel
 	const [user, setUser] = useState({});
-	const [token, setToken] = useState(cookieManager.getCookie(CookieSlug.auth) || '');
-	// const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
+	const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
 	const [lookup, setLookup] = useState('');
 
 	const hasToken = token !== '';
 	const hasUser = Boolean(Object.keys(user).length);
 
 	const { data, isLoading: isUserLaoding, error } = useQuery({
-			queryKey: ['user'],
-			queryFn: () => FetchAsync(ROUTES.account.PROFILE),
-			staleTime: SESSION_LENGTH,
-			cacheTime: SESSION_LENGTH * 2,
-			enabled: hasToken && !hasUser, // Execute only if condition is met
+		queryKey: ['user'],
+		queryFn: () => FetchAsync(ROUTES.account.PROFILE),
+		staleTime: SESSION_LENGTH,
+		cacheTime: SESSION_LENGTH * 2,
+		enabled: hasToken && !hasUser, // Execute only if condition is met
 	});
 
 	useEffect(() => {
@@ -56,6 +57,13 @@ export const ContextProvider = ({ children }) => {
 			const user = JSON.parse(decrypted);
 
       setUser(user);
+			// Extends the original expired date.
+			cookieManager.setCookie(
+				CookieSlug.oauth, token, { 
+					expires: 60 * 60 * 24 * 10,
+					sameSite: "Strict", 
+				}
+			); // 10 days
     } else if (error) {
       setNotification({
         visible: true,
@@ -68,16 +76,10 @@ export const ContextProvider = ({ children }) => {
 	const setSessionToken = (token) => {
 		setToken(token);
 		if (token) {
-			cookieManager.setCookie(
-				CookieSlug.auth, token, { 
-					expires: 60 * 60 * 24 * 10,
-					sameSite: "Strict", 
-				}
-			); // 10 days
-			// localStorage.setItem(CookieSlug.auth, token);
+			localStorage.setItem(CookieSlug.auth, token);
 		} else {
-			// localStorage.removeItem(CookieSlug.auth);
-			cookieManager.deleteCookie(CookieSlug.auth, {
+			localStorage.removeItem(CookieSlug.auth);
+			cookieManager.deleteCookie(CookieSlug.oauth, {
 				sameSite: 'Strict',
 				path: '/',
 			});
@@ -95,9 +97,10 @@ export const ContextProvider = ({ children }) => {
     e.preventDefault();
     axiosClient.get(ROUTES.auth.LOGOUT).then((res) => {
       if (res.status === 204) {
+				window.location.href = ROUTES.pages.HOME;
         setUser({});
         setSessionToken('');
-        window.location.reload(); 
+        // window.location.reload(); 
       }
     });
   };

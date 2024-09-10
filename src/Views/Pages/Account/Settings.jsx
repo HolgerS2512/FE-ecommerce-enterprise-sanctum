@@ -22,17 +22,19 @@ const Settings = () => {
   // States
   const [visible, setVisible] = useState(false);
   const [windowCn, setWindowCn] = useState(false);
+  const [isPrivacyActive, setIsPrivacyActive] = useState(false);
   // Newsletter subscriber states
   const { id, newsletter_subscriber } = user;
   // Open Accordion
   const lastParam = pathname.replace(`${ROUTES.account.SETTINGS}/`, '');
-  const isPrivacyActive = 'privacy' === lastParam;
-  
+
   useEffect(() => {
+    setIsPrivacyActive('privacy' === lastParam);
     if (isPrivacyActive && !isLoading) {
       scrollToElement();
     }
-  }, [isPrivacyActive]);
+    // console.log(!isLoading, isPrivacyActive)
+  }, [isLoading, isPrivacyActive]);
 
   useEffect(() => {
     if (Boolean(Object.keys(user).length) && isLoading) {

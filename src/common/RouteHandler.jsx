@@ -6,11 +6,13 @@ import { useCookieContext } from '../Contexts/CookieProvider';
 import { useTranslation } from 'react-i18next';
 
 const RouteHandler = () => {
+  // Common
   const { setNotification } = useNotification();
   const { t } = useTranslation();
   const { DSGVO, showCookieConsens } = useCookieContext();
   const location = useLocation();
   const navigate = useNavigate();
+  // States
   const [path, setPath] = useState('');
   
   const protectedRoutes = {

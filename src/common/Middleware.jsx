@@ -6,7 +6,7 @@ import ROUTES from "../Settings/ROUTES";
 import Loading from "../components/Helpers/Loading";
 
 const Middleware = () => {
-  const { token, error, isUserLaoding } = useStateContext();
+  const { token, error } = useStateContext();
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
@@ -14,21 +14,19 @@ const Middleware = () => {
     if (!isLoading) {
       setIsLoading(true);
     }
-  }, [location]);
+  }, [location.pathname]);
 
   if (error || !token) return <Navigate to={ROUTES.pages.HOME} />;
     
-  if (token) {
-    return (
-      <>
-        {isLoading && <Loading/>}
+  return (
+    <>
+      {isLoading && <Loading/>}
 
-        <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
-          <Outlet context={{ isLoading, setIsLoading }} />
-        </div>
-      </>
-    );
-  }
+      <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
+        <Outlet context={{ isLoading, setIsLoading }} />
+      </div>
+    </>
+  );
 }
 
 export default Middleware;

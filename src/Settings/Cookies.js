@@ -13,9 +13,11 @@ export const cookieStateBP = {
 };
 
 export const CookieSlug = {
-  session: "xFs_csL",
-  cc: "xFs_cCv",
-  auth: "xFs_at",
+  session: "b_Sc",
+  cc: "_cc",
+  oauth: "_abck",
+  auth: "ak_a",
+  csrf: "xfs_r",
   // categories: "L_CD",
   // products: "AA_PvAC",
   // username: "aC_us",
@@ -38,11 +40,25 @@ const Cookies = [
             type: "HTTP-Cookie",
           },
           {
-            slug: CookieSlug.auth,
+            slug: CookieSlug.csrf,
+            description: "session_desc",
+            max_storage_period: 2,
+            unit: "hours",
+            type: "HTTP-Cookie",
+          },
+          {
+            slug: CookieSlug.oauth,
             description: "auth_desc",
             max_storage_period: 10,
             unit: "days",
             type: "HTTP-Cookie",
+          },
+          {
+            slug: CookieSlug.auth,
+            description: "auth_desc",
+            max_storage_period: 10,
+            unit: "days",
+            type: "HTML Local Storage",
           },
           {
             slug: CookieSlug.cc,

@@ -46,7 +46,8 @@ const DeleteAccount = ({ onClose }) => {
           logout();
         } 
       } catch (err) {
-        setHttpStatus({ visible: true, msg: t('http.5') });
+        const { message } = err.response.data;
+        setHttpStatus({ visible: true, msg: message });
       }
       setDestroy(false);
       setHasUpdate(true);

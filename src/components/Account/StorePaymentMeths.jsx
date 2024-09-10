@@ -16,7 +16,7 @@ import Select from '../Util/Select';
 import GetCountryOpts from "../../Settings/GetCountryOpts";
 import RegularBtn from "../Helpers/RegularBtn";
 
-const StoreAddress = ({ data, user, hasResponse, setDataEmpty, open, onClose, httpStatus, setHttpStatus, setWindowInner, windowInnerQuest, setWindowInnerQuest }) => {
+const StorePaymentMeths = ({ data, user, hasResponse, setDataEmpty, open, onClose, httpStatus, setHttpStatus, setWindowInner, windowInnerQuest, setWindowInnerQuest }) => {
   // Common
   const { setNotification } = useNotification();
   const {t} = useTranslation();
@@ -370,4 +370,4 @@ const StoreAddress = ({ data, user, hasResponse, setDataEmpty, open, onClose, ht
   )
 }
 
-export default StoreAddress
+export default StorePaymentMeths

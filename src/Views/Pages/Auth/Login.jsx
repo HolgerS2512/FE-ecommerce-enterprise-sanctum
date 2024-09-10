@@ -58,9 +58,9 @@ const Login = () => {
           const { user } = res.data;
           setLookup('');
           setUser(user);
-          // setSessionToken(res.data.token);
-          setTimeout(() => window.location.reload(), 0);
-          // navigate(ROUTES.pages.HOME);
+          setSessionToken(res.data.token);
+          // setTimeout(() => window.location.reload(), 0);
+          navigate(ROUTES.pages.HOME);
         } 
       } catch (err) {
         const { message } = err.response.data;

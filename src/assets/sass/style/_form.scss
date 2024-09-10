@@ -110,6 +110,14 @@
     --hps: 2.5em;
   }
 }
+.pulse-control-cbwd {
+  .pulse::before {
+    --ps: 2.75em;
+  }
+  .has-pulse::after {
+    --hps: 2.25em;
+  }
+}
 
 // Main Button
 .xfs-btn {

@@ -16,12 +16,13 @@ import PersonalProfile from "./Views/Pages/Account/PersonalProfile.jsx";
 import Overview from "./Views/Pages/Account/Overview.jsx";
 import Orders from "./Views/Pages/Account/Orders.jsx";
 import PaymentMethods from "./Views/Pages/Account/PaymentMethods.jsx";
-import Settings from "./Views/Pages/Account/Settings.jsx";
 import RouteHandler from './common/RouteHandler.jsx';
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
 
 const Addresses = lazy(() => import('./Views/Pages/Account/Addresses.jsx'));
+
+const Settings = lazy(() => import('./Views/Pages/Account/Settings.jsx'));
 
 const loader = async () => {
 	console.log('loader')

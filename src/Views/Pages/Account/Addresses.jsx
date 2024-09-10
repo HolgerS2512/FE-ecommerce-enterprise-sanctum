@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
 
 import { useStateContext } from "../../../Contexts/ContextProvider";
 import { find } from "../../../Modules/ObjectHelper";
@@ -14,6 +14,7 @@ import StoreAddress from "../../../components/Account/StoreAddress";
 import AddressLoader from "../../../components/Account/AddressLoader";
 import RegularBtn from "../../../components/Helpers/RegularBtn";
 import WindowChild from "../../../components/WindowChild";
+import { useNotification } from "../../../Contexts/NotificationProvider";
 
 const cryptographer = new AesCryptographer();
 
@@ -21,6 +22,7 @@ const Addresses = () => {
   // Common
   const { user } = useStateContext();
   const { isLoading, setIsLoading } = useOutletContext();
+  const { setNotification } = useNotification();
   const {t} = useTranslation();
   // DB fill
   const [addresses, setAddresses] = useState([]);

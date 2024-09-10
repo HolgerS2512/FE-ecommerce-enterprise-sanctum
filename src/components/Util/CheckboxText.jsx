@@ -9,6 +9,7 @@ const CheckboxText = ({
   setDisabled = true,
   name = 'thisCheck', 
   required = false,
+  distance = false,
 }) => {
   const [isHover, setIsHover] = useState(false);
 
@@ -28,7 +29,7 @@ const CheckboxText = ({
 
   return (
     <label 
-      className='form-check-label pulse-control pulse-control-cb d-flex'
+      className={`form-check-label pulse-control d-flex ${distance ? 'pulse-control-cbwd' : 'pulse-control-cb'}`}
       htmlFor={name}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}

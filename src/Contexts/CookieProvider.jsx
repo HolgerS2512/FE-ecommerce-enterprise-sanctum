@@ -38,7 +38,7 @@ export const CookieProvider = ({ children }) => {
 					expires: 60 * 60 * 24 * 30 * 6,
 					sameSite: "Strict", 
 					path: '/',
-				}); // 6 Months in sec
+				}); // 6 Months
 			}
 		} catch (err) {
 			const { message } = err?.response?.data;

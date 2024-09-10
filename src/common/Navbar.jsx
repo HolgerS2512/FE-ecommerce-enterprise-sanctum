@@ -8,15 +8,22 @@ import ProfileMenu from '../components/Nav/ProfileMenu';
 import NAVLINKS from '../Settings/NAVLINKS';
 import GetIconByName from '../components/Util/GetIconByName';
 import GenerateMenuHtml from "./GenerateMenuHtml";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+  // Common
   const { token, user } = useStateContext();
 	const { categories, products } = useLayoutContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
+  // States
+  const [hasUser, setHasUser] = useState(Boolean(Object.keys(user).length));
+  const [hasToken, setHasToken] = useState(token !== '');
 
-	const hasToken = token !== '';
-  const hasUser = Boolean(Object.keys(user).length);
+  useEffect(() => {
+    setHasUser(Boolean(Object.keys(user).length));
+    setHasToken(token !== '');
+  }, [user]);
 
   return (
     <nav role="navigation" className='main-nav'>

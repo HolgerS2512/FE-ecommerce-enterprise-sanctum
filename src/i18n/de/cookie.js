@@ -58,6 +58,7 @@ export const cookie = {
   providers_pp: 'Datenschutzhinweise des Anbieters',
   name: 'Name',
   max_storage: 'Maximale Speicherdauer',
+  hours: 'Stunden',
   days: 'Tage',
   months: 'Monate',
   years: 'Jahre',

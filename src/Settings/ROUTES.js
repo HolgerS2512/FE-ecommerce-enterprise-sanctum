@@ -16,7 +16,7 @@ const ROUTES = {
     OVERVIEW: '/account',
     PROFILE: '/account/profile',
     ORDERS: '/account/orders',
-    WISHLIST: '/wishlist',
+    WISHLIST: '/account/wishlist',
     ADDRESSES: '/account/addresses',
     PAYMENTMETHODS: '/account/payment',
     SETTINGS: '/account/settings',
