@@ -26,8 +26,12 @@ export const FetchAsync = async (path) => {
       return res.data;
     }
   } catch (err) {
-    const { message } = err?.response?.data;
-    throw new Error(message);
+    const { data, status } = err?.response;
+    const { message } = data;
+
+    if (status !== 503) {
+      throw new Error(message);
+    }
   }
 };
 

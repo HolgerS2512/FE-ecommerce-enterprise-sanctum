@@ -47,7 +47,7 @@ const DataProtection = () => {
           setNotification({
             visible : true,
             status : 's',
-            msg : t('http.success.update.settings'),
+            msg : t('http.success.updated.settings'),
           });
           setCcSettings(inputData);
           setHasUpdate(true);

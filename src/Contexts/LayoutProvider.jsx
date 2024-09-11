@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useCookieContext } from "./CookieProvider";
 
 import { CookieSlug } from "../Settings/Cookies";
 import ROUTES from "../Settings/ROUTES";
 import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
-import { useCookieContext } from "./CookieProvider";
+
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
 
 const StateContext = createContext({
@@ -12,7 +13,7 @@ const StateContext = createContext({
 	products: null,
 	setProducts: () => {},
 	setCategories: () => {},
-})
+});
 
 export const LayoutProvider = ({ children }) => {
 	// Common
@@ -37,8 +38,7 @@ export const LayoutProvider = ({ children }) => {
 				setCategories(res.data.data);
 			}
 		} catch (err) {
-			const { message } = err?.response?.data;
-			setHttpStatus({ visible: true, msg: message });
+			setHttpStatus({ visible: true, error: err });
 		}
 		setIsLoading(false);
 	};
@@ -68,7 +68,7 @@ export const LayoutProvider = ({ children }) => {
 		}
 	};
 
-	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg msg={httpStatus.msg} /></div>;
+	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg error={httpStatus.error} /></div>;
 	
 	if (isLoading) return;
 

@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import UserNotification from "../Views/Notifications/UserNotification";
+import ROUTES from "../Settings/ROUTES";
 
 const StateContext = createContext({
 	notification: null,

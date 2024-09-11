@@ -71,6 +71,11 @@ i18n
           country: countriesDe,
           all_months: monthsDe,
           cookie: cookieDe,
+          maintenance: {
+            title: "Wartungsarbeiten",
+            message: "Diese Seite ist momentan nicht verfügbar, da wir Wartungsarbeiten durchführen.",
+            message2: "Wir sind in Kürze wieder für Sie erreichbar."
+          },
           FORGETPWD_pwd_greeting:
             "Bestätige deine E-Mail-Adresse und gib ein neues Kennwort ein.",
           policy_pi_1: "Ich stimmst den ",
@@ -223,6 +228,11 @@ i18n
           all_months: monthsEn,
           country: countriesEn,
           cookie: cookieEn,
+          maintenance: {
+            title: "Maintenance",
+            message: "This site is currently unavailable due to maintenance.",
+            message2: "We will be available to you again shortly.",
+          },
           policy_p_1: "By continuing, you agree to {{ companyName }} ",
           policy_p_2: " and acknowledge that you have read {{ companyName }} ",
           policy_p_3: ".",

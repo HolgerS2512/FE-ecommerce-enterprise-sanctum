@@ -14,10 +14,10 @@ import Loading from './components/Helpers/Loading.jsx';
 import { LayoutProvider } from './Contexts/LayoutProvider.jsx';
 import { NotificationProvider } from './Contexts/NotificationProvider.jsx';
 import { CookieProvider } from './Contexts/CookieProvider.jsx';
-
+import Maintenance from './Views/Notifications/Maintenance.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  //<React.StrictMode>
+  // <React.StrictMode>
     <Suspense fallback={<Loading />}>
       <NotificationProvider>
         <CookieProvider>
@@ -31,5 +31,25 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </CookieProvider>
       </NotificationProvider>
     </Suspense>
-  //</React.StrictMode>,
-)
+  // </React.StrictMode>,
+);
+
+{/* 
+  <Maintenance />
+*/}
+
+{/* 
+  <Suspense fallback={<Loading />}>
+    <NotificationProvider>
+      <CookieProvider>
+        <QueryClientProvider client={queryClient}>
+          <ContextProvider>
+            <LayoutProvider>
+                <RouterProvider router={ router } />
+            </LayoutProvider>
+          </ContextProvider>
+        </QueryClientProvider>
+      </CookieProvider>
+    </NotificationProvider>
+  </Suspense> 
+*/}

@@ -104,3 +104,8 @@
 #changeDataProtection.show .chr-line {
   display: block;
 }
+
+// image shadow
+.drop-shadow-gear {
+  @include filter(drop-shadow(-3px -3px 25px rgba(0, 0, 0, 0.4)));
+}
