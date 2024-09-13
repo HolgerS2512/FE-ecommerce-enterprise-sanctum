@@ -12,6 +12,7 @@ const axiosClient = axios.create({
   headers: {
     Accept: "application/json",
   },
+  timeout: 5000,  // 5 seconds
 });
 
 // Get cookie CSRF-Token from Sanctum
@@ -30,6 +31,7 @@ const getCsrfToken = async (token) => {
   } catch (error) {
     console.error("GET Error CSRF-Token:", error);
   }
+  return null;
 };
 
 axiosClient.interceptors.request.use(
@@ -63,13 +65,28 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     const { response } = error;
-    if (response.status === 404) {
-      redirect(ROUTES.error.NOTFOUND);
-    }
 
-    if (response.status === 401) {
-      localStorage.removeItem(CookieSlug.auth);
-      window.location.reload();
+    if (response) {
+
+      if (response.status === 404) {
+        redirect(ROUTES.error.NOTFOUND);
+      }
+  
+      if (response.status === 401) {
+        localStorage.removeItem(CookieSlug.auth);
+        window.location.reload();
+      }
+    } else {
+
+      if (error.code === 'ECONNABORTED') {
+        const customError = new Error('Gateway Timeout');
+        customError.response = { status: 504 };
+        throw customError;
+      } else {
+        const customError = new Error('Network error or no response received');
+        customError.response = { status: 500 };
+        throw customError;
+      }
     }
 
     throw error;

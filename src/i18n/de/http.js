@@ -9,7 +9,7 @@ export const http = {
   500: 'Es tut uns leid, es ist ein Fehler aufgetreten. Bitte versuche es später erneut.',
   502: 'Es tut uns leid, es gab ein Problem beim Verarbeiten Ihrer Anfrage. Der Server hat eine ungültige Antwort erhalten, daher konnte das Formular nicht gesendet werden.',
   503: 'Diese Aktion ist momentan nicht verfügbar, da wir Wartungsarbeiten durchführen. Wir sind in Kürze wieder für Sie erreichbar.',
-  504: 'Timeout. Es tut uns leid, es gab ein Problem beim Absenden des Formulars. Der Server hat zu lange gebraucht, um zu antworten.',
+  504: 'Server Timeout. Es scheint, dass die Verbindung zum Server zu lange dauert. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut. Sollte das Problem weiterhin bestehen, wenden Sie sich an den Support.',
 
   success: {
     account: {

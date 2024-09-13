@@ -1,7 +1,7 @@
 
 const HttpTranslator = ({ status, data }) => {
   // Common
-  const { message } = data;
+  const message = data?.message;
   // Handling
   const quest = message !== undefined && message[0];
   const customMsg = quest ? `error.${message[1]}` : null;

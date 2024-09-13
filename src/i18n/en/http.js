@@ -9,7 +9,7 @@ export const http = {
   500: "We're sorry, an error has occurred. Please try again later.",
   502: "We're sorry, there was a problem processing your request. The server received an invalid response, so the form could not be sent.",
   503: 'This action is currently unavailable due to maintenance. We will be available to you again shortly.',
-  504: 'Timeout. Sorry, there was a problem submitting the form. The server took too long to respond.',
+  504: 'Server timeout. It seems that the connection to the server is taking too long. Please check your internet connection and try again. If the problem persists, contact support.',
 
   success: {
     account: {
