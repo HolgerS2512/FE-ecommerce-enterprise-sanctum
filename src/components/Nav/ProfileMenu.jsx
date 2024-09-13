@@ -5,7 +5,8 @@ import { useStateContext } from "../../Contexts/ContextProvider";
 import NAVLINKS from "../../Settings/NAVLINKS";
 import GetIconByName from "../Util/GetIconByName";
 
-const ProfileMenu = () => {
+const ProfileMenu = ({ docReader }) => {
+  // Common
   const { user, logout } = useStateContext();
   const { t } = useTranslation();
   const location = useLocation();
@@ -34,7 +35,7 @@ const ProfileMenu = () => {
           {/* className={`vnu576 greeting a-opacity a15sd1ms${hasName? ' fir-2r' : ''}`} */}
           {/* className='vnu576 greeting' */}
             <span 
-              className={`vnu576 greeting a-opacity a15sd1ms${hasName? ' fir-2r' : ''}`}
+              className={`vnu576 greeting a-opacity a15sd1ms${hasName && docReader ? ' fir-2r' : ''}`}
             >{`${t('greeting')} ${firstname}`}</span>
           <GetIconByName name={icon} />
         </Link>

@@ -22,8 +22,8 @@ const ChangePassword = () => {
   const {t} = useTranslation();
   // Input States
   const [current_password, setCurrentPassword] = useState('');
-  const [password, setPassword] = useState('');
-  const [password_confirmation, setPasswordConfirmation] = useState('');
+  const [new_password, setPassword] = useState('');
+  const [new_password_confirmation, setPasswordConfirmation] = useState('');
   const [pin, setPin] = useState('');
   // Ref
   const currentPwdRef = useRef(null);
@@ -42,8 +42,8 @@ const ChangePassword = () => {
   // Errorhandling
   const [clientError, setClientError] = useState({
     current_password: { msg: [] },
-    password: { msg: [] },
-    password_confirmation: { msg: [] },
+    new_password: { msg: [] },
+    new_password_confirmation: { msg: [] },
     pin: { msg: [] },
   });
   const [httpStatus, setHttpStatus] = useState({ visible: false });
@@ -86,8 +86,8 @@ const ChangePassword = () => {
     ) {
       const payload = {
         current_password: currentPwdRef.current.value,
-        password: newPwdRef.current.value,
-        password_confirmation: confirmPwdRef.current.value,
+        new_password: newPwdRef.current.value,
+        new_password_confirmation: confirmPwdRef.current.value,
         pin: pin,
       };
 
@@ -129,8 +129,8 @@ const ChangePassword = () => {
   const handleSubmitEdit = async () => {
     const payload = {
       current_password: currentPwdRef.current.value,
-      password: newPwdRef.current.value,
-      password_confirmation: confirmPwdRef.current.value,
+      new_password: newPwdRef.current.value,
+      new_password_confirmation: confirmPwdRef.current.value,
     };
 
     try {
@@ -179,8 +179,8 @@ const ChangePassword = () => {
 
     setClientError({
       current_password: { msg: c_checked ? c_check : [] },
-      password: { msg: n_checked ? n_check : [] },
-      password_confirmation: { msg: co_checked ? co_check : [] },
+      new_password: { msg: n_checked ? n_check : [] },
+      new_password_confirmation: { msg: co_checked ? co_check : [] },
       pin: { msg: [] },
     });
 
@@ -216,12 +216,12 @@ const ChangePassword = () => {
           <PasswordForwardField
             tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
-            label={t('input.password_n')} 
+            label={t('input.new_password')} 
             onChange={(e) => {
               handleChange(e);
               setPassword(e.target.value);
             }}
-            value={password} 
+            value={new_password} 
             autoComplete='new-password'
             ref={newPwdRef}
             err={hasVal ? !hasValConfirm || !hasValNewOld : false}
@@ -231,13 +231,13 @@ const ChangePassword = () => {
           <PasswordForwardField
             tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
-            label={t('input.password_nc')} 
-            name='password_confirmation'
+            label={t('input.new_password_confirmation')} 
+            name='new_password_confirmation'
             onChange={(e) => {
               handleChange(e);
               setPasswordConfirmation(e.target.value);
             }}
-            value={password_confirmation} 
+            value={new_password_confirmation} 
             autoComplete='new-password'
             ref={confirmPwdRef}
             err={hasVal ? !hasValConfirm || !hasValNewOld : false}
@@ -247,7 +247,7 @@ const ChangePassword = () => {
           <PasswordForwardField
             tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
-            label={t('input.password_c')} 
+            label={t('input.current_password')} 
             name='current_password'
             onChange={(e) => {
               handleChange(e);

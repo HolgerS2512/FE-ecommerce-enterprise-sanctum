@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next"
 import HttpTranslator from "../../Modules/HttpTranslator";
 
 const HttpStatusMsg = ({ error, tabIndex = 1 }) => {
   // Common
-  const { t } = useTranslation();
   const targetRef = useRef(null);
   const { response } = error;
 
@@ -12,7 +10,7 @@ const HttpStatusMsg = ({ error, tabIndex = 1 }) => {
     targetRef.current.focus();
   }, [error]);
 
-  const resultMessage = t(HttpTranslator(response));
+  const resultMessage = HttpTranslator(response);
 
   return (
     <div ref={targetRef} className='http-status-msg' role="alert" aria-live="assertive">
@@ -23,6 +21,7 @@ const HttpStatusMsg = ({ error, tabIndex = 1 }) => {
         className="pe-1" 
         aria-readonly={resultMessage} 
         tabIndex={tabIndex}
+        style={{ whiteSpace: 'pre-line' }}
       >{resultMessage}</p>
     </div>
   )

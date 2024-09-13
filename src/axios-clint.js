@@ -64,15 +64,16 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    const { response } = error;
+    const response = error?.response;
 
     if (response) {
-
-      if (response.status === 404) {
+      const status = response?.status;
+      
+      if (status === 404) {
         redirect(ROUTES.error.NOTFOUND);
       }
   
-      if (response.status === 401) {
+      if (status === 401 || status === 403) {
         localStorage.removeItem(CookieSlug.auth);
         window.location.reload();
       }

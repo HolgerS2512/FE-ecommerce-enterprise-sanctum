@@ -22,8 +22,8 @@ const ChangeEmail = () => {
   const {t} = useTranslation();
   // Input States
   const [current_email, setCurrentEmail] = useState('');
-  const [email, setEmail] = useState('');
-  const [email_confirmation, setEmailConfirmation] = useState('');
+  const [new_email, setNewEmail] = useState('');
+  const [new_email_confirmation, setEmailConfirmation] = useState('');
   const [pin, setPin] = useState('');
   // Ref
   const currentEmailRef = useRef(null);
@@ -33,7 +33,6 @@ const ChangeEmail = () => {
   const [canUpdate, setCanUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasUpdate, setHasUpdate] = useState(true);
-  const [updateAllowed, setUpdateAllowed] = useState(false);
   // Validation
   const [hasVal, setHasVal] = useState(false);
   const [hasValid, setHasValid] = useState(false);
@@ -42,8 +41,8 @@ const ChangeEmail = () => {
   // Errorhandling
   const [clientError, setClientError] = useState({
     current_email: { msg: [] },
-    email: { msg: [] },
-    email_confirmation: { msg: [] },
+    new_email: { msg: [] },
+    new_email_confirmation: { msg: [] },
     pin: { msg: [] },
   });
   const [httpStatus, setHttpStatus] = useState({ visible: false });
@@ -56,7 +55,6 @@ const ChangeEmail = () => {
   useEffect(() => {
     if (!Boolean(current_email.length) && user.email !== undefined) {
       setCurrentEmail(user.email);
-      setUpdateAllowed(true);
     }
   }, [user.email]);
 
@@ -91,8 +89,8 @@ const ChangeEmail = () => {
     ) {
       const payload = {
         current_email: current_email,
-        email: newEmailRef.current.value,
-        email_confirmation: confirmEmailRef.current.value,
+        new_email: newEmailRef.current.value,
+        new_email_confirmation: confirmEmailRef.current.value,
         pin: pin,
       };
 
@@ -113,7 +111,6 @@ const ChangeEmail = () => {
       }
     }
     setHasUpdate(true);
-    setUpdateAllowed(false);
     setIsLoading(false);
   }
 
@@ -134,8 +131,8 @@ const ChangeEmail = () => {
   const handleSubmitEdit = async () => {
     const payload = {
       current_email: current_email,
-      email: newEmailRef.current.value,
-      email_confirmation: confirmEmailRef.current.value,
+      new_email: newEmailRef.current.value,
+      new_email_confirmation: confirmEmailRef.current.value,
     };
 
     try {
@@ -184,8 +181,8 @@ const ChangeEmail = () => {
 
     setClientError({
       current_email: { msg: c_checked ? c_check : [] },
-      email: { msg: n_checked ? n_check : [] },
-      email_confirmation: { msg: co_checked ? co_check : [] },
+      new_email: { msg: n_checked ? n_check : [] },
+      new_email_confirmation: { msg: co_checked ? co_check : [] },
       pin: { msg: [] },
     });
 
@@ -218,13 +215,13 @@ const ChangeEmail = () => {
 
         <div className="col-md-6 col-lg-5">
           <InputInchForwardField
-            label={t('input.email_n')} 
+            label={t('input.new_email')} 
             type='email'
             onChange={(e) => {
               handleChange(e);
-              setEmail(e.target.value);
+              setNewEmail(e.target.value);
             }}
-            value={email} 
+            value={new_email} 
             tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             ref={newEmailRef}
@@ -233,13 +230,13 @@ const ChangeEmail = () => {
         </div>
         <div className="col-md-6 col-lg-5">
           <InputInchForwardField
-            label={t('input.email_nc')} 
+            label={t('input.new_email_confirmation')} 
             type='email'
             onChange={(e) => {
               handleChange(e);
               setEmailConfirmation(e.target.value);
             }}
-            value={email_confirmation} 
+            value={new_email_confirmation} 
             tabIndex={canUpdate ? -1 : 1} // canUpdate request state
             readOnly={canUpdate} // canUpdate request state
             ref={confirmEmailRef}
@@ -248,7 +245,7 @@ const ChangeEmail = () => {
         </div>
         <div className="col-md-6 col-lg-5">
           <InputInchForwardField
-            label={t('input.email_c')} 
+            label={t('input.current_email')} 
             type='email'
             onChange={handleChange}
             value={current_email} 

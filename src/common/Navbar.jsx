@@ -19,6 +19,8 @@ const Navbar = () => {
   // States
   const [hasUser, setHasUser] = useState(Boolean(Object.keys(user).length));
   const [hasToken, setHasToken] = useState(token !== '');
+  // Optik
+  const [docReader, setDocReader] = useState(false);
 
   useEffect(() => {
     setHasUser(Boolean(Object.keys(user).length));
@@ -36,7 +38,7 @@ const Navbar = () => {
 
         <div className='nav-s1w nav-s1we'>
             {hasToken 
-            ? <ProfileMenu /> 
+            ? <ProfileMenu docReader={docReader} /> 
             : <Link
                 to={hasUser ? ROUTES.account.PROFILE : ROUTES.auth.LOOKUP}
                 aria-label={hasUser ? t('personal_profile') : t('signip')}
@@ -76,6 +78,7 @@ const Navbar = () => {
       </section>
       <hr/>
 
+      {!docReader && setDocReader(true)}
     </nav>
   )
 }
