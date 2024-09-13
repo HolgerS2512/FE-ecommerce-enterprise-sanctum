@@ -27,10 +27,10 @@ const SendPinAgain = ({ tabIndex = 1, email, setHttpErr }) => {
         currBtn.classList.remove('move');
       }
     } catch (err) {
-      if (err.response.data) {
-        const { message } = err.response.data;
-        setHttpErr({ visible: true, msg: message });
-        setStatus({ visible: true, status : err.response.data.status });
+      const { response } = await err;
+      if (response?.data) {
+        setHttpErr({ visible: true, error: err });
+        setStatus({ visible: true, status : response.data.status });
         currBtn.classList.remove('move');
       }
     }

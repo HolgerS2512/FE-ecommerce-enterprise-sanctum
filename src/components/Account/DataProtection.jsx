@@ -47,15 +47,14 @@ const DataProtection = () => {
           setNotification({
             visible : true,
             status : 's',
-            msg : t('http.success.updated.settings'),
+            message : t('http.success.updated.settings'),
           });
           setCcSettings(inputData);
           setHasUpdate(true);
           setIsLoading(true);
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -146,7 +145,7 @@ const DataProtection = () => {
       require={false}
       btnDisabled={hasUpdate}
     >
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       <div tabIndex={1} className='p my-4'>{t('data_protection_setting_txt', {companyName})}</div>
       <div tabIndex={1} className='p mb-3'>{t('data_protection_setting_txt2')}<Link className='inside-link' to={ROUTES.pages.PRIVACY} aria-label={t('privacy_and_cookie_policy')}>{t('privacy_and_cookie_policy')}</Link>.</div>

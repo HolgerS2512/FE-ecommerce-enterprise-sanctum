@@ -77,8 +77,7 @@ const FORGETPWDPwd = () => {
           throttleUM(throttle, ROUTES.auth.LOOKUP);
         } 
       } catch (err) {
-        const { message } = await err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -159,7 +158,7 @@ const FORGETPWDPwd = () => {
             >{t('edit')}</Link>
           </div>}
       >
-        {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+        {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
         <InputForgetCode
           label={t('input.pin')} 

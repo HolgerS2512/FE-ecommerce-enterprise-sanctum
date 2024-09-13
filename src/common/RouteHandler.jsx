@@ -44,7 +44,7 @@ const RouteHandler = () => {
         setNotification({
           visible: true,
           status: state,
-          msg: message,
+          message: message,
         });
       }
     });

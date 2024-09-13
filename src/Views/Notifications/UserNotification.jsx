@@ -3,16 +3,28 @@ import { useTranslation } from 'react-i18next'
 import { Checkmark, Xclose, Warning } from '../../components/icon/Icons'
 
 import CloseBtn from '../../components/Helpers/CloseBtn'
+import HttpTranslator from '../../Modules/HttpTranslator';
 
 const UserNotification = ({ notification, onClose, reload = false }) => {
-  const { msg, status } = notification;
-  const [timer, setTimer] = useState(notification.timer ?? 8);
+  // Common
   const { t } = useTranslation();
   const targetRef = useRef(null);
+  // Handling
+  const [timer, setTimer] = useState(notification.timer ?? 8);
+  const [statusMessage, setStatusMessage] = useState(null);
+  const { status, message, error } = notification;
+  // Optik
+  const [statusIcon, setStatusIcon] = useState(null);
+  const [statusClass, setStatusClass] = useState(null);
 
+  useEffect(() => {
+    setStatusMessage(message ?? t(HttpTranslator(error?.response)));
+    setStatusClass(getStatusClass(status));
+    setStatusIcon(getStatusIcon(status));
+    nTimeout(timer);
+  }, []);
+  
   useEffect(() => targetRef.current.focus(), [notification.visible]);
-
-  useEffect(() => nTimeout(timer), []);
 
   useEffect(() => {
     if (timer === 0) {
@@ -27,8 +39,8 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
     let result = '';
     switch (s) {
       case 's': result = 'success'; break;
-      case 'e': result = 'error'; break;
       case 'w': result = 'warning'; break;
+      case 'e': result = 'error'; break;
       default: break;
     }
     return result;
@@ -38,8 +50,8 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
     let result = null;
     switch (s) {
       case 's': result = <Checkmark size={54} clr='3ecf2a' />; break;
-      case 'e': result = <Xclose size={54} clr='d11f46' />; break;
       case 'w': result = <Warning size={60} clr='fff' />; break;
+      case 'e': result = <Xclose size={54} clr='d11f46' />; break;
       default: break;
     }
     return result;
@@ -54,11 +66,11 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
 
   return (
     <div className='xfs-un-modal animated35s fade-notification'>
-      <div className={`xfs-un-body ${getStatusClass(status)}`}>
+      <div className={`xfs-un-body ${statusClass}`}>
 
         <div className="xfs-un-clr">
           <div className='svg-body'>
-            {getStatusIcon(status)}
+            {statusIcon}
           </div>
         </div>
 
@@ -66,13 +78,13 @@ const UserNotification = ({ notification, onClose, reload = false }) => {
           <div className='xfs-un-msgc'>
             <p 
               ref={targetRef}
-              aria-label={(msg.includes('SQLSTATE') ? t('http.5') : msg) + t('close_timer_msg', { timer })}
+              aria-label={statusMessage}
               role="alert" 
               aria-live="assertive"
               aria-atomic="true" 
               tabIndex={1} 
               className='h6 text text-center ncss-focus'
-            >{msg.includes('SQLSTATE') ? t('http.5') : msg}
+            >{statusMessage}
             </p>
             <p tabIndex={1} className='h6 text text-center ncss-focus'>{t('close_timer_msg', { timer })}</p>
           </div>

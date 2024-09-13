@@ -111,13 +111,12 @@ const StorePaymentMeths = ({ data, user, hasResponse, setDataEmpty, open, onClos
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message : t(`http.success.${hasData ? 'updated' : 'created'}.address`),
           });
           onClose();
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     clearPrevValues();
@@ -228,17 +227,16 @@ const StorePaymentMeths = ({ data, user, hasResponse, setDataEmpty, open, onClos
         setNotification({
           visible : true,
           status : 's',
-          msg : res.data.message,
+          message : t('http.success.deleted.address'),
         });
         onClose();
         clearPrevValues();
       } 
     } catch (err) {
-      const { message } = err.response.data;
       setNotification({
         visible : true,
         status : 'e',
-        msg : message,
+        error : err,
       });
     }
     setWindowInner(false);
@@ -264,7 +262,7 @@ const StorePaymentMeths = ({ data, user, hasResponse, setDataEmpty, open, onClos
       secondBtn={hasData ? deleteBtn : null}
       btnDisabled={hasUpdate}
     >
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
       <div className="row">
 
         <InputInchField

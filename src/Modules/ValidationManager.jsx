@@ -25,11 +25,11 @@ const ValidationManager = (obj) => {
           reObj[name].push(`error.${name}`);
         }
         // length (override regex) (min, max)
-        if ((Rules[name].min) >= value.length) {
+        if ((Rules[name].min) > value.length) {
           reObj[name] = [];
           reObj[name].push(`${Rules.required}`);
         }
-        if ((Rules[name].max) <= value.length) {
+        if ((Rules[name].max) < value.length) {
           reObj[name] = [];
           reObj[name].push('error.max', Rules[name].max);
         }
@@ -54,11 +54,11 @@ const ValidationManager = (obj) => {
 
       case 'message':
         // length (override regex) (min, max)
-        if ((Rules[name].min) >= value.length) {
+        if ((Rules[name].min) > value.length) {
           reObj[name] = [];
           reObj[name].push(`${Rules.required}`);
         }
-        if ((Rules[name].max) <= value.length) {
+        if ((Rules[name].max) < value.length) {
           reObj[name] = [];
           reObj[name].push('error.max', Rules[name].max);
         }
@@ -66,8 +66,8 @@ const ValidationManager = (obj) => {
 
       case 'password':
         if (!(Regex[name]).test(value) 
-            || (Rules[name].min) >= value.length 
-            || (Rules[name].max) <= value.length
+            || (Rules[name].min) > value.length 
+            || (Rules[name].max) < value.length
         ) {
           reObj[name] = [];
         }
@@ -76,11 +76,11 @@ const ValidationManager = (obj) => {
           reObj[name].push('error.password');
         }
         // length (min, max)
-        if ((Rules[name].min) >= value.length) {
+        if ((Rules[name].min) > value.length) {
           reObj[name] = [];
           reObj[name].push(`${Rules.required}`);
         }
-        if ((Rules[name].max) <= value.length) {
+        if ((Rules[name].max) < value.length) {
           reObj[name] = [];
           reObj[name].push('error.max', Rules[name].max);
         }

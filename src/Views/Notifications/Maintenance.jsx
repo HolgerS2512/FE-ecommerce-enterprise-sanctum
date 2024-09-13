@@ -1,11 +1,37 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ShortHeader from '../../common/ShortHeader';
-import { Gear } from '../../components/icon/Icons';
 import WebImage from '../../components/Helpers/WebImage';
 
 const Maintenance = () => {
   const { t } = useTranslation();
+  const [isAnimate, setIsAnimate] = useState(true);
+  const [rotationAngles, setRotationAngles] = useState([0, 0, 0]);
+  const gearRefs = [useRef(null), useRef(null), useRef(null)];
+
+  // const handleClick = () => setAnimate((a) => !a);
+  const handleClick = () => {
+    if (isAnimate) {
+      // Pause the rotation and capture the current angle for each object
+      const newAngles = gearRefs.map((gearRef, i) => {
+        const computedStyle = window.getComputedStyle(gearRef.current);
+        const matrix = computedStyle.transform;
+
+        if (matrix !== 'none') {
+          const values = matrix.split('(')[1].split(')')[0].split(',');
+          const a = parseFloat(values[0]);
+          const b = parseFloat(values[1]);
+          return Math.round(Math.atan2(b, a) * (180 / Math.PI));
+        } else {
+          return 0;
+        }
+      });
+      setRotationAngles(newAngles);
+      setIsAnimate(false);
+    } else {
+      setIsAnimate(true);
+    }
+  };
 
   return (
     <div style={styles.container}>
@@ -13,18 +39,35 @@ const Maintenance = () => {
       <div style={styles.row}>
         <div style={styles.inner}>
 
-          <div className='user-select-none pe-none position-relative' style={styles.gearContainer}>
-            <div className='rotate-slow-small position-absolute' style={styles.gearLeft}>
-                <WebImage 
-                  src='public/images/gear2.webp'
-                  fallbackSrc='public/images/gear2.png'
-                  width={52}
-                  height={52}
-                  className='drop-shadow-gear'
-                />
+          <div onClick={handleClick} className='user-select-none position-relative' style={styles.gearContainer}>
+            <div
+              ref={gearRefs[0]}
+              className='position-absolute rotate-slow-small'
+              style={{
+                ...styles.gear,
+                ...styles.gearLeft,
+                transform: `rotate(${rotationAngles[0]}deg)`,
+                animationPlayState: isAnimate ? 'running' : 'paused',
+              }}
+            >
+              <WebImage 
+                src='public/images/gear2.webp'
+                fallbackSrc='public/images/gear2.png'
+                width={52}
+                height={52}
+                className='drop-shadow-gear'
+              />
             </div>
 
-            <div className='rotate-slow' style={styles.gear}>
+            <div
+              ref={gearRefs[1]}
+              className='rotate-slow'
+              style={{
+                ...styles.gear,
+                transform: `rotate(${rotationAngles[1]}deg)`,
+                animationPlayState: isAnimate ? 'running' : 'paused',
+              }}
+            >
               <WebImage 
                 src='public/images/gear.webp'
                 fallbackSrc='public/images/gear.png'
@@ -34,8 +77,20 @@ const Maintenance = () => {
               />
             </div>
 
-            <div className='position-absolute' style={styles.gearRight}>
-              <div className='rotate-slow-negativ position-absolute' style={styles.gearSpec}>
+            <div className='position-absolute' style={{
+              ...styles.gearRight,
+              ...styles.gear,
+              }}
+            >
+              <div
+                ref={gearRefs[2]}
+                className='position-absolute rotate-slow-negativ'
+                style={{
+                  ...styles.gearSpec,
+                  transform: `rotate(${rotationAngles[2]}deg)`,
+                  animationPlayState: isAnimate ? 'running' : 'paused',
+                }}
+              >
                 <WebImage 
                   src='public/images/gear3.webp'
                   fallbackSrc='public/images/gear3.png'
@@ -80,17 +135,16 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     margin: '0 0 0 2rem',
+    cursor: 'pointer',
   },
   gear: {
     maxWidth: 'max-content',
   },
   gearLeft: {
-    maxWidth: 'max-content',
     left: '50%',
     top: '-70px',
   },
   gearRight: {
-    maxWidth: 'max-content',
     top: '-72px',
   },
   gearSpec: {

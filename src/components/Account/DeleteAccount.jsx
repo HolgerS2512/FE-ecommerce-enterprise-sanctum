@@ -41,13 +41,12 @@ const DeleteAccount = ({ onClose }) => {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message : t('http.success.deleted.account'),
           });
           logout();
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
       setDestroy(false);
       setHasUpdate(true);
@@ -101,7 +100,7 @@ const DeleteAccount = ({ onClose }) => {
         require={false}
         secondBtn={deleteBtn}
       >
-        {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+        {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
         <div className='m-sm-3 mb-3'>
           <CheckboxText 

@@ -58,11 +58,10 @@ const PaymentMethods = () => {
         setAddPaymentMeths(JSON.parse(decrypted));
       } 
     } catch (err) {
-      const { message } = err.response.data;
       setNotification({
         visible: true,
         status: 'e',
-        msg: message,
+        error: err,
       });
     }
     setHasResponse(true);

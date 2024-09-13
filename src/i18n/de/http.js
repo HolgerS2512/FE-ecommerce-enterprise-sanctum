@@ -1,20 +1,15 @@
 export const http = {
-  0: "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
-  1: "",
-  2: "",
-  3: "",
-  4: "Es konnte kein Account mit den angegebenen Zugangsdaten gefunden werden.",
-  5: "Es ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
 
   400: 'Ihre Anfrage ist fehlerhaft oder unvollständig.',
   401: 'Unauthorisierter Zugriff! Bitte melden Sie sich erst an, wenn Sie diese Aktion durchführen möchten.',
   403: 'Unautorisierter Zugriff! Für diese Aktion haben Sie nicht die nötige Berechtigung.',
-  404: '',
-  429: '',
-  500: '',
-  502: '',
+  404: 'Es tut uns leid, aber die von Ihnen gesuchte Ressource konnte nicht gefunden werden. Das Formular konnte nicht gesendet werden, da die angeforderte Seite möglicherweise verschoben wurde oder nicht mehr existiert.',
+  429: 'Zu viele Versuche. Sie können im Moment nicht auf diese Ressource zugreifen. Bitte versuche es später noch mal.',
+
+  500: 'Es tut uns leid, es ist ein Fehler aufgetreten. Bitte versuche es später erneut.',
+  502: 'Es tut uns leid, es gab ein Problem beim Verarbeiten Ihrer Anfrage. Der Server hat eine ungültige Antwort erhalten, daher konnte das Formular nicht gesendet werden.',
   503: 'Diese Aktion ist momentan nicht verfügbar, da wir Wartungsarbeiten durchführen. Wir sind in Kürze wieder für Sie erreichbar.',
-  504: '',
+  504: 'Timeout. Es tut uns leid, es gab ein Problem beim Absenden des Formulars. Der Server hat zu lange gebraucht, um zu antworten.',
 
   success: {
     account: {
@@ -22,12 +17,7 @@ export const http = {
       verified: 'Herzlichen Glückwunsch! Sie haben Ihren Account erfolgreich verifiziert.',
       login: 'Anmeldung Erfolgreich',
       logout: 'Sie haben sich erfolgreich abgemeldet!',
-    },
-
-    loaded: {},
-
-    token: {
-      check_emails: 'Bitte überprüfen Sie Ihre E-Mails und tragen Sie den entsprechenden PIN-Code ein, um die Aktion erfolgreich abzuschließen.',
+      token: 'Bitte überprüfen Sie Ihre E-Mails und tragen Sie den entsprechenden PIN-Code ein, um die Aktion erfolgreich abzuschließen.',
     },
 
     created: {
@@ -40,7 +30,7 @@ export const http = {
     updated: {
       settings: 'Ihre Einstellungen wurden erfolgreich Aktualisiert.',
       user_data: 'Sie haben Ihre Nutzerdaten erfolgreich geändert.',
-      email: 'Sie haben Ihre E-Mail Adresse erfolgreich aktualisiert.',
+      email: 'Sie haben Ihre E-Mail Adresse erfolgreich aktualisiert. Bitte melden Sie sich erneut an.',
       password: 'Sie haben Ihr Passwort erfolgreich aktualisiert. Bitte melden Sie sich erneut an.',
       address: 'Ihre Adressdaten wurden erfolgreich geändert.',
       category: 'Kategorie update erfolgreich.',
@@ -48,6 +38,7 @@ export const http = {
     },
 
     deleted: {
+      account: 'Sie haben Ihr Konto erfolgreich gelöscht.',
       address: 'Ihre Adressdaten wurden erfolgreich gelöscht.',
       category: 'Kategorie erfolgreich gelöscht.',
       product: 'Produkt erfolgreich gelöscht.',
@@ -68,6 +59,7 @@ export const http = {
 
     "url_link_not_match": 'Dieser Link ist nicht korrekt. Bitte versuchen Sie es noch einmal oder klicken Sie auf den Link in der E-Mail.',
 
-    "account_doesnt_exists": 'In unserem System gibt es kein Konto, das Sie verifizieren können.',
+    "account_doesnt_exists": 'Es konnte kein Account mit den angegebenen Zugangsdaten gefunden werden.',
+    "account_doesnt_exists_verify": 'In unserem System gibt es kein Konto, das Sie verifizieren können.',
   },
 };

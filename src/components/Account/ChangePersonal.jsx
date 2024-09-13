@@ -146,13 +146,12 @@ const ChangePersonal = ({ closeLoader }) => {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message : t('http.success.updated.user_data'),
           });
           setUserProps(payload);
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setHasUpdate(true);
@@ -215,7 +214,7 @@ const ChangePersonal = ({ closeLoader }) => {
       btnDisabled={hasUpdate}
     >
 
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       <div className="row">
 

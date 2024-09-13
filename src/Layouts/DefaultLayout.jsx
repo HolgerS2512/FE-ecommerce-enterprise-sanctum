@@ -32,5 +32,5 @@ export default DefaultLayout;
 
 // import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg.jsx";
 // const [httpStatus, setHttpStatus] = useState({ visible: false });
-// setHttpStatus({ visible: true, msg: message });
-// if (httpStatus.visible) return <HttpStatusMsg msg={httpStatus.msg} />
+// setHttpStatus({ visible: true, error: err });
+// if (httpStatus.visible) return <HttpStatusMsg error={httpStatus.error} />

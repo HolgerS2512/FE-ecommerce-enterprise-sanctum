@@ -42,8 +42,7 @@ const LookUpAccount = () => {
         setLookup(email);
         navigate(`/${res?.data?.route}`);
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -66,7 +65,7 @@ const LookUpAccount = () => {
       h1={t('lookup_greeting')}
       submitBtnText={t('continue')}
     >
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       <InputInchField
         label={t('input.email')} 

@@ -10,7 +10,7 @@ const ShortHeader = () => {
       <div className='sh-h-inner'>
         <div>
           <img src={Logo} alt={alt} />
-          <h1>{COMPANY.name}</h1>
+          <h1 className='text-nowrap'>{COMPANY.name}</h1>
         </div>
       </div>
     </header>

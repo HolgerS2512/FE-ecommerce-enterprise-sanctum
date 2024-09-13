@@ -60,6 +60,20 @@ const ChangePassword = () => {
     }
   }, [canUpdate]);
 
+  useEffect(() => {
+    const values = [
+      hasValChars, 
+      hasValAddition, 
+      hasValNewOld, 
+      hasValConfirm
+    ];
+    if (canUpdate) {
+      values.push(!val('pin', pin));
+    }
+    const result = values.every((b) => b === true);
+    setHasUpdate(!result);
+  }, [hasValChars, hasValAddition, hasValNewOld, hasValConfirm]);
+
   const handleSubmitUpdate = async () => {
     setHttpStatus({});
     setIsLoading(true);
@@ -83,18 +97,14 @@ const ChangePassword = () => {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message : t('http.success.updated.password'),
           });
           setUser({});
           setSessionToken('');
           redirect(ROUTES.pages.HOME);
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
-        if (err.response.status === 401) {
-          clientError.pin.msg = [message];
-        }
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setHasUpdate(true);
@@ -108,7 +118,12 @@ const ChangePassword = () => {
       && hasValAddition 
       && hasValNewOld 
       && hasValConfirm
-      && !Boolean(clientError.current_password.msg.length));
+      && !Boolean(clientError.current_password.msg.length)
+    );
+    // Send btn -> diabled
+    if (!hasUpdate) {
+      setHasUpdate(true);
+    }
   };
 
   const handleSubmitEdit = async () => {
@@ -131,14 +146,11 @@ const ChangePassword = () => {
         visible: true, 
         status: err.response.data.status, 
       });
-      setHttpStatus({ visible: true, msg: err.response.data.message });
+      setHttpStatus({ visible: true, error: err });
       setTimeout(() => {
         setEditResp({ visible: false });
         setCanUpdate(false);
       }, 4000);
-      if (err.response.status === 401) {
-        clientError.current_password.msg = [err.response.data.message];
-      }
     }
   }
 
@@ -150,7 +162,6 @@ const ChangePassword = () => {
     if (hasVal) {
       passValidation();
     }
-    setLockDown();
   }
 
   const passValidation = useCallback(() => {
@@ -183,12 +194,7 @@ const ChangePassword = () => {
     const { value } = e.target;
     setPin(value);
     val('pin', value);
-  }
-
-  const setLockDown = () => {
-    if (hasUpdate) {
-      setHasUpdate(false);
-    }
+    setHasUpdate(val('pin', value));
   }
 
   return (
@@ -202,7 +208,7 @@ const ChangePassword = () => {
       btnDisabled={hasUpdate}
     >
 
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       <div className="row">
 

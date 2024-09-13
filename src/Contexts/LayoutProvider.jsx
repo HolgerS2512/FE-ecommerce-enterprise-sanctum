@@ -7,6 +7,7 @@ import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
 
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
+import Maintenance from '../Views/Notifications/Maintenance.jsx';
 
 const StateContext = createContext({
 	categories: null,
@@ -25,6 +26,7 @@ export const LayoutProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	// Errorhandling
 	const [httpStatus, setHttpStatus] = useState({ visible: false });
+	const [maintenance, setMaintenance] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -38,6 +40,9 @@ export const LayoutProvider = ({ children }) => {
 				setCategories(res.data.data);
 			}
 		} catch (err) {
+			if (err.response.status === 503) {
+				setMaintenance(true);
+			}
 			setHttpStatus({ visible: true, error: err });
 		}
 		setIsLoading(false);
@@ -63,10 +68,11 @@ export const LayoutProvider = ({ children }) => {
 				}
 			}
 		} catch (err) {
-			const { message } = err?.response?.data;
-			setHttpStatus({ visible: true, msg: message });
+			setHttpStatus({ visible: true, error: err });
 		}
 	};
+
+	if (maintenance) return <Maintenance />;
 
 	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg error={httpStatus.error} /></div>;
 	

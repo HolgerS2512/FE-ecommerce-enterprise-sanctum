@@ -1,20 +1,15 @@
 export const http = {
-  0: "An error has occurred. Please try again later.",
-  1: "",
-  2: "",
-  3: "",
-  4: "No account could be found with the specified login details.",
-  5: "An error has occurred. Please try again later.",
 
   400: 'Your request is incorrect or incomplete.',
   401: 'Unauthorized access! Please log in only if you want to perform this action.',
   403: 'Unauthorized access! You do not have the necessary permissions to perform this action.',
-  404: '',
-  429: '',
-  500: '',
-  502: '',
+  404: "We’re sorry, but the resource you are looking for could not be found. The form submission failed because the requested page may have been moved or no longer exists.",
+  429: 'Too many attempts. Please try again later.',
+
+  500: "We're sorry, an error has occurred. Please try again later.",
+  502: "We're sorry, there was a problem processing your request. The server received an invalid response, so the form could not be sent.",
   503: 'This action is currently unavailable due to maintenance. We will be available to you again shortly.',
-  504: '',
+  504: 'Timeout. Sorry, there was a problem submitting the form. The server took too long to respond.',
 
   success: {
     account: {
@@ -22,12 +17,7 @@ export const http = {
       verified: 'Congratulations! You have successfully verified your account.',
       login: 'Successfully Login',
       logout: 'You have been successfully logged out!',
-    },
-
-    loaded: {},
-
-    token: {
-      check_emails: 'Please check your emails and enter the corresponding PIN code to successfully complete the action.',
+      token: 'Please check your emails and enter the corresponding PIN code to successfully complete the action.',
     },
 
     created: {
@@ -40,7 +30,7 @@ export const http = {
     updated: {
       settings: 'Your settings have been updated successfully.',
       user_data: 'You have successfully changed your user data.',
-      email: 'You have successfully updated your email address.',
+      email: 'You have successfully updated your email address. Please log in again.',
       password: 'You have successfully reset your password. Please log in again.',
       address: 'Your address details have been changed successfully.',
       category: 'Category update successful.',
@@ -48,6 +38,7 @@ export const http = {
     },
 
     deleted: {
+      account: 'You have successfully deleted your account.',
       address: 'Your address data has been successfully deleted.',
       category: 'Category successfully deleted.',
       product: 'Product successfully deleted.',
@@ -68,6 +59,7 @@ export const http = {
 
     "url_link_not_match": 'This link is not correct. Please try again or click the link in the email.',
 
-    "account_doesnt_exists": 'There is no account in our system that you can verify.',
+    "account_doesnt_exists": 'No account could be found with the specified login details.',
+    "account_doesnt_exists_verify": 'There is no account in our system that you can verify.',
   }
 };

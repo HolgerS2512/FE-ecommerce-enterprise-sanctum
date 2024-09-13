@@ -13,7 +13,7 @@ const ProfileMenu = () => {
   const { links, name, icon } = NAVLINKS.profile;
   const { link: oLink } = links.OVERVIEW;
   const { firstname } = user;
-  const hasName = firstname !== '';
+  const hasName = firstname !== '' && firstname !== undefined;
 
   const handleSelfClickLink = (e, link) => {
     if (pathname === link) {

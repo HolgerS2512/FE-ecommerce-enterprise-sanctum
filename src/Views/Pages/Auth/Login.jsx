@@ -54,20 +54,19 @@ const Login = () => {
     
       try {
         const res = await axiosClient.post(ROUTES.auth.LOGIN, payload);
-        if (res?.data) {
-          const { user } = res.data;
+        if (await res.data) {
+          const { user, token } = await res.data;
           setLookup('');
           setUser(user);
-          setSessionToken(res.data.token);
+          setSessionToken(token);
           // setTimeout(() => window.location.reload(), 0);
           navigate(ROUTES.pages.HOME);
         } 
       } catch (err) {
-        const { message } = err.response.data;
         if (err.response.status === 408) {
           setVerify(true);
         }
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -102,7 +101,7 @@ const Login = () => {
         >{t('edit')}</Link>
       </div>}
     >
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       {verify && <SendPinAgain email={inputData.email} setHttpErr={handleHttpErr} />}
 

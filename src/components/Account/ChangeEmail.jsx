@@ -26,6 +26,7 @@ const ChangeEmail = () => {
   const [email_confirmation, setEmailConfirmation] = useState('');
   const [pin, setPin] = useState('');
   // Ref
+  const currentEmailRef = useRef(null);
   const newEmailRef = useRef(null);
   const confirmEmailRef = useRef(null);
   // States
@@ -66,6 +67,19 @@ const ChangeEmail = () => {
     }
   }, [canUpdate]);
 
+  useEffect(() => {
+    const values = [
+      hasValid, 
+      hasValNewOld, 
+      hasValConfirm
+    ];
+    if (canUpdate) {
+      values.push(!val('pin', pin));
+    }
+    const result = values.every((b) => b === true);
+    setHasUpdate(!result);
+  }, [hasValid, hasValNewOld, hasValConfirm]);
+
   const handleSubmitUpdate = async () => {
     setHttpStatus({});
     setIsLoading(true);
@@ -88,18 +102,14 @@ const ChangeEmail = () => {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message : t('http.success.updated.email'),
           });
           setUser({});
           setSessionToken('');
           redirect(ROUTES.pages.HOME);
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
-        if (err.response.status === 401) {
-          clientError.pin.msg = [message];
-        }
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setHasUpdate(true);
@@ -113,7 +123,12 @@ const ChangeEmail = () => {
     setCanUpdate(hasValid
       && hasValNewOld 
       && hasValConfirm
-      && !Boolean(clientError.current_email.msg.length));
+      && !Boolean(clientError.current_email.msg.length)
+    );
+    // Send btn -> diabled
+    if (!hasUpdate) {
+      setHasUpdate(true);
+    }
   };
 
   const handleSubmitEdit = async () => {
@@ -125,7 +140,7 @@ const ChangeEmail = () => {
 
     try {
       const res = await axiosClient.post(ROUTES.account.EMAIL.EDIT, payload);
-      if (res.data.status) {
+      if (await res.data.status) {
         setEditResp({ 
           visible: true, 
           status: res.data.status, 
@@ -136,14 +151,11 @@ const ChangeEmail = () => {
         visible: true, 
         status: err.response.data.status, 
       });
-      setHttpStatus({ visible: true, msg: err.response.data.message });
+      setHttpStatus({ visible: true, error: err });
       setTimeout(() => {
         setEditResp({ visible: false });
         setCanUpdate(false);
       }, 4000);
-      if (err.response.status === 401) {
-        clientError.current_email.msg = [err.response.data.message];
-      }
     }
   }
 
@@ -155,11 +167,10 @@ const ChangeEmail = () => {
     if (hasVal) {
       emailValidation();
     }
-    setLockDown();
   }
 
   const emailValidation = useCallback(() => {
-    const c_val = current_email;
+    const c_val = currentEmailRef.current.value;
     const n_val = newEmailRef.current.value;
     const co_val = confirmEmailRef.current.value;
 
@@ -179,7 +190,7 @@ const ChangeEmail = () => {
     });
 
     setHasValid(c_checked && n_checked && co_checked);
-    setHasValNewOld(c_val !== n_val && c_val !== co_val);
+    setHasValNewOld(current_email !== n_val && current_email !== co_val);
     setHasValConfirm(n_val === co_val && n_val.length >= 8 && co_val.length >= 8);
   }, [hasValid, hasValNewOld, hasValConfirm]);
 
@@ -187,14 +198,9 @@ const ChangeEmail = () => {
     const { value } = e.target;
     setPin(value);
     val('pin', value);
+    setHasUpdate(val('pin', value));
   }
 
-  const setLockDown = () => {
-    if (updateAllowed && hasUpdate) {
-      setHasUpdate(false);
-    }
-  }
-  
   return (
     <BlankForm
       onSubmit={(e) => {
@@ -206,7 +212,7 @@ const ChangeEmail = () => {
       btnDisabled={hasUpdate}
     >
 
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       <div className="row">
 
@@ -248,6 +254,7 @@ const ChangeEmail = () => {
             value={current_email} 
             tabIndex={-1} // canUpdate request state
             readOnly={true} // canUpdate request state
+            ref={currentEmailRef}
             err={hasVal ? !hasValNewOld || Boolean(clientError.current_email.msg.length) : false}
           />
         </div>

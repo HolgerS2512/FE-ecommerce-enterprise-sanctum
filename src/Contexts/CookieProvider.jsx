@@ -41,8 +41,7 @@ export const CookieProvider = ({ children }) => {
 				}); // 6 Months
 			}
 		} catch (err) {
-			const { message } = err?.response?.data;
-			setHttpStatus({ visible: true, msg: message });
+			console.error(err.response);
 		}
 	}
 

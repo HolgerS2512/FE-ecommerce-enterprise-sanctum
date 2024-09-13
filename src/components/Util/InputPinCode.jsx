@@ -78,23 +78,29 @@ const InputPinCode = ({ col, label, onChange, err, value, tabIndex = 1, noVal, o
             onFocus={() => setChangeFocus(true)}
             onBlur={() => setChangeFocus(false)}
             aria-required="true"
-            aria-invalid="false"
+            aria-invalid={Boolean(err?.length) ? true : false}
             aria-labelledby={label + '-label'}
             tabIndex={tabIndex}
           />
-            <button 
-              disabled={throttle !== THROTTLE}
-              type='button'
-              className='xfs-btn btn-nostyle xfs-svg-rotate'
-              aria-label={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : t('new_pin')}
-              aria-busy={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : ''}
-              onClick={handleClick}
-              tabIndex={tabIndex}
-            >
-              <Refresh size={28} />
-            </button>
-            {!documentReader && setDocumentReader(true)}
+          <button 
+            disabled={throttle !== THROTTLE}
+            type='button'
+            className='xfs-btn btn-nostyle xfs-svg-rotate'
+            aria-label={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : t('new_pin')}
+            aria-busy={throttle !== THROTTLE ? t('new_pin_in', { throttle }) : ''}
+            onClick={handleClick}
+            tabIndex={tabIndex}
+          >
+            <Refresh size={28} />
+          </button>
         </div>        
+        {Boolean(err?.length) && 
+          <div 
+            className="ms-1 mt-1 msg-error"
+            aria-label={err}
+            tabIndex={tabIndex}
+          >{err}</div>}
+        {!documentReader && setDocumentReader(true)}
 
       </fieldset>
     </div>

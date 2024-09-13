@@ -45,15 +45,14 @@ const NewsletterSubscriber = ({ id, newsletter_subscriber, setUserProps }) => {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message : t('http.success.updated.settings'),
           });
           setUserProps(payload);
           setHasUpdate(true);
           setIsLoading(true);
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -75,7 +74,7 @@ const NewsletterSubscriber = ({ id, newsletter_subscriber, setUserProps }) => {
       require={false}
       btnDisabled={hasUpdate}
     >
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
       <div className="row">
 
       <span tabIndex={1} className='p mb-4 fw-semibold'>{t('community_informations')}</span>

@@ -67,7 +67,8 @@ const VerifyEmail = () => {
           userMSG.msg = `${json.message} ${t('forwarding')}`;
           throttleUM(throttle, ROUTES.auth.LOGIN);
         } else {
-          setHttpStatus({ visible: true, msg: json.message });
+          const err = { response: { status: false, data: { message: json.message } } };
+          setHttpStatus({ visible: true, error: err });
         }
       }
     });
@@ -90,8 +91,7 @@ const VerifyEmail = () => {
           throttleUM(throttle, ROUTES.auth.LOGIN);
         }
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -139,7 +139,7 @@ const VerifyEmail = () => {
           h1={t('new_pin_greeting')}
           submitBtnText={t('continue')}
         >
-          {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+          {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
           <InputVerifyCode
             label={t('input.pin')} 

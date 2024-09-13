@@ -86,8 +86,7 @@ const Register = () => {
           navigate(`${ROUTES.auth.VERIFYEMAIL}/${res.data.url}`);
         } 
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
     }
     setBtnLoader(false);
@@ -144,7 +143,7 @@ const Register = () => {
           >{t('edit')}</Link>
         </div>}
     >
-      {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+      {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
       <div className="row">
         <InputInchField

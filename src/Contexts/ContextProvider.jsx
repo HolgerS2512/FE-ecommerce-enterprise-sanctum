@@ -8,6 +8,7 @@ import ROUTES from "../Settings/ROUTES";
 import { CookieSlug } from "../Settings/Cookies";
 import CookieManager from "../Modules/CookieManager";
 import { redirect } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
@@ -27,6 +28,7 @@ const StateContext = createContext({
 export const ContextProvider = ({ children }) => {
 	// Common
 	const cookieManager = new CookieManager();
+	const {t} = useTranslation();
 	const { setNotification } = useNotification();
 	// Communication (oauth) cookie - (auth) localstorage
 	const hasAuthCookie = cookieManager.getCookie(CookieSlug.oauth) !== null;
@@ -68,8 +70,9 @@ export const ContextProvider = ({ children }) => {
       setNotification({
         visible: true,
         status: 'e',
-        msg: error.message,
+        message: t('http.500'),
       });
+			logout();
     }
 	};
 
@@ -93,8 +96,8 @@ export const ContextProvider = ({ children }) => {
     }));
 	}
 
-	const logout = (e) => {
-    e.preventDefault();
+	const logout = (e = false) => {
+    if (e) e.preventDefault();
     axiosClient.get(ROUTES.auth.LOGOUT).then((res) => {
       if (res.status === 204) {
 				window.location.href = ROUTES.pages.HOME;

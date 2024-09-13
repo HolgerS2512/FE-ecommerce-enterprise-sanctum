@@ -69,6 +69,7 @@ axiosClient.interceptors.response.use(
 
     if (response.status === 401) {
       localStorage.removeItem(CookieSlug.auth);
+      window.location.reload();
     }
 
     throw error;

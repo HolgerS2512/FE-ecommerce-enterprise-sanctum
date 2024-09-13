@@ -76,19 +76,16 @@ const Contact = () => {
 
       try {
         const res = await axiosClient.post(ROUTES.pages.CONTACT, payload);
-        if (res.data.status) {
+        if (res?.data?.status) {
           setNotification({
             visible : true,
             status : 's',
-            msg : res.data.message,
+            message: t('http.success.created.contact'),
           });
           clearStates();
-        } else {
-          setHttpStatus({ visible: true, msg: message });
         }
       } catch (err) {
-        const { message } = err.response.data;
-        setHttpStatus({ visible: true, msg: message });
+        setHttpStatus({ visible: true, error: err });
       }
       setIsLoading(false);
     }
@@ -142,7 +139,7 @@ const Contact = () => {
         styles={{ maxWidth: '780px' }}
       >
 
-        {httpStatus.visible && <HttpStatusMsg msg={httpStatus.msg} />}
+        {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}
 
         <div className="row">
 
