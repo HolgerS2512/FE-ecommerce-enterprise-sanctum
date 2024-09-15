@@ -30,7 +30,9 @@ const LookUpAccount = () => {
   const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
-    if (token) navigate(ROUTES.pages.HOME);
+    if (token) {
+      navigate(ROUTES.pages.HOME);
+    }
   }, []);
 
   const handleSubmit = async () => {

@@ -91,6 +91,9 @@
 }
 
 .hidden {
+  -webkit-visibility: hidden;
+  -moz-visibility: hidden;
+  -o-visibility: hidden;
   visibility: hidden;
 }
 

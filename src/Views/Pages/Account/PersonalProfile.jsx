@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"
 import { useOutletContext } from "react-router-dom";
 
@@ -9,17 +8,13 @@ import ChangePersonal from "../../../components/Account/ChangePersonal";
 const PersonalProfile = () => {
   const {t} = useTranslation();
   const { isLoading, setIsLoading } = useOutletContext();
-  const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    setVisible(!isLoading);
-  }, [isLoading]);
-
+  // Important loader not allowed to set true! 
+  // Consequences visibility error!
   const closeLoader = () => setIsLoading(false);
 
-
   return (
-    <div className="container acc-dist hidden" style={visible ? { visibility: 'visible' } : null}>
+    <div className={`container acc-dist${!isLoading ? '' : ' hidden'} `}>
       <div className="wrap70r">
 
         <h1 className="mb-5" tabIndex={1} aria-description={t('personal_profile')}>{t('personal_profile')}</h1>
@@ -40,7 +35,7 @@ const PersonalProfile = () => {
             </h2>
             <div id="changePersonal" className="accordion-collapse collapse show" data-bs-parent="#changePersonalData">
               <div className="accordion-body">
-                <ChangePersonal closeLoader={closeLoader} />
+                <ChangePersonal closeLoader={closeLoader} isLoading={isLoading} />
               </div>
             </div>
           </div>

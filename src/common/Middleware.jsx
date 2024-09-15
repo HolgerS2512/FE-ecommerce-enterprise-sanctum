@@ -6,9 +6,12 @@ import ROUTES from "../Settings/ROUTES";
 import Loading from "../components/Helpers/Loading";
 
 const Middleware = () => {
-  const { token, error } = useStateContext();
-  const [isLoading, setIsLoading] = useState(true);
+  // Common
+  const { token } = useStateContext();
   const location = useLocation();
+  // States
+  const [isLoading, setIsLoading] = useState(true);
+  const [serverTimeout, setServerTimeout] = useState(false);
 
 	useEffect(() => {
     if (!isLoading) {
@@ -16,14 +19,18 @@ const Middleware = () => {
     }
   }, [location.pathname]);
 
-  if (error || !token) return <Navigate to={ROUTES.pages.HOME} />;
+  const setMiddlewareTimeout = () => setServerTimeout(true);
+
+  if (!token) return <Navigate to={ROUTES.pages.HOME} />;
+
+  if (serverTimeout) return <h1>timeout</h1>;
     
   return (
     <>
       {isLoading && <Loading/>}
 
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
-        <Outlet context={{ isLoading, setIsLoading }} />
+        <Outlet context={{ isLoading, setIsLoading, setMiddlewareTimeout }} />
       </div>
     </>
   );

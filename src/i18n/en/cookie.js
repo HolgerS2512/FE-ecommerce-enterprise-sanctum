@@ -42,7 +42,7 @@ export const cookie = {
   product_version: 'Stores the version number of the products',
   saved_categories: 'Stores category data, including preferred sorting options, layouts, and display modes.',
   saved_products: 'Stores product data, including preferred sorting options, layouts, and display modes.',
-  saved_user_values: "For design reasons, the user's first name is stored securely and encrypted in your browser after registration.",
+  saved_user_values: "For design reasons, the user's first name is stored securely and encrypted in your device after registration.",
 
   //
   alert_msg: "Required field - cannot be deselected. Necessary cookies help make a website usable by enabling basic functions like page navigation and access to secure areas of the website",
@@ -58,6 +58,6 @@ export const cookie = {
   months: 'Months',
   years: 'Years',
   session: 'Session',
-  resistant: 'Permanent (until deleted or overwritten)',
+  resistant: 'Permanent - until authentication expires',
   save_method: 'Type/Storage Method',
 };

@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { useStateContext } from "../../Contexts/ContextProvider";
 import { useNotification } from "../../Contexts/NotificationProvider";
 import { useTranslation } from "react-i18next"
+import { useOutletContext } from "react-router-dom";
 
 import axiosClient from '../../axios-clint';
 import { createValidator } from "../../Modules/ValidationManager";
 import ClientErrorManager from "../../Modules/ClientErrorManager";
 import ROUTES from "../../Settings/ROUTES";
+import AesCryptographer from "../../Modules/AesCryptographer";
 
 import DateModel from "../../Modules/DateModel";
 import BlankForm from "../BlankForm"
@@ -14,9 +16,12 @@ import HttpStatusMsg from "../../Views/Notifications/HttpStatusMsg";
 import InputInchField from "../Util/InputInchField";
 import Select from "../Util/Select";
 
-const ChangePersonal = ({ closeLoader }) => {
+const cryptographer = new AesCryptographer();
+
+const ChangePersonal = ({ closeLoader, isLoading }) => {
   // Common
-  const { user,  setUserProps, isUserLaoding } = useStateContext();
+  const { user,  setUserProps } = useStateContext();
+  const { setMiddlewareTimeout } = useOutletContext();
   const { setNotification } = useNotification();
   const {t} = useTranslation();
 
@@ -28,12 +33,11 @@ const ChangePersonal = ({ closeLoader }) => {
   ];
 
   // Input States
-  const [salutation, setSalutation] = useState(user.salutation || salutationOpts[0]);
+  const [salutation, setSalutation] = useState(salutationOpts[0]);
   const [inputData, setInputData] = useState({
     firstname: '',
     lastname: '',
   });
-
 	const [selectDay, setSelectDay] = useState('');
   const [selectMonth, setSelectMonth] = useState('');
 	const [selectYear, setSelectYear] = useState('');
@@ -43,9 +47,8 @@ const ChangePersonal = ({ closeLoader }) => {
   const selectMonthRef = useRef();
   const selectYearRef = useRef();
   // States
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasUpdate, setHasUpdate] = useState(true);
-  const [updateAllowed, setUpdateAllowed] = useState(false);
+  const [canUpdate, setCanUpdate] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   // Errorhandling
   const [clientError] = useState({
     firstname: { msg: [] },
@@ -63,10 +66,8 @@ const ChangePersonal = ({ closeLoader }) => {
   const { getErrorMsg } = ClientErrorManager(clientError);
 
   useEffect(() => {
-    if (Boolean(Object.keys(user).length)) {
-      setUserValues();
-    }
-  }, [user]);
+    loadUserData();
+  }, []);
 
   useEffect(() => {
     if (selectDay > date.getDays().length) {
@@ -74,6 +75,29 @@ const ChangePersonal = ({ closeLoader }) => {
       selectDayRef.current.focus();
     }
   }, [selectYear, selectMonth]);
+
+  const loadUserData = async () => {
+    try {
+      const res = await axiosClient.get(ROUTES.account.PROFILE);
+      const { data, status } = res.data;
+
+      if (status) {
+        const decrypted = cryptographer.decrypt(data);
+        setUserProps(JSON.parse(decrypted));
+        setUserValues(JSON.parse(decrypted));
+      } 
+    } catch (err) {
+      if (err.response.status === 504) {
+        setMiddlewareTimeout();
+      } else {
+        setNotification({
+          visible: true,
+          status: 'e',
+          error: err,
+        });
+      }
+    }
+  }
 
   const calcMonths = () => {
     const monthsArr = date.getMonths();
@@ -83,8 +107,8 @@ const ChangePersonal = ({ closeLoader }) => {
     });
   };
 
-  const setSalutValues = () => {
-    const uSal = user.salutation;
+  const setSalutValues = (data) => {
+    const uSal = data.salutation;
 
     if (uSal) {
       salutationOpts.forEach((o) => {
@@ -97,9 +121,9 @@ const ChangePersonal = ({ closeLoader }) => {
     }
   }
 
-  const setBirthday = () => {
-    if (user.birthday) {
-      const split = user.birthday.split('-');
+  const setBirthday = (data) => {
+    if (data.birthday) {
+      const split = data.birthday.split('-');
 
       selectDayRef?.current?.setValue({ value:split[2], label:split[2] });
       selectYearRef?.current?.setValue({ value:split[0], label:split[0] });
@@ -112,25 +136,25 @@ const ChangePersonal = ({ closeLoader }) => {
     }
   }
 
-  const setUserValues = () => {
-    setSalutValues();
-    setBirthday();
+  const setUserValues = (data) => {
+    setSalutValues(data);
+    setBirthday(data);
     setInputData({
-      firstname: user.firstname,
-      lastname: user.lastname,
-    })
-    setTimeout(() => closeLoader(), 200);
-    setUpdateAllowed(true);
+      firstname: data.firstname,
+      lastname: data.lastname,
+    });
+    setTimeout(closeLoader, 200);
+    setCanUpdate(true);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setHttpStatus({});
-    setIsLoading(true);
+    setBtnLoading(true);
 
     const check = validPayload();
 
-    if (Boolean(check.length) && check.every((v) => v)) {
+    if (Boolean(check.length) && check.every((v) => v === true)) {
       const payload = {
         salutation: salutation,
         firstname: inputData.firstname,
@@ -149,14 +173,13 @@ const ChangePersonal = ({ closeLoader }) => {
             message : t('http.success.updated.user_data'),
           });
           setUserProps(payload);
+          setUserValues(payload);
         } 
       } catch (err) {
         setHttpStatus({ visible: true, error: err });
       }
     }
-    setHasUpdate(true);
-    setUpdateAllowed(false);
-    setIsLoading(false);
+    setBtnLoading(false);
   }
 
   const validPayload = () => {
@@ -201,17 +224,17 @@ const ChangePersonal = ({ closeLoader }) => {
   }
 
   const setLockDown = () => {
-    if (updateAllowed && hasUpdate) {
-      setHasUpdate(false);
+    if (!isLoading && canUpdate) {
+      setCanUpdate(false);
     }
   }
 
   return (
     <BlankForm
       onSubmit={handleSubmit}
-      isLoading={isLoading}
+      isLoading={btnLoading}
       submitBtnText={t('save_changes')}
-      btnDisabled={hasUpdate}
+      btnDisabled={canUpdate}
     >
 
       {httpStatus.visible && <HttpStatusMsg error={httpStatus.error} />}

@@ -13,11 +13,27 @@ const Overview = () => {
 
   useEffect(() => {
     if (isLoading) {
-      // loadAddress();
+      loadOverview();
       setIsLoading(false);
     }
     setVisible(!isLoading);
   }, [isLoading]);
+
+  const loadOverview = () => {
+    try {
+      
+    } catch (err) {
+      if (err.response.status === 504) {
+        setMiddlewareTimeout();
+      } else {
+        setNotification({
+          visible: true,
+          status: 'e',
+          error: err,
+        });
+      }
+    }
+  }
 
   return (
     <div className='hidden' style={visible ? { visibility: 'visible' } : null}>

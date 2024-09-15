@@ -10,7 +10,7 @@ import CookieManager from "../Modules/CookieManager";
 import { redirect } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
+// const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
 const cryptographer = new AesCryptographer();
 
@@ -28,53 +28,70 @@ const StateContext = createContext({
 export const ContextProvider = ({ children }) => {
 	// Common
 	const cookieManager = new CookieManager();
-	const {t} = useTranslation();
-	const { setNotification } = useNotification();
+	// const {t} = useTranslation();
+	// const { setNotification } = useNotification();
+	
 	// Communication (oauth) cookie - (auth) localstorage
 	const hasAuthCookie = cookieManager.getCookie(CookieSlug.oauth) !== null;
-	if (!hasAuthCookie) localStorage.removeItem(CookieSlug.auth);
+	if (!hasAuthCookie) localStorage.clear(); 
 	// Kernel
-	const [user, setUser] = useState({});
+	const storage = localStorage.getItem(CookieSlug.username) || false;
+	const decrypted = storage && cryptographer.decrypt(storage);
+	const [user, setUser] = useState(decrypted ? { firstname: decrypted } : {});
 	const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
 	const [lookup, setLookup] = useState('');
 
 	const hasToken = token !== '';
-	const hasUser = Boolean(Object.keys(user).length);
+	// const hasUser = Boolean(Object.keys(user).length);
 
-	const { data, isLoading: isUserLaoding, error } = useQuery({
-		queryKey: ['user'],
-		queryFn: () => FetchAsync(ROUTES.account.PROFILE),
-		staleTime: SESSION_LENGTH,
-		cacheTime: SESSION_LENGTH * 2,
-		enabled: hasToken && !hasUser, // Execute only if condition is met
-	});
+	// const { data, isLoading: isUserLaoding, error } = useQuery({
+	// 	queryKey: ['user'],
+	// 	queryFn: () => FetchAsync(ROUTES.account.PROFILE),
+	// 	staleTime: SESSION_LENGTH,
+	// 	cacheTime: SESSION_LENGTH * 2,
+	// 	enabled: hasToken && !hasUser, // Execute only if condition is met
+	// });
 
 	useEffect(() => {
-		loadUser();
-	}, [isUserLaoding]);
-
-	const loadUser = async () => {
-    if (data && !isUserLaoding && error === null) {
-			const decrypted = cryptographer.decrypt(data);
-			const user = JSON.parse(decrypted);
-
-      setUser(user);
+		if (hasToken) {
 			// Extends the original expired date.
 			cookieManager.setCookie(
 				CookieSlug.oauth, token, { 
 					expires: 60 * 60 * 24 * 10,
+					path: '/',
 					sameSite: "Strict", 
 				}
 			); // 10 days
-    } else if (error) {
-      setNotification({
-        visible: true,
-        status: 'e',
-        message: t('http.500'),
-      });
-			logout();
-    }
-	};
+		}
+	}, []);
+
+	// useEffect(() => {
+	// 	loadUser();
+	// }, [isUserLaoding]);
+
+	// const loadUser = async () => {
+  //   if (data && !isUserLaoding && error === null) {
+	// 		const decrypted = cryptographer.decrypt(data);
+	// 		const user = JSON.parse(decrypted);
+
+  //     setUser({firstname: 'Holger'});
+	// 		// Extends the original expired date.
+	// 		cookieManager.setCookie(
+	// 			CookieSlug.oauth, token, { 
+	// 				expires: 60 * 60 * 24 * 10,
+	// 				path: '/',
+	// 				sameSite: "Strict", 
+	// 			}
+	// 		); // 10 days
+  //   } else if (error) {
+  //     setNotification({
+  //       visible: true,
+  //       status: 'e',
+  //       message: t('http.500'),
+  //     });
+	// 		logout();
+  //   }
+	// };
 
 	const setSessionToken = (token) => {
 		setToken(token);
@@ -82,10 +99,6 @@ export const ContextProvider = ({ children }) => {
 			localStorage.setItem(CookieSlug.auth, token);
 		} else {
 			localStorage.removeItem(CookieSlug.auth);
-			cookieManager.deleteCookie(CookieSlug.oauth, {
-				sameSite: 'Strict',
-				path: '/',
-			});
 		}
 	}
 
@@ -103,7 +116,7 @@ export const ContextProvider = ({ children }) => {
 				window.location.href = ROUTES.pages.HOME;
         setUser({});
         setSessionToken('');
-        // window.location.reload(); 
+        localStorage.clear(); 
       }
     });
   };
@@ -115,8 +128,8 @@ export const ContextProvider = ({ children }) => {
 			user,
 			token,
 			lookup,
-			error,
-			isUserLaoding,
+			// error,
+			// isUserLaoding,
 			setUser,
 			setUserProps,
 			setSessionToken,

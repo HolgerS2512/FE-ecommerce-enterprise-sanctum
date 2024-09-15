@@ -21,7 +21,7 @@ const cryptographer = new AesCryptographer();
 const Addresses = () => {
   // Common
   const { user } = useStateContext();
-  const { isLoading, setIsLoading } = useOutletContext();
+  const { isLoading, setIsLoading, setMiddlewareTimeout } = useOutletContext();
   const { setNotification } = useNotification();
   const {t} = useTranslation();
   // DB fill
@@ -58,11 +58,15 @@ const Addresses = () => {
         setAddresses(JSON.parse(decrypted));
       } 
     } catch (err) {
-      setNotification({
-        visible: true,
-        status: 'e',
-        error: err,
-      });
+      if (err.response.status === 504) {
+        setMiddlewareTimeout();
+      } else {
+        setNotification({
+          visible: true,
+          status: 'e',
+          error: err,
+        });
+      }
     }
     setHasResponse(true);
 	}

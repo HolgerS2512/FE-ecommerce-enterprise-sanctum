@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useOutletContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStateContext } from '../../../Contexts/ContextProvider';
+import { useNotification } from '../../../Contexts/NotificationProvider';
 
+import axiosClient from '../../../axios-clint';
 import ROUTES from '../../../Settings/ROUTES';
+import AesCryptographer from '../../../Modules/AesCryptographer';
 
 import NewsletterSubscriber from '../../../components/Account/NewsletterSubscriber';
 import RegularBtn from '../../../components/Helpers/RegularBtn';
@@ -11,22 +14,32 @@ import WindowForm from '../../../components/WindowForm';
 import DeleteAccount from '../../../components/Account/DeleteAccount';
 import DataProtection from '../../../components/Account/DataProtection';
 
+const cryptographer = new AesCryptographer();
+
 const Settings = () => {
   // Common
-  const { user, setUserProps } = useStateContext();
-  const { isLoading, setIsLoading } = useOutletContext();
+  const { setUserProps } = useStateContext();
+  const { isLoading, setIsLoading, setMiddlewareTimeout } = useOutletContext();
+  const { setNotification } = useNotification();
   const {t} = useTranslation();
-  const targetRef = useRef();
   const location = useLocation();
   const { pathname } = location;
+  const targetRef = useRef();
+  // User values (id, newsletter_subscriber)
+  const [userData, setUserData] = useState({});
   // States
   const [visible, setVisible] = useState(false);
   const [windowCn, setWindowCn] = useState(false);
   const [isPrivacyActive, setIsPrivacyActive] = useState(false);
-  // Newsletter subscriber states
-  const { id, newsletter_subscriber } = user;
   // Open Accordion
   const lastParam = pathname.replace(`${ROUTES.account.SETTINGS}/`, '');
+
+  useEffect(() => {
+    if (isLoading) {
+      loadUserData();
+    }
+    setVisible(!isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     setIsPrivacyActive('privacy' === lastParam);
@@ -36,12 +49,28 @@ const Settings = () => {
     // console.log(!isLoading, isPrivacyActive)
   }, [isLoading, isPrivacyActive]);
 
-  useEffect(() => {
-    if (Boolean(Object.keys(user).length) && isLoading) {
-      setTimeout(() => setIsLoading(false), 200);
+  const loadUserData = async () => {
+    try {
+      const res = await axiosClient.get(ROUTES.account.SETTINGS);
+      const { data, status } = res.data;
+
+      if (status) {
+        const decrypted = cryptographer.decrypt(data);
+        setUserData(JSON.parse(decrypted));
+      } 
+    } catch (err) {
+      if (err.response.status === 504) {
+        setMiddlewareTimeout();
+      } else {
+        setNotification({
+          visible: true,
+          status: 'e',
+          error: err,
+        });
+      }
     }
-    setVisible(!isLoading);
-  }, [user, isLoading]);
+    setIsLoading(false);
+  }
 
   const scrollToElement = () => {
     const btn = targetRef.current.querySelector('.accordion-button');
@@ -101,8 +130,8 @@ const Settings = () => {
               <div id="changeSubscriber" className={`accordion-collapse collapse${isPrivacyActive ? '' : ' show'}`} data-bs-parent="#changeAccountData">
                 <div className="accordion-body">
                   <NewsletterSubscriber 
-                    id={id}
-                    newsletter_subscriber={newsletter_subscriber}
+                    id={userData.id}
+                    newsletter_subscriber={userData.newsletter_subscriber}
                     setUserProps={setUserProps}
                   />
                 </div>
@@ -143,7 +172,7 @@ const Settings = () => {
                   onClick={handleWindow} 
                   disabled={false}
                   position="end" 
-                  ariaLabel={t('delete')} 
+                  ariaLabel={t('delete_account')} 
                   text={t('delete')}
                   color='secondary'
                 />

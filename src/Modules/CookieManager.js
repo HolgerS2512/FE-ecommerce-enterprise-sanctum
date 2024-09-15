@@ -27,11 +27,17 @@ class CookieManager {
     }
 
     if (options.secure) {
-      cookieString += `; secure=${options.secure ?? true}`;
+      cookieString += "; secure";
+    }
+
+    if (options.httpOnly) {
+      cookieString += "; HttpOnly"; // HttpOnly wird nur gesetzt, wenn true
     }
 
     if (options.sameSite) {
-      cookieString += `; samesite=${options.sameSite ?? "strict"}`;
+      cookieString += `; samesite=${options.sameSite}`;
+    } else {
+      cookieString += `; samesite=Strict`;
     }
 
     document.cookie = cookieString;
@@ -53,14 +59,16 @@ class CookieManager {
   }
 
   // Löscht ein Cookie, indem es mit einem negativen Ablaufdatum gesetzt wird
-  deleteCookie(name, path, domain) {
+  // expires: 'Thu, 01 Jan 1988 00:00:00 GMT',
+  deleteCookie(name, path, domain, secure, sameSite) {
     this.setCookie(name, "", {
-      expires: 'Thu, 01 Jan 1988 00:00:00 GMT',
+      expires: -1, // Ablaufzeit in der Vergangenheit
       path: path ?? '/',
       domain: domain ?? `${import.meta.env.VITE_API_BASE_URL}`.replace('http://', ''),
+      sameSite: sameSite ?? 'Strict',
     });
   }
-  
+    
   // Ruft alle Cookies als Objekt ab
   getAllCookies() {
     const cookies = document.cookie.split("; ");

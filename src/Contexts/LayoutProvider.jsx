@@ -7,7 +7,10 @@ import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
 
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
-import Maintenance from '../Views/Notifications/Maintenance.jsx';
+import { useNotification } from "./NotificationProvider.jsx";
+import { useQuery } from "react-query";
+
+const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
 const StateContext = createContext({
 	categories: null,
@@ -18,7 +21,8 @@ const StateContext = createContext({
 
 export const LayoutProvider = ({ children }) => {
 	// Common
-	const { DSGVO } = useCookieContext();
+	const { DSGVO, hiddenCookieConsens } = useCookieContext();
+	const { activateMaintenance } = useNotification();
 	const cookieManager = new CookieManager();
 	// Kernel
   const [categories, setCategories] = useState([]);
@@ -26,7 +30,6 @@ export const LayoutProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	// Errorhandling
 	const [httpStatus, setHttpStatus] = useState({ visible: false });
-	const [maintenance, setMaintenance] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -34,18 +37,23 @@ export const LayoutProvider = ({ children }) => {
   }, []);
 
 	const loadCategories = async () => {
-		try {
+		try {;
 			const res = await axiosClient.get(ROUTES.request.CATEGORIES);
+
 			if (res.data.status) {
 				setCategories(res.data.data);
+				setIsLoading(false);
 			}
 		} catch (err) {
 			if (err.response.status === 503) {
-				setMaintenance(true);
+				activateMaintenance();
+				hiddenCookieConsens();
+			}
+			if (err.response.status === 504) {
+				hiddenCookieConsens();
 			}
 			setHttpStatus({ visible: true, error: err });
 		}
-		setIsLoading(false);
 	};
 
 	const loadProducts = async () => {
@@ -71,8 +79,6 @@ export const LayoutProvider = ({ children }) => {
 			setHttpStatus({ visible: true, error: err });
 		}
 	};
-
-	if (maintenance) return <Maintenance />;
 
 	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg error={httpStatus.error} /></div>;
 	

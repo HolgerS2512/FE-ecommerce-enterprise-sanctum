@@ -12,7 +12,7 @@ const axiosClient = axios.create({
   headers: {
     Accept: "application/json",
   },
-  timeout: 5000,  // 5 seconds
+  timeout: 10000,  // 10 seconds
 });
 
 // Get cookie CSRF-Token from Sanctum
@@ -74,7 +74,7 @@ axiosClient.interceptors.response.use(
       }
   
       if (status === 401 || status === 403) {
-        localStorage.removeItem(CookieSlug.auth);
+        localStorage.clear(); 
         window.location.reload();
       }
     } else {

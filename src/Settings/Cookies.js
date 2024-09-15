@@ -20,7 +20,7 @@ export const CookieSlug = {
   csrf: "xfs_r",
   // categories: "L_CD",
   // products: "AA_PvAC",
-  // username: "aC_us",
+  username: "aC_us",
 };
 
 const Cookies = [
@@ -64,8 +64,15 @@ const Cookies = [
             slug: CookieSlug.cc,
             description: "cc_desc",
             max_storage_period: 6,
-            unit: 'months',
+            unit: "months",
             type: "HTTP-Cookie",
+          },
+          {
+            slug: CookieSlug.username,
+            description: "saved_user_values",
+            max_storage_period: "resistant",
+            unit: null,
+            type: "HTML Local Storage",
           },
         ],
       },

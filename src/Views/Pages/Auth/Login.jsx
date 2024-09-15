@@ -6,12 +6,15 @@ import { useTranslation } from "react-i18next";
 import axiosClient from '../../../axios-clint.js';
 import { createValidator } from './../../../Modules/ValidationManager.jsx';
 import ClientErrorManager from '../../../Modules/ClientErrorManager.js';
+import AesCryptographer from '../../../Modules/AesCryptographer.js';
 
 import HttpStatusMsg from '../../Notifications/HttpStatusMsg.jsx';
 import PasswordField from '../../../components/Util/PasswordField.jsx';
 import AuthForm from '../../../components/Auth/AuthForm.jsx';
 import SendPinAgain from '../../Notifications/SendPinAgain.jsx';
 import ROUTES from '../../../Settings/ROUTES.js';
+
+const cryptographer = new AesCryptographer();
 
 const Login = () => {
   // Common
@@ -56,10 +59,11 @@ const Login = () => {
         const res = await axiosClient.post(ROUTES.auth.LOGIN, payload);
         if (await res.data) {
           const { user, token } = await res.data;
+          const crypted = cryptographer.encrypt(user.firstname);
+          localStorage.setItem("aC_us", crypted);
           setLookup('');
           setUser(user);
           setSessionToken(token);
-          // setTimeout(() => window.location.reload(), 0);
           navigate(ROUTES.pages.HOME);
         } 
       } catch (err) {

@@ -47,7 +47,7 @@ export const cookie = {
   product_version: 'Speichert die Versionsnummer der Produkte',
   saved_categories: 'Speichert Kategoriedaten, einschließlich bevorzugter Sortieroptionen, Layouts und Anzeigemodi.',
   saved_products: 'Speichert Produktdaten, einschließlich bevorzugter Sortieroptionen, Layouts und Anzeigemodi.',
-  saved_user_values: 'Der Vorname des Benutzers wird aus gestalterischen Gründen nach der Anmeldung sicher und verschlüsselt in Ihrem Browser gespeichert.',
+  saved_user_values: 'Der Vorname des Benutzers wird aus gestalterischen Gründen nach der Anmeldung sicher und verschlüsselt in Ihrem Gerät gespeichert.',
 
   // helpers
   alert_msg: "Pflichtfeld - kann nicht abgewählt werden. Notwendige Cookies helfen dabei, eine Webseite nutzbar zu machen, indem sie Grundfunktionen wie Seitennavigation und Zugriff auf sichere Bereiche der Webseite",
@@ -63,6 +63,6 @@ export const cookie = {
   months: 'Monate',
   years: 'Jahre',
   session: 'Session Sitzung',
-  resistant: 'Dauerhaft (bis zur Löschung oder Überschreibung)',
+  resistant: 'Dauerhaft - bis zum Ablauf der Authentifizierung',
   save_method: 'Typ/Speichermethode',
 };
