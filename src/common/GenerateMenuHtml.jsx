@@ -1,35 +1,26 @@
 import { Link } from "react-router-dom";
+import { transformSlug } from "../Modules/ObjectHelper";
 
-const GenerateMenuHtml = ({ categories, products }) => {
-
-  const renderProduct = (id, product) => (
-    <li key={id}>
-      <Link to={product.name}>{product.name}</Link>
-    </li>
-  );
+const GenerateMenuHtml = ({ categories }) => {
   
-  const renderCategory = (category, i) => (
+  const renderCategory = (category, i, parentName = '') => (
     <li key={i}>
-      <span tabIndex={1}>{category.name}</span>
+      <Link to={transformSlug(category.name, parentName)} tabIndex={1}>{category.name}</Link>
+      
+      {/* {(category.description && category.description.length > 5) && 
+        <span tabIndex={1}>{category.description}</span>
+      } */}
 
-      {
-        Boolean(category.subcategories.length) 
-        ? (
-            <ul>
-              {category.subcategories.map((subCategory, i) => renderCategory(subCategory, i))}
-            </ul>
-          )
-        : <ul>
-            {products && products.map((product, i) => renderProduct(category.id, product))}
-          </ul>
-      }
+      {<ul>
+        {category.subcategories?.map((subCategory, i) => renderCategory(subCategory, i, transformSlug(category.name, parentName)))}
+      </ul>}
     </li>
   );
 
   return (
-    <ul>
+    <>
       {categories.map((category, i) => renderCategory(category, i))}
-    </ul>
+    </>
   )
 }
 

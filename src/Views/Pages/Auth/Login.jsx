@@ -60,17 +60,18 @@ const Login = () => {
         if (await res.data) {
           const { user, token } = await res.data;
           const crypted = cryptographer.encrypt(user.firstname);
-          localStorage.setItem("aC_us", crypted);
+          localStorage.setItem("aC_us", crypted.slice(0, -1));
           setLookup('');
           setUser(user);
           setSessionToken(token);
           navigate(ROUTES.pages.HOME);
         } 
       } catch (err) {
-        if (err.response.status === 408) {
+        const error = await err;
+        if (error?.response?.status === 408) {
           setVerify(true);
         }
-        setHttpStatus({ visible: true, error: err });
+        setHttpStatus({ visible: true, error: error });
       }
     }
     setBtnLoader(false);

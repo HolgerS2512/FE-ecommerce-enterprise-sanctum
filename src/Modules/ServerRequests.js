@@ -1,4 +1,4 @@
-import axiosClient from "../axios-clint";
+import axiosClient, { getCsrfToken } from "../axios-clint";
 import { CookieSlug } from "../Settings/Cookies";
 import CookieManager from "./CookieManager";
 
@@ -13,6 +13,11 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 const xhr = window.XMLHttpRequest
   ? new XMLHttpRequest()
   : new ActiveXObject("Microsoft.XMLHTTP");
+let csrfToken = cookieManager.getCookie(CookieSlug.csrf);
+  
+if (!csrfToken) {
+  await getCsrfToken(csrfToken);
+}
 
 /**
  *
@@ -45,6 +50,9 @@ export const getAjax = (path, success) => {
   if (token) {
     xhr.setRequestHeader("Authorization", `Bearer ${token}`);
   }
+  if (csrfToken) {
+    xhr.setRequestHeader("X-XSRF-TOKEN", csrfToken);
+  }
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send();
@@ -59,7 +67,8 @@ export const getFetch = async (path) => {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
         "X-Requested-With": "XMLHttpRequest",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
+        "X-XSRF-TOKEN": csrfToken,
       },
     });
 
@@ -101,6 +110,9 @@ export const postAjax = (path, payload, success) => {
   };
   if (token) {
     xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+  }
+  if (csrfToken) {
+    xhr.setRequestHeader("X-XSRF-TOKEN", csrfToken);
   }
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

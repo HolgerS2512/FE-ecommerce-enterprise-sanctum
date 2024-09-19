@@ -9,7 +9,7 @@ $main-nav: $first-con + $second-con;
   .nav-container {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: center;
   }
 
   .nav-con-s1 {
@@ -83,4 +83,11 @@ $main-nav: $first-con + $second-con;
     }
   }
 
+}
+
+.brand-grey {
+  background-color: rgb(240, 232, 232);
+  @include backLinear(115deg, white, rgb(240, 232, 232));
+  padding: .85rem;
+  border-radius: 100%;
 }

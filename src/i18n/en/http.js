@@ -3,7 +3,7 @@ export const http = {
   400: 'Your request is incorrect or incomplete.',
   401: 'Unauthorized access! Please log in only if you want to perform this action.',
   403: 'Unauthorized access! You do not have the necessary permissions to perform this action.',
-  404: "We’re sorry, but the resource you are looking for could not be found. The form submission failed because the requested page may have been moved or no longer exists.",
+  404: "We’re sorry, but the resource you are looking for could not be found.",
   429: 'Too many attempts. Please try again later.',
 
   500: "We're sorry, an error has occurred. Please try again later.",
@@ -61,5 +61,7 @@ export const http = {
 
     "account_doesnt_exists": 'No account could be found with the specified login details.',
     "account_doesnt_exists_verify": 'There is no account in our system that you can verify.',
+
+    "csrf_missmatch": 'Es ist ein Fehler aufgetreten. Ihr Authentifizierungstoken ist nicht vorhanden.',
   }
 };

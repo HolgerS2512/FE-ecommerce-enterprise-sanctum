@@ -34,9 +34,10 @@ export const ContextProvider = ({ children }) => {
 	// Communication (oauth) cookie - (auth) localstorage
 	const hasAuthCookie = cookieManager.getCookie(CookieSlug.oauth) !== null;
 	if (!hasAuthCookie) localStorage.clear(); 
-	// Kernel
+	// Firstname
 	const storage = localStorage.getItem(CookieSlug.username) || false;
-	const decrypted = storage && cryptographer.decrypt(storage);
+	const decrypted = storage && cryptographer.decrypt(storage + '=');
+	// Kernel
 	const [user, setUser] = useState(decrypted ? { firstname: decrypted } : {});
 	const [token, setToken] = useState(localStorage.getItem(CookieSlug.auth) || '');
 	const [lookup, setLookup] = useState('');

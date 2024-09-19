@@ -9,11 +9,12 @@ import NAVLINKS from '../Settings/NAVLINKS';
 import GetIconByName from '../components/Util/GetIconByName';
 import GenerateMenuHtml from "./GenerateMenuHtml";
 import { useEffect, useState } from "react";
+import Logo from "../components/icon/Logo";
 
 const Navbar = () => {
   // Common
   const { token, user } = useStateContext();
-	const { categories, products } = useLayoutContext();
+	const { categories } = useLayoutContext();
   const { t } = useTranslation();
   const { submenu } = NAVLINKS;
   // States
@@ -33,7 +34,7 @@ const Navbar = () => {
       {/* SECTION 1 */}
       <section className='nav-container nav-con-s1'>
         <div className='nav-s1w'>
-          <p className='mb-0'>BRAND</p>
+          {/* <img src={Logo} width={28} height={28} /> */}
         </div>
 
         <div className='nav-s1w nav-s1we'>
@@ -52,9 +53,13 @@ const Navbar = () => {
 
       {/* SECTION 2 */}
       <section className='nav-container'>
+        <div className="brand-grey">
+          <img src={Logo} width={46} height={46} />
+        </div>
+
         <div className='d-flex justify-content-between w-50'>
           <ul>
-            {categories && <GenerateMenuHtml categories={categories} products={products} />}
+            {categories && <GenerateMenuHtml categories={categories} />}
           </ul>
         </div>
 

@@ -16,7 +16,7 @@ const axiosClient = axios.create({
 });
 
 // Get cookie CSRF-Token from Sanctum
-const getCsrfToken = async (token) => {
+export const getCsrfToken = async (token) => {
   try {
     const res = await axios.get(
       `${import.meta.env.VITE_API_BASE_URL}/sanctum/csrf-cookie`,

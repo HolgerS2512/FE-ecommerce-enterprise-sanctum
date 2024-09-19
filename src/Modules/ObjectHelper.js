@@ -68,3 +68,10 @@ export const findObjsInArr = (arr) => {
     }
   }
 }
+
+export const transformSlug = (currentName = '', parentName = '') => {
+  const name = currentName?.toLowerCase().replaceAll(' ', '-');
+  const pName = parentName ? `${parentName}-` : '';
+
+  return `${pName}${name}`;
+};

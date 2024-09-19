@@ -55,14 +55,14 @@ const ROUTES = {
   // Only fetch request
   request: {
     COOKIE: '/settings/cookie',
-    CATEGORIES: '/all/categories',
-    PRODUCTS: '/all/products',
+    CATEGORIES: '/categories',
+    PRODUCTS: '/products',
   },
   // Only fetch request without cookies
-  withoutCookies: {
-    CATEGORIES: '/all/categories/noCookie',
-    PRODUCTS: '/all/products/noCookie',
-  },
+  // withoutCookies: {
+  //   CATEGORIES: '/categories/noCookie',
+  //   PRODUCTS: '/products/noCookie',
+  // },
   // Errors
   error: {
     NOTFOUND: '/404',

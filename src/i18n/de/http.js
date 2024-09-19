@@ -3,7 +3,8 @@ export const http = {
   400: 'Ihre Anfrage ist fehlerhaft oder unvollständig.',
   401: 'Unauthorisierter Zugriff! Bitte melden Sie sich erst an, wenn Sie diese Aktion durchführen möchten.',
   403: 'Unautorisierter Zugriff! Für diese Aktion haben Sie nicht die nötige Berechtigung.',
-  404: 'Es tut uns leid, aber die von Ihnen gesuchte Ressource konnte nicht gefunden werden. Das Formular konnte nicht gesendet werden, da die angeforderte Seite möglicherweise verschoben wurde oder nicht mehr existiert.',
+  404: 'Es tut uns leid, aber die von Ihnen gesuchte Ressource konnte nicht gefunden werden.',
+  405: 'Unautorisierter Zugriff! Für diese Aktion haben Sie nicht die nötige Berechtigung.',
   429: 'Zu viele Versuche. Sie können im Moment nicht auf diese Ressource zugreifen. Bitte versuche es später noch mal.',
 
   500: 'Es tut uns leid, es ist ein Fehler aufgetreten. Bitte versuche es später erneut.',
@@ -61,5 +62,7 @@ export const http = {
 
     "account_doesnt_exists": 'Es konnte kein Account mit den angegebenen Zugangsdaten gefunden werden.',
     "account_doesnt_exists_verify": 'In unserem System gibt es kein Konto, das Sie verifizieren können.',
+
+    "csrf_missmatch": 'Es ist ein Fehler aufgetreten. Ihr Authentifizierungstoken ist nicht vorhanden.',
   },
 };
