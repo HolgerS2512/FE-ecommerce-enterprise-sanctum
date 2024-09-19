@@ -19,6 +19,9 @@ import Overview from "./Views/Pages/Account/Overview.jsx";
 import Orders from "./Views/Pages/Account/Orders.jsx";
 import PaymentMethods from "./Views/Pages/Account/PaymentMethods.jsx";
 import RouteHandler from './common/RouteHandler.jsx';
+import CategoryLayout from "./Layouts/CategoryLayout.jsx";
+import ProductsLayout from "./Layouts/ProductsLayout.jsx";
+import LoadingScreen from "./common/ErrorHandler.jsx";
 
 const VerifyEmail = lazy(() => import("./Views/Pages/Auth/VerifyEmail.jsx"));
 
@@ -43,14 +46,15 @@ const DynamicRouter = () => {
     // Create the path for the current category (use parent to include the parent path)
     const currentPath = `${transformSlug(category.name, parentName)}`;
 
+    // Get the related layout
+    const el = Boolean(category.subcategories.length) 
+    ? <CategoryLayout category={category} /> 
+    : <ProductsLayout id={category.id} />
+
     // Create route for the current category
     const route = {
       path: currentPath,
-      element: (
-        <div className="mt-5 text-center">
-          Full Path: {currentPath}
-        </div>
-      ),
+      element: el,
     };
 
     // If subcategories exist, routes created for these
@@ -90,7 +94,13 @@ const DynamicRouter = () => {
         { path: ROUTES.pages.PRIVACY, element: <div>privacy_policy</div> },
         { path: ROUTES.pages.IMPRINT, element: <div>imprint</div> },
         { path: ROUTES.pages.CONTACT, element: <Contact /> },
-        ...dynamicRoutes,
+        {
+          path: '*',
+          element: <LoadingScreen />,
+          children: [
+            ...dynamicRoutes,
+          ]
+        },
         ProtectedMiddlewareRoutes,
       ],
     },
