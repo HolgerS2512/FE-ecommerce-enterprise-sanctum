@@ -9,7 +9,7 @@ const queryClient = new QueryClient({
         console.log('Ein Fehler ist aufgetreten:', error.message, error);
       },
       retry: false, // Optional: Disable retries
-      refetchOnWindowFocus: false, // Specify whether data is re-fetched when the window is focused
+      refetchOnWindowFocus: true, // Specify whether data is re-fetched when the window is focused
 			refetchOnMount: true, // Data is not retrieved each time the component is mounted
 			refetchOnReconnect: true, // Specify whether data is re-fetched during a network recovery
     },
