@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import ROUTES from '../Settings/ROUTES';
 import { useEffect, useState } from 'react';
 import { useNotification } from '../Contexts/NotificationProvider';
@@ -12,14 +12,17 @@ const RouteHandler = () => {
   const { DSGVO, showCookieConsens } = useCookieContext();
   const location = useLocation();
   const navigate = useNavigate();
-  // States
-  const [path, setPath] = useState('');
-  
+  // Kernel
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, _setHasError] = useState(false);
+
+  // routeProtector: routes
   const protectedRoutes = {
     login: ROUTES.auth.LOGIN,
     register: ROUTES.auth.REGISTER,
   };
 
+  // routeProtector: notification values
   const protectValues = {
     routes: protectedRoutes, 
     message: t('cookie_required_request_route'), 
@@ -30,10 +33,9 @@ const RouteHandler = () => {
     if (!DSGVO) {
       showCookieConsens();
     }
-  }, [path]);
-
-  useEffect(() => {
-    setPath(location.pathname);
+    if (!isLoading) {
+      setIsLoading(true);
+    }
     // routeProtector(protectValues);
   }, [location.pathname]);
 
@@ -50,7 +52,26 @@ const RouteHandler = () => {
     });
   }
 
-  return <Outlet context={{ path }} />;
+  const setHasError = (err) => {
+    _setHasError(true);
+    setNotification({
+      visible: true,
+      status: 'e',
+      error: err,
+    });
+  } 
+
+  if (hasError) return <Navigate to={ROUTES.pages.HOME} />;
+
+  return (
+    <>
+      {/* {isLoading && <Loading/>} */}
+
+      <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
+        <Outlet context={{ isLoading, setIsLoading, setHasError }} />
+      </div>
+    </>
+  );
 };
 
 export default RouteHandler;

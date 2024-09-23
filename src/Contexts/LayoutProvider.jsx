@@ -7,52 +7,55 @@ import axiosClient from "../axios-clint";
 import CookieManager from "../Modules/CookieManager";
 import { useNotification } from "./NotificationProvider.jsx";
 import { useQuery } from "react-query";
-import { transformSlug } from "../Modules/ObjectHelper.js";
+import { useWindowSize } from "../Modules/Functions.jsx";
 
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
-import Contact from "../Views/Pages/Contact.jsx";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
 const StateContext = createContext({
 	categories: null,
 	products: null,
-	slugs: null,
 	setProducts: () => {},
 	setCategories: () => {},
 });
 
 export const LayoutProvider = ({ children }) => {
 	// Common
-	const { DSGVO, hiddenCookieConsens } = useCookieContext();
+	const { hiddenCookieConsens } = useCookieContext();
 	const { activateMaintenance } = useNotification();
+	const { width, height } = useWindowSize();
 	const cookieManager = new CookieManager();
 	// Kernel
   const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	// Slug handling
-	const [slugs, setSlugs] = useState([]);
+  const [products, _setProducts] = useState({
+		entries: {}
+	});
+	// const [entryPoint, setEntryPoint] = useState({
+	// 	products: false,
+	// 	categories: false,
+	// });
+	// const [isLoading, setIsLoading] = useState(true);
+
 	// Errorhandling
 	const [httpStatus, setHttpStatus] = useState({ visible: false });
 
   useEffect(() => {
     loadCategories();
+		loadEntries(); // ca 16 products via catgeory
   }, []);
 
-	useEffect(() => {
-    if (categories.length > 0) {
-      loadSlug();
-    }
-  }, [categories]);
+	// useEffect(() => {
+	// 	setIsLoading(!Object.entries(entryPoint).every((point) => point[1]));
+	// }, [entryPoint]);
 
 	const loadCategories = async () => {
-		try {;
+		try {
 			const res = await axiosClient.get(ROUTES.request.CATEGORIES);
 
 			if (res.data.status) {
 				setCategories(res.data.data);
-				setIsLoading(false);
+				// setEntryPoint((prev) => ({ ...prev, categories: true }));
 			}
 		} catch (err) {
 			if (err.response.status === 503) {
@@ -66,23 +69,41 @@ export const LayoutProvider = ({ children }) => {
 		}
 	};
 
-	const loadSlug = () => {
-		const result = [];
-    categories.forEach((category) => {
-			// result.push({ path: `/${transformSlug(false, category)}`, element: <Contact /> });
-    });
-		setSlugs(result);
-  }
+	const loadEntries = async () => {
+		try {
+			const res = await axiosClient.get(ROUTES.request.PRODUCTS);
+
+			if (res.data.status) {
+				setProducts('entries', res.data.entries);
+				// setEntryPoint((prev) => ({ ...prev, products: true }));
+			}
+		} catch (err) {
+			if (err.response.status === 503) {
+				activateMaintenance();
+				hiddenCookieConsens();
+			}
+			if (err.response.status === 504) {
+				hiddenCookieConsens();
+			}
+			setHttpStatus({ visible: true, error: err });
+		}
+	}
+
+	const setProducts = (dynamicKey, values) => {
+		_setProducts((prev) => ({  ...prev, [dynamicKey]: values }));
+	}
 
 	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg error={httpStatus.error} /></div>;
 	
-	if (isLoading) return;
+	// Burger menu categories not immediately visible
+	// if (width > 998 && height > 998) {
+		// if (isLoading) return;
+	// }
 
 	return (
 		<StateContext.Provider value={{
 			categories,
 			products,
-			slugs,
 			setProducts,
 			setCategories,
 		}}>

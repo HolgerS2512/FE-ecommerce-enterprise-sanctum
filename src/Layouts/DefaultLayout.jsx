@@ -1,27 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 
 import Navbar from "./../common/Navbar.jsx";
 import Footer from "./../common/Footer.jsx";
 import JumpLink from "../components/Helpers/JumpLink.jsx";
 
 const DefaultLayout = () => {
-
-	// useEffect(() => {
-	// FetchAsync('/version/manager')
-  //   .then(res=>res.json())
-  //   .then(json=>console.log(json))
-
-	// fetch('https://api.escuelajs.co/api/v1/categories')
-  //   .then(res=>res.json())
-  //   .then(json=>console.log(json))
-	// }, []);
-
+	const { isLoading, setIsLoading, setHasError } = useOutletContext();
 	return (
 		<>
 			<JumpLink role='navigation' link='main' />
 			<Navbar />
 			<main role="main" id="main">
-				<Outlet />
+				<Outlet context={{ isLoading, setIsLoading, setHasError }} />
 			</main>
 			<Footer />
 		</>

@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, lazy, useContext, useState } from "react";
 import UserNotification from "../Views/Notifications/UserNotification";
-import ROUTES from "../Settings/ROUTES";
-import Maintenance from "../Views/Notifications/Maintenance";
+
+const Maintenance = lazy(() => import("../Views/Notifications/Maintenance"));
 
 const StateContext = createContext({
 	notification: null,

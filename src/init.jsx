@@ -15,12 +15,9 @@ import './assets/sass/index.scss';
 import './assets/js/index.js';
 import 'typeface-open-sans';
 
-import Loading from './components/Helpers/Loading.jsx';
-import Maintenance from './Views/Notifications/Maintenance.jsx';
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<div></div>}>
       <NotificationProvider>
         <CookieProvider>
           <QueryClientProvider client={queryClient}>
@@ -35,23 +32,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Suspense>
   // </React.StrictMode>,
 );
-
-{/* 
-  <Maintenance />
-*/}
-
-{/* 
-  <Suspense fallback={<Loading />}>
-    <NotificationProvider>
-      <CookieProvider>
-        <QueryClientProvider client={queryClient}>
-          <ContextProvider>
-            <LayoutProvider>
-                <DynamicRouter />
-            </LayoutProvider>
-          </ContextProvider>
-        </QueryClientProvider>
-      </CookieProvider>
-    </NotificationProvider>
-  </Suspense>
-*/}
