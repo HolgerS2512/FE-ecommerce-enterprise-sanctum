@@ -500,3 +500,70 @@ li, .p {
     }
   }
 }
+
+
+.select-similar-container {
+  /*the container must be positioned relative:*/
+  .similar-select {
+    position: relative;
+    font-weight: 600;
+    width: min-content;
+    white-space: nowrap;
+  
+    .select-display {
+      background-color: white;
+      padding: 6px 10px;
+      // border: 1px solid $xfs-back-clr;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+
+      .similar-arrow {
+        position: relative;
+        top: -2px;
+      }
+      .arrow-up {
+        top: 1px;
+      }
+      .arrow-up, .similar-arrow {
+        @include pointerEv;
+        @include userSelect;
+      }
+    }
+
+    .select-items {
+      position: absolute;
+      top: 42px;
+      width: min-content;
+      background-color: white;
+      border: 1px solid $xfs-back-clr;
+      z-index: 100;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 4px 0;
+      border-radius: 4px;
+      box-shadow: -6px 6px 14px 4px rgba(0, 0, 0, 0.2);
+      text-align: left;
+    }
+    
+    .similar-option {
+      padding: 4px 1rem;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    
+    .similar-option:hover {
+      background-color: #d3d4d5;
+    }
+
+    .same-as-selected {
+      background-color: black;
+      color: white;
+
+      &:hover {
+        background-color: $xfs-back-clr-hover;
+      }
+    }
+  }
+}

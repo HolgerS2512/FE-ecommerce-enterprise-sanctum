@@ -1,4 +1,15 @@
 
+.teio15s {
+  -webkit-transition: .15s ease-in-out;
+  -moz-transition: .15s ease-in-out;
+  -o-transition: .15s ease-in-out;
+  transition: .15s ease-in-out;
+}
+
+.rotate180 {
+  @include transfRotate(180deg);
+}
+
 .a-opacity {
   @include opacity;
 }

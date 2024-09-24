@@ -16,8 +16,8 @@ import RemoveLoader from './common/RemoveLoader.jsx';
 import DefaultLayout from './Layouts/DefaultLayout.jsx';
 const ShortLayout = lazy(() => import("./Layouts/ShortLayout.jsx"));
 // Without Outlet
-import CategoryLayout from './Layouts/CategoryLayout.jsx';
-import ProductsLayout from './Layouts/ProductsLayout.jsx';
+import CategoryLayout from './components/Categories/CategoryLayout.jsx';
+import ProductsLayout from './components/Products/ProductsLayout.jsx';
 
 // Account
 const Overview = lazy(() => import("./Views/Pages/Account/Overview.jsx"));

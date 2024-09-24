@@ -70,7 +70,7 @@
   background-image: linear-gradient($deg,  $clr1 , $clr2);
 }
 
-@mixin pointerEv( $ev : 'none' ) {
+@mixin pointerEv( $ev : none ) {
   -webkit-pointer-events: $ev;
   -moz-pointer-events: $ev;
   -ms-pointer-events: $ev;
@@ -78,7 +78,7 @@
   pointer-events: $ev;
 }
 
-@mixin userSelect( $ev : 'none' ) {
+@mixin userSelect( $ev : none ) {
   -webkit-user-select: $ev;
   -moz-user-select: $ev;
   -ms-user-select: $ev;

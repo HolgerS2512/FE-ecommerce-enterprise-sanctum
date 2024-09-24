@@ -112,8 +112,8 @@ export const ArrowRight = ({ size, stroke }) => {
 
 export const ArrowDown = ({ size, stroke }) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill='none' height={`${size ?? 22}px`} width={`${size ?? 22}px`} viewBox="0 0 24 24" strokeWidth={stroke ?? 2} stroke="currentColor" className="size-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    <svg xmlns="http://www.w3.org/2000/svg" fill='none' height={`${size ?? 22}px`} width={`${size ?? 22}px`} viewBox="0 0 24 24" strokeWidth={stroke ?? 2} stroke="currentColor" className="size-6 no-action">
+      <path className="no-action" strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
     </svg>
   )
 }

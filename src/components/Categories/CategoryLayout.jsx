@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { useQuery } from "react-query";
 import { useLocation, useOutletContext } from "react-router-dom";
 
-import ROUTES from "../Settings/ROUTES";
-import axiosClient from "../axios-clint";
-import { useLayoutContext } from "../Contexts/LayoutProvider";
+import ROUTES from "../../Settings/ROUTES";
+import axiosClient from "../../axios-clint";
+import { useLayoutContext } from "../../Contexts/LayoutProvider";
 
 const STALETIME = 1000 * 60 * 60 * 12; // 12 Hours
 const CACHETIME = 1000 * 60 * 60 * 24; // 24 Hours
