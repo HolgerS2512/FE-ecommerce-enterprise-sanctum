@@ -17,4 +17,21 @@
 .noevent {
   @include pointerEv;
   @include userSelect;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@supports (touch-action:auto) {
+  .alltouch {
+      touch-action: auto;
+  }
+}
+
+.allevent {
+  @include pointerEv(all);
+  @include userSelect(all);
+}
+
+
+.bbs:focus-visible {
+  box-shadow: 0 0 0 2px rgba(0, 63, 236, 0.75); /* override Focus-Shadow */
 }

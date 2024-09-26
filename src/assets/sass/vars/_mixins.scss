@@ -14,12 +14,12 @@
   inset: $top $right $bottom $left;
 }
 
-@mixin transition( $sec : 1.5s, $del: 0, $linear: 'linear' ) {
-  -webkit-transition: $sec $linear $del;
-  -moz-transition: $sec $linear $del;
-  -ms-transition: $sec $linear $del;
-  -o-transition: $sec $linear $del;
-  transition: $sec $linear $del;
+@mixin transition( $duration : 1.5s, $delay : 0s, $easing : linear ) {
+  -webkit-transition: all $duration $easing $delay;
+  -moz-transition: all $duration $easing $delay;
+  -ms-transition: all $duration $easing $delay;
+  -o-transition: all $duration $easing $delay;
+  transition: all $duration $easing $delay;
 }
 
 @mixin transfRotate( $rotate : 0 ) {

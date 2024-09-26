@@ -121,7 +121,8 @@
 
 // Main Button
 .xfs-btn {
-  &:focus-visible {
+  border-radius: 30px;
+  &:hover, &:focus-visible {
     .btn {
       color: var(--#{$prefix}btn-hover-color);
       @include gradient-bg(var(--#{$prefix}btn-hover-bg));
@@ -141,7 +142,7 @@
       line-height: 2.25;
     }
 
-    &:focus-visible {
+    &:hover, &:focus-visible {
       .btn {
         color: var(--#{$prefix}btn-hover-color);
         @include gradient-bg(var(--#{$prefix}btn-hover-bg));

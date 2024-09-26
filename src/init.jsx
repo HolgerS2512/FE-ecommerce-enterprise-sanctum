@@ -16,7 +16,7 @@ import './assets/js/index.js';
 import 'typeface-open-sans';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <Suspense fallback={<div></div>}>
       <NotificationProvider>
         <CookieProvider>
@@ -30,5 +30,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </CookieProvider>
       </NotificationProvider>
     </Suspense>
-  // </React.StrictMode>,
+  </React.StrictMode>,
 );

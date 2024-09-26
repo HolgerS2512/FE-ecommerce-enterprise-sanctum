@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { Close } from '../icon/Icons';
 
-const CloseBtn = ({ onClick, ariaLabel = 'close_msg' }) => {
+const CloseBtn = ({ onClick, ariaLabel = 'close_msg', uref = ()=>{} }) => {
   const { t } = useTranslation();
 
   return (
     <div className='xfs-close'>
       <button 
+        ref={uref}
         className='btn-nostyle' 
         tabIndex={1} 
         aria-label={t(ariaLabel)}

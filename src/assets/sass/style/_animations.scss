@@ -1,10 +1,5 @@
 
-.teio15s {
-  -webkit-transition: .15s ease-in-out;
-  -moz-transition: .15s ease-in-out;
-  -o-transition: .15s ease-in-out;
-  transition: .15s ease-in-out;
-}
+
 
 .rotate180 {
   @include transfRotate(180deg);
@@ -108,6 +103,7 @@
 }
 
 
+
 .fit-menu-t28 {
   -webkit-animation-name: fadeInTopMenu;
   -moz-animation-name: fadeInTopMenu;
@@ -199,6 +195,9 @@
 
 
 
+
+
+
 // fadeInTopMenu
 $fadeInTopMenu: 28px;
 $fITMcalc: $fadeInTopMenu - 6px;
@@ -244,9 +243,16 @@ $fITMcalc: $fadeInTopMenu - 6px;
 }
 
 
-// Loops
+// Loops a35s, teio35s
 
 @for $i from 1 through 5 {
+
+  .teio#{$i}5s {
+    -webkit-transition: .15s ease-in-out;
+    -moz-transition: .15s ease-in-out;
+    -o-transition: .15s ease-in-out;
+    transition: .15s ease-in-out;
+  }
   
   .a#{$i}5s {
     -webkit-animation: .1 * $i + .05s ease-in-out;
@@ -268,6 +274,112 @@ $fITMcalc: $fadeInTopMenu - 6px;
     -moz-animation-fill-mode: both;
     -o-animation-fill-mode: both;
     animation-fill-mode: both;
+  }
+
+  // fade in left to left  ... rem
+  .filtl-75-#{$i}r {
+    -webkit-animation-name: fadeInLeftToLeft#{$i}rem;
+    -moz-animation-name: fadeInLeftToLeft#{$i}rem;
+    -o-animation-name: fadeInLeftToLeft#{$i}rem;
+    animation-name: fadeInLeftToLeft#{$i}rem;
+  }
+
+  @-webkit-keyframes fadeInLeftToLeft#{$i}rem {
+    0% {
+      @include opacity;
+      left: -#{$i}rem;
+    }
+    70% {
+      @include opacity(1);
+    }
+    100% {
+      left: 0;
+    }
+  }
+  @-moz-keyframes fadeInLeftToLeft#{$i}rem {
+    0% {
+      @include opacity;
+      left: -#{$i}rem;
+    }
+    70% {
+      @include opacity(1);
+    }
+    100% {
+      left: 0;
+    }
+  }
+  @-o-keyframes fadeInLeftToLeft#{$i}rem {
+    0% {
+      @include opacity;
+      left: -#{$i}rem;
+    }
+    70% {
+      @include opacity(1);
+    }
+    100% {
+      left: 0;
+    }
+  }
+  @keyframes fadeInLeftToLeft#{$i}rem {
+    0% {
+      @include opacity;
+      left: -#{$i}rem;
+    }
+    70% {
+      @include opacity(1);
+    }
+    100% {
+      left: 0;
+    }
+  }
+
+  // fade in left ... rem
+  .fil-#{$i}r {
+    -webkit-animation-name: fadeInLeft#{$i}rem;
+    -moz-animation-name: fadeInLeft#{$i}rem;
+    -o-animation-name: fadeInLeft#{$i}rem;
+    animation-name: fadeInLeft#{$i}rem;
+  }
+
+  @-webkit-keyframes fadeInLeft#{$i}rem {
+    0% {
+      @include opacity;
+      right: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      right: 0;
+    }
+  }
+  @-moz-keyframes fadeInLeft#{$i}rem {
+    0% {
+      @include opacity;
+      right: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      right: 0;
+    }
+  }
+  @-o-keyframes fadeInLeft#{$i}rem {
+    0% {
+      @include opacity;
+      right: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      right: 0;
+    }
+  }
+  @keyframes fadeInLeft#{$i}rem {
+    0% {
+      @include opacity;
+      right: #{$i}rem;
+    }
+    100% {
+      @include opacity(1);
+      right: 0;
+    }
   }
 
   // fade in right ... rem

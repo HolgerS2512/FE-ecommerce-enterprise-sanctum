@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowDown } from '../icon/Icons';
 
-const SelectSimilarArray = ({ 
+const SortBySelect = ({ 
   options = [], 
   selectedOption, 
   setSelectedOption, 
@@ -19,8 +19,6 @@ const SelectSimilarArray = ({
   // Event listener for click outside the select field to close the dropdown
   useEffect(() => {
     const handleClickOutside = (e) => {
-      // console.log(e.key)
-      // if (e.key === undefined) return;
       if (selectRef.current && !selectRef.current.contains(e.target)) {
         setIsOpen(false);
       }
@@ -103,4 +101,4 @@ const SelectSimilarArray = ({
   )
 }
 
-export default SelectSimilarArray
+export default SortBySelect

@@ -18,8 +18,8 @@ const Select = forwardRef(({
 
   return (
     <fieldset className={'xfs-s1-control' + (col ? ' ' + col : '')} style={limit ? {} : { maxWidth: '100%' }}>
-      <div className={`xfs-s1-wrapper notouch noevent ${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
-        <span className={`xfs-s1-label notouch noevent${changeFocus || (Boolean(value) || Boolean(ref?.current?.getValue()[0]?.value)) ? '' : ' active'}${noRequire ? ' noRequire' : ''}`}>{name}</span>
+      <div className={`xfs-s1-wrapper ${changeFocus ? ' focus' : ''}${Boolean(err?.length) ? ' error' : ''}${readOnly ? ' readonly' : ''}`}>
+        <span className={`xfs-s1-label ${changeFocus || (Boolean(value) || Boolean(ref?.current?.getValue()[0]?.value)) ? '' : ' active'}${noRequire ? ' noRequire' : ''}`}>{name}</span>
         <ReactSelect 
           placeholder=''
           tabIndex={tabIndex ?? 1}

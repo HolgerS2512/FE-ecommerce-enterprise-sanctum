@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useQuery } from "react-query";
 import { useLocation, useOutletContext } from "react-router-dom";
 
@@ -9,7 +9,7 @@ import { useLayoutContext } from "../../Contexts/LayoutProvider";
 const STALETIME = 1000 * 60 * 60 * 12; // 12 Hours
 const CACHETIME = 1000 * 60 * 60 * 24; // 24 Hours
 
-const CategoryLayout = ({ category }) => {
+const CategoryLayout = React.memo(({ category }) => {
   // Common
   const { isLoading, setIsLoading, setHasError } = useOutletContext();
   const { products } = useLayoutContext();
@@ -64,6 +64,6 @@ const CategoryLayout = ({ category }) => {
       <h1>CategoryLayout {category.id}</h1>
     </>
   )
-}
+})
 
 export default CategoryLayout

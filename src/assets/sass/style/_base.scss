@@ -93,6 +93,7 @@ a svg {
 .no-action {
   @include userSelect;
   @include pointerEv;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hl-big {
@@ -102,5 +103,9 @@ a svg {
   }
 }
 
-
+svg, svg path, hr {
+  @include pointerEv;
+  @include userSelect;
+  -webkit-tap-highlight-color: transparent;
+}
 

@@ -105,3 +105,64 @@ export const extractWordAfter = (word, delimiter = '=') => {
     return restOfString.replaceAll(delimiter, '').trim();
   };
 };
+
+// Check has attribute min one value or only null
+export const hasObjOneValue = (obj) => {
+  return Object.keys(obj).some((attr) => {
+    return obj[attr] !== null;
+  });
+}
+
+// Compare 2 objects and join the left obj values to right obj
+export const updateObjLeftJoin = (leftObj, rightObj) => {
+  Object.keys(leftObj).forEach((attr) => {
+    if (leftObj[attr] !== rightObj[attr]) {
+      leftObj[attr] = rightObj[attr];
+    }
+  });
+}
+
+// Return an array with filtered values from user input obj
+export const getFilteredQuery = (obj) => {
+  const result = [];
+
+  Object.keys(obj).forEach((attr) => {
+    const value = obj[attr];
+
+    if (value !== null) {
+
+      if (Array.isArray(value)) {
+
+        if (value.length > 1) {
+          let collect = '';
+          value.forEach((el) => {
+            collect += `%2C${el}`;
+          });
+          result.push(`${attr}=${collect.replace('%2C', '')}`);
+        } else if (value.length > 0) {
+          result.push(`${attr}=${value[0]}`);
+        }
+
+      } else {
+        if (value) {
+          result.push(`${attr}=${value}`);
+        }
+      }
+
+    }
+  });
+
+  if (result.length > 1) {
+    return result.flatMap((el, i) => {
+      return (i === 0 ? el : ['&', el]);
+    });
+  } else {
+    if (result.length > 0) {
+      return result.join('');
+    } else {
+      return null;
+    }
+  }
+}
+
+

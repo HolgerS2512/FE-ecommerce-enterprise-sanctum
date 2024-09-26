@@ -99,8 +99,8 @@ $app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
       width: inherit;
       border: none;
       outline: none;
-      @include pointerEv;
-      @include userSelect;
+      @include pointerEv(all);
+      @include userSelect(all);
       border-radius: inherit;
       line-height: 1;
       padding: 12.5px 6px;
@@ -130,10 +130,6 @@ $app-input-font: 'Roboto', Helvetica, Arial, sans-serif !important;
       top: 0;
       z-index: 4;
     
-      svg, svg path {
-        @include pointerEv;
-        @include userSelect;
-      }
       svg {
         margin-bottom: $eye-mb;
       }
@@ -511,7 +507,7 @@ li, .p {
     white-space: nowrap;
   
     .select-display {
-      background-color: white;
+      // background-color: white;
       padding: 6px 10px;
       // border: 1px solid $xfs-back-clr;
       border-radius: 0.5rem;
@@ -567,3 +563,268 @@ li, .p {
     }
   }
 }
+
+.fos-btn-inner {
+  padding: 6px 10px;
+  font-weight: 600;
+  display: flex;
+}
+
+.btn-filters {
+  @media (max-width:991.998px) {
+    border: 1px solid grey; 
+    border-radius: 80px;
+    padding: 0 6px;
+
+    &:hover, &:focus-visible {
+      background-color: #d3d4d5;
+      border: 1px solid grey; 
+      border-radius: 80px;
+      padding: 0 6px;
+    }
+  }
+}
+
+.c-shadow {
+  box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.15), 0 0 12px 4px rgba(0, 0, 0, 0.15);
+}
+
+.flyb-group {
+  background-color: white;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: .5rem 0 .75rem 0;
+  border-top: 1px solid #d3d4d5;
+  @include transition;
+
+  .text-end {
+    padding-right: 3px;
+  }
+  .text-start {
+    padding-left: 3px;
+  }
+  button, .btn, .xfs-btn {
+    width: 96% !important;
+  }
+}
+
+/* Custom Radio-Button-Design */
+#radio-gcv1 .radio-group {
+  $radio-size: 20px;
+  $circle-size: 60%;
+
+  display: flex;
+  align-items: center;
+  width: max-content;
+  
+  input[type="radio"] {
+    position: absolute;
+    left: -101dvh;
+  }
+
+  .content, .item {
+    @include userSelect;
+  }
+
+  .item {
+    display: inline-block;
+    width: $radio-size;
+    height: $radio-size;
+    border: 1px solid $xfs-back-clr;
+    box-shadow: 0 0 0 1px $xfs-back-clr;
+    border-radius: 100%;
+    margin: 0 1.25rem 0 4px;
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+
+    /* Radio item */
+    &::before {
+      content: '';
+      display: inline-block;
+      border-radius: 100%;
+      background-color: black;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      @include transition(.125s 0s ease-in);
+      @include transfTrans;
+    }
+
+    /* Radio Hover effect Pulse */
+    &::after {
+      content: '';
+      display: inline-block;
+      background-color: transparent;
+      border-radius: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: $radio-size;
+      height: $radio-size;
+      box-shadow: 0 0 1px 0 rgba($xfs-back-clr, 40%), 0 0 0 0 rgba($xfs-back-clr, 35%);
+      @include transition(.125s .015s ease-out);
+      @include transfTrans;
+      z-index: -1;
+    }
+
+    /* Radio Hover effect Border */
+    &:hover {
+      box-shadow: 0 0 0 1px black;
+      border-color: transparent;
+    }
+    /* Radio Hover effect Pulse */
+    &:hover::after {
+      box-shadow: 0 0 1px 3px rgba($xfs-back-clr, 40%), 0 0 0 10px rgba($xfs-back-clr, 35%);
+    }
+  }
+
+  /* Radio Hover effect Border */
+  &:hover .item, 
+  &:focus-visible .item {
+    box-shadow: 0 0 0 1px black;
+    border-color: transparent;
+  }
+  /* Radio Hover effect Pulse */
+  &:hover .item::after, 
+  &:focus-visible .item::after {
+    box-shadow: 0 0 1px 3px rgba($xfs-back-clr, 40%), 0 0 0 10px rgba($xfs-back-clr, 35%);
+  }
+
+  /* Active Radio-Button */
+  input[type="radio"]:checked + .item {
+    box-shadow: 0 0 0 1px black;
+    &::before {
+      width: calc($radio-size / 100% * $circle-size);
+      height: calc($radio-size / 100% * $circle-size);
+    }
+  }
+}
+
+
+
+/* Switch in green */
+#switch {
+
+  $sw-height: 26px;
+  $sw-width: 62px;
+  $sw-color: $c-light-green;
+  // $sw-color: #52D66B;
+  input[type="checkbox"] {
+    position: absolute;
+    left: -101dvh;
+  }
+
+  .switch-label {
+    width: $sw-width + 4px;
+    height: $sw-height + 4px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    @include transformAll(translate(0));
+  
+    &:before {
+      // Background
+      content: '';
+      position: relative;
+      top: 1px;
+      left: 1px;
+      width: $sw-width;
+      height: $sw-height;
+      display: block;
+      background: #C8CCD4;
+      border-radius: 12px;
+      border: 1px solid rgba(#9A9999, 25%);
+      box-shadow: inset 1px 1px 2px 1px rgba(0, 0, 0, .25);
+      @include transition(background .2s 0s ease);
+    }
+    span {
+      // Button
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: $sw-height + 2px;
+      height: $sw-height + 2px;
+      display: block;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(#9A9999, .75);
+      @include transition(.2s 0s ease);
+      -webkit-tap-highlight-color: transparent;
+
+      &::before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        @include transfTrans;
+        border-radius: 100%;
+        box-shadow: 0 0 0 0 rgba($sw-color, 25%), 0 0 0 0 rgba($sw-color, 25%);
+        z-index: -1;
+        @include transition(0);
+      }
+
+      &::after {
+        content: '';
+        width: 2px;
+        height: 9px;
+        position: absolute;
+        top: 47%;
+        left: 50%;
+        @include transfTrans;
+        border-radius: 2px;
+        box-shadow: 0 0 0 0 rgba($sw-color, 50%), 0 0 0 0 rgba(transparent, 15%);
+        @include transition(0);
+      }
+  
+      svg {
+        margin: 8px 8px 9px 9px; // Position Animation
+        fill: none;
+  
+        path {
+          stroke: #C8CCD4;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 24;
+          stroke-dashoffset: 0;
+          @include transition(.5s);
+        }
+      }
+    }
+  }
+  
+  input[type="checkbox"]:checked + .switch-label {
+    &:before {
+      background: $sw-color;
+    }
+    span {
+      @include transformAll(translateX($sw-width - $sw-height));
+
+      &::before {
+        top: 0;
+        left: 0;
+        @include transfTrans(0);
+        @include transition(.2s .35s ease-in);
+        box-shadow: 0 0 22px 4px rgba($sw-color, 25%), 0 0 12px 2px rgba($sw-color, 25%);
+      }
+
+      &::after {
+        box-shadow: 0 0 6px 2px rgba($sw-color, 50%), 0 0 0 1px rgba(black, 15%);
+        @include transition(.2s .35s ease-in);
+      }
+    }
+      path {
+        stroke: $sw-color;
+        stroke-dasharray: 25;
+        stroke-dashoffset: 25;
+      }
+  }
+}
+

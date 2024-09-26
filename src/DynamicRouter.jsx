@@ -60,7 +60,7 @@ const DynamicRouter = () => {
   const renderDynamicRoutes = (category, parentName = '') => {
     const hasSubcategories = Boolean(category.subcategories.length);
     // Create the path for the current category (use parent to include the parent path)
-    const currentPath = `${transformSlug(category.name, parentName)}${hasSubcategories ? '' : '/:sort?'}`;
+    const currentPath = `${transformSlug(category.slug, parentName)}${hasSubcategories ? '' : '/:sort?'}`;
 
     // Get the related layout
     const el = hasSubcategories 
