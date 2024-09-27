@@ -714,6 +714,7 @@ li, .p {
   $sw-height: 26px;
   $sw-width: 62px;
   $sw-color: $c-light-green;
+  $sw-grey: $app-grey;
   // $sw-color: #52D66B;
   input[type="checkbox"] {
     position: absolute;
@@ -721,11 +722,12 @@ li, .p {
   }
 
   .switch-label {
-    width: $sw-width + 4px;
-    height: $sw-height + 4px;
+    width: $sw-width + 12px;
+    height: $sw-height + 8px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     @include transformAll(translate(0));
+    z-index: 9;
   
     &:before {
       // Background
@@ -736,7 +738,7 @@ li, .p {
       width: $sw-width;
       height: $sw-height;
       display: block;
-      background: #C8CCD4;
+      background: $sw-grey;
       border-radius: 12px;
       border: 1px solid rgba(#9A9999, 25%);
       box-shadow: inset 1px 1px 2px 1px rgba(0, 0, 0, .25);
@@ -751,7 +753,7 @@ li, .p {
       height: $sw-height + 2px;
       display: block;
       background: white;
-      border-radius: 50%;
+      border-radius: 100%;
       box-shadow: 0 2px 6px rgba(#9A9999, .75);
       @include transition(.2s 0s ease);
       -webkit-tap-highlight-color: transparent;
@@ -825,6 +827,97 @@ li, .p {
         stroke-dasharray: 25;
         stroke-dashoffset: 25;
       }
+  }
+}
+
+#range-slider {
+  .slider-container {
+    $rs-highlight: $c-light-green;
+    $rs-grey:  rgba($app-grey, 65%);
+    $rs-text-clr: rgb(120, 120, 120);
+
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    
+    .input-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      .range-input {
+        width: 100%;
+        height: max-content;
+        padding: .65rem 1rem;
+        background-color: $rs-grey;
+        border-radius: 4px;
+        color: black;
+        font-weight: 600;
+        letter-spacing: .5pt;
+        // override browser
+        outline: none;
+        border: 1px solid $rs-grey;
+        box-shadow: inset 1px 1px 1px 0 $rs-grey;
+
+        &:focus-visible {
+          box-shadow: 0 0 0 2px rgba(0, 63, 236, 0.75); /* override Focus-Shadow */
+        }
+      }
+      .range-input::placeholder {
+        color: $rs-text-clr;
+        @include opacity(1);
+      }
+      .range-input.guard {
+        -webkit-caret-color: transparent;
+        caret-color: transparent;
+      }
+    }
+
+    .slider-box {
+      $stick-height: 6px;
+      padding: 0 .75rem;
+
+      .stick {
+        height: $stick-height;
+        width: 100%;
+        background-color: $rs-grey;
+        position: relative;
+
+        .range-stick {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          background-color: $rs-highlight;
+        }
+
+        .range-btn {
+          $rangeBtn: 40px; // Dependency on this class in js!
+
+          position: absolute;
+          top: 50%;
+          @include transformAll(translateY(-50%));
+          width: $rangeBtn;
+          height: $rangeBtn;
+          cursor: pointer;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            @include transfTrans;
+            width: 28px;
+            height: 28px;
+            background-color: rgba(255, 0, 0, 0.377);
+            box-shadow: 0 2px 6px rgba(#9A9999, .75);
+            border: 1px solid rgba(#9A9999, .25);
+            border-radius: 100%;
+            z-index: -1;
+          }
+        }
+      }
+    }
   }
 }
 

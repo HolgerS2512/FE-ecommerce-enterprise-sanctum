@@ -94,12 +94,16 @@ a svg {
   @include userSelect;
   @include pointerEv;
   -webkit-tap-highlight-color: transparent;
+  -webkit-caret-color: transparent;
+  caret-color: transparent;
 }
 
 .hl-big {
   .h4, h3, h2, h1 {
     font-size: 2.25rem !important;
     max-width: max-content;
+    -webkit-caret-color: transparent;
+    caret-color: transparent;
   }
 }
 
@@ -108,4 +112,16 @@ svg, svg path, hr {
   @include userSelect;
   -webkit-tap-highlight-color: transparent;
 }
+
+// Caret disabled
+h1, h2, h3, h4, h5, h6, p, a,
+button, .btn, .slider-box,
+img, figure,
+ul, ol, table, input[type="checkbox"]
+article, aside,
+svg, svg path, hr {
+  -webkit-caret-color: transparent;
+  caret-color: transparent;
+}
+
 

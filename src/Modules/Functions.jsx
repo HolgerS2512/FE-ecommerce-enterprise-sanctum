@@ -165,4 +165,30 @@ export const getFilteredQuery = (obj) => {
   }
 }
 
+// Returned false then all values even
+// Returned true if one values not even 
+export const compareTwoObjValues = (obj, cObj) => {
+  const result = [];
+  
+  Object.keys(obj).forEach((attr) => {
+    if (obj[attr] === null && cObj[attr] === null) {
+      result.push(false);
+    } 
+    else if (obj[attr] === null || cObj[attr] === null) {
+      result.push(obj[attr] ?? cObj[attr]); // BUGFIX possibly
+    } 
+    else {
+      result.push(obj[attr] !== cObj[attr]);
+    }
+  });
 
+  return result.some((b) => b === true);
+};
+
+// Edit data inputs - delete last entry if not number 
+export const valInputByNumber = (value) => {
+  if (isNaN(value)) {
+    return Number(value.slice(0, -1));
+  }
+  return Number(value);
+}

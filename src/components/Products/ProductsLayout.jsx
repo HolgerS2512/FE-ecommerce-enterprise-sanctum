@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback, lazy, useRef  } from "react"
+import React, { useEffect, useState, useCallback, lazy, useRef, useMemo  } from "react"
 import { useQuery } from "react-query";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useLayoutContext } from "../../Contexts/LayoutProvider";
 
-import { extractUserFilter, extractUserSort, getFilteredQuery, hasObjOneValue, updateObjLeftJoin, useWindowSize } from "../../Modules/Functions";
+import { extractUserFilter, extractUserSort, getFilteredQuery, hasObjOneValue, updateObjLeftJoin, useWindowSize, compareTwoObjValues } from "../../Modules/Functions";
 import ROUTES from "../../Settings/ROUTES";
 import axiosClient from "../../axios-clint";
 import SortBySelect from "../Products/SortBySelect";
@@ -12,6 +12,7 @@ import { Filter } from "../icon/Icons";
 import RegularBtn from "../Helpers/RegularBtn";
 import RadioButton from "../Util/RadioButton";
 import SwitchButton from "../Util/SwitchButton";
+import RangeSlider from "../Util/RangeSlider";
 
 const HalfScreenSlider = lazy(() => import("../Slider/HalfScreenSlider"));
 
@@ -96,12 +97,15 @@ const ProductsLayout = React.memo(({ id }) => {
     setHssShowDeleteApply( // need true
       hssSortOpt !== (userSort ?? 'topseller') 
       || (userSort ?? 'topseller') !== availableSort[0]
+      || compareTwoObjValues(hssFilters, userFilter)
     ); 
-  }, [hssSortOpt, userSort]);
+  }, [hssSortOpt, userSort, hssFilters, userFilter]);
 
-  useEffect(() => {
-    console.log(hssFilters)
-  }, [hssFilters]);
+  // const compareFilters = useMemo(() => compareTwoObjValues(hssFilters, userFilter), [hssFilters, userFilter]);
+
+  // useEffect(() => {
+  //   console.log(hssFilters, userFilter)
+  // }, [hssFilters]);
 
   /**
    * Load Data
@@ -302,6 +306,8 @@ const ProductsLayout = React.memo(({ id }) => {
             <p className="fw-semibold mb-4" 
               aria-label={`${t('products')} ${t('filter_by')} ${t('price')}`}
             >{t('price')}</p>
+
+            <RangeSlider/>
           </div>
           <hr />
 

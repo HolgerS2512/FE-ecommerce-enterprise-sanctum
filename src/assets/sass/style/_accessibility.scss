@@ -10,7 +10,7 @@
 
 @supports (touch-action:none) {
   .notouch {
-      touch-action: none;
+    touch-action: none;
   }
 }
 
@@ -22,7 +22,7 @@
 
 @supports (touch-action:auto) {
   .alltouch {
-      touch-action: auto;
+    touch-action: auto;
   }
 }
 

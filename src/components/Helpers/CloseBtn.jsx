@@ -13,7 +13,7 @@ const CloseBtn = ({ onClick, ariaLabel = 'close_msg', uref = ()=>{} }) => {
         aria-label={t(ariaLabel)}
         onClick={onClick}
       >
-        <div className='xfs-cbody'>
+        <div className='xfs-cbody noevent notouch'>
           <Close size={32} stroke={1.5} />
         </div>
       </button>
