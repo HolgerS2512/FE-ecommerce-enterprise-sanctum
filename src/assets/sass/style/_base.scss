@@ -110,7 +110,6 @@ a svg {
 svg, svg path, hr {
   @include pointerEv;
   @include userSelect;
-  -webkit-tap-highlight-color: transparent;
 }
 
 // Caret disabled

@@ -585,20 +585,33 @@ li, .p {
   }
 }
 
-.c-shadow {
+.hhs {
   box-shadow: 0 0 24px 8px rgba(0, 0, 0, 0.15), 0 0 12px 4px rgba(0, 0, 0, 0.15);
+
+  hr {
+    @include pointerEv;
+    @include userSelect;
+    -webkit-caret-color: transparent;
+    caret-color: transparent;
+    @include opacity(.10);
+  }
 }
 
 .flyb-group {
   background-color: white;
   display: flex;
   justify-content: space-evenly;
-  position: absolute;
+  position: fixed;
   left: 0;
   width: 100%;
+  max-width: 100%;
   padding: .5rem 0 .75rem 0;
   border-top: 1px solid #d3d4d5;
   @include transition;
+
+  @media (min-width:992px) {
+    max-width: calc(50% - 1px);
+  }
 
   .text-end {
     padding-right: 3px;

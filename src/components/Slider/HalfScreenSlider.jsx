@@ -2,9 +2,9 @@ import React, { useEffect, useRef } from 'react'
 import CloseBtn from '../Helpers/CloseBtn'
 import { useWindowSize } from '../../Modules/Functions'
 
-const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDescription, btnRef, cStyles }) => {
+const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDescription, btnRef, showBtns }) => {
   // Common
-  const { width, height } = useWindowSize();
+  const { width } = useWindowSize();
   const targetRef = useRef(null);
   const closeBtnRef = useRef(null);
   // Styles
@@ -17,7 +17,9 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
     maxWidth: (width > 992 ? 50 : 100) + '%',
     width: (width > 992 ? 'unset' : 100 + '%'),
     minWidth: (width > 400 ? 400 + 'px' : 0),
-    padding: width > 380 ? '1.5rem 1.25rem 1.25rem 1.25rem' : '1.5rem .75rem 1.25rem .5rem',
+  }
+  const inlineMain = {
+    margin: width > 380 ? `1.5rem 1.25rem ${showBtns ? '83px' : '2rem'} 1.25rem` : `1.5rem .75rem ${showBtns ? '83px' : '2rem'} .5rem`,
   }
 
   useEffect(() => {
@@ -58,8 +60,8 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
 
   return (
     <header 
-      className='fixed-top c-shadow' 
-      style={{ ...styles.header, ...inline, ...cStyles }} 
+      className='fixed-top hhs teio35s' 
+      style={{ ...styles.header, ...inline }} 
       ref={targetRef} 
       tabIndex={1}
       role='slider'
@@ -68,8 +70,11 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
       <div className='position-absolute' style={styles.close} onClick={() => {closeBtnRef.current.click()}}>
         <CloseBtn aria-label={closeAriaLabel} onClick={onClose} uref={closeBtnRef} />
       </div>
-      <div style={styles.main}>
-        {children}
+
+      <div style={styles.container}>
+        <div style={{ ...styles.main, ...inlineMain }}>
+          {children}
+        </div>
       </div>
     </header>
   )
@@ -78,14 +83,21 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
 const styles = {
   header: {
     backgroundColor: 'white',
+    padding: 0,
     height: 100 + '%',
+    overflow: 'hidden',
     zIndex: 7,
+  },
+  container: {
+    overflowY: 'auto',
+    height: 100 + '%',
   },
   main: {
     margin: '0 0 0 0',
+    height: '100%',
   },
   close: {
-    top: '-8px',
+    top: '-6px',
     right: '-4px',
     padding: '.75rem',
   }

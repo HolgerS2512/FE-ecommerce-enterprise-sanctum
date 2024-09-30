@@ -99,7 +99,6 @@ const ProductsLayout = React.memo(({ id }) => {
       || (userSort ?? 'topseller') !== availableSort[0]
       || compareTwoObjValues(hssFilters, userFilter)
     ); 
-    console.log(compareTwoObjValues(hssFilters, userFilter), hssFilters, userFilter)
   }, [hssSortOpt, userSort, hssFilters, userFilter]);
 
   /**
@@ -172,10 +171,22 @@ const ProductsLayout = React.memo(({ id }) => {
     const isCheckbox = e.target.type === 'checkbox';
     const v = isCheckbox ? e.target.checked : value;
     setHssFilters((prev) => ({ ...prev, [name]: v }));
-    console.log('erfolg ', name, value)
+    // console.log('erfolg ', name, value)
   }
 
   const handleHalfSideMenu = () => setBtnFilterIsOpen((p) => !p);
+
+  const destroyFiltersAndSorts = () => {
+    window.history.pushState({}, '', location.pathname);
+    location.search = '';
+    setUserSort(null);
+    setHssSortOpt('topseller');
+    const collect = {};
+    availableFilter.forEach((attr) => collect[attr] = null);
+    setUserFilter(collect);
+    setHssFilters(collect);
+    setTimeout(() => setBtnFilterIsOpen(false), 350);
+  }
 
   /**
    * Returned
@@ -230,7 +241,7 @@ const ProductsLayout = React.memo(({ id }) => {
         closeAriaLabel='close_filters'
         sliderDescription={width > 992 ? t('filters_settings') : t('filters_sort_settings')}
         btnRef={halfSideMenuRef}
-        cStyles={{ paddingBottom: '82px' }}
+        showBtns={hssShowDeleteApply}
       >
         <form action="#" onSubmit={(e) => {
           e.preventDefault()
@@ -334,12 +345,12 @@ const ProductsLayout = React.memo(({ id }) => {
 
 
           {/* ------------------------------- Delete or Apply ------------------------------- */}
-          <div className="flyb-group" style={{ bottom: (hssShowDeleteApply ? '0' : '-100px') }}>
+          <div className="flyb-group" style={{ bottom: (hssShowDeleteApply && btnFilterIsOpen ? '0' : '-100px') }}>
             <RegularBtn 
               text={`${t('delete')} (${Number(userSort !== availableSort[0])})`}
               position='end w-100'
               color="light"
-              onClick={(e) => {console.log(e.target)}}
+              onClick={destroyFiltersAndSorts}
             />
             <RegularBtn 
               text={t('apply')}
@@ -348,6 +359,7 @@ const ProductsLayout = React.memo(({ id }) => {
               type='submit'
             />
           </div>
+
         </form>
       </HalfScreenSlider>
     </section>
