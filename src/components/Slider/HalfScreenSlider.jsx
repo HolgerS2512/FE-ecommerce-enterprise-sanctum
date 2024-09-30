@@ -17,6 +17,7 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
     maxWidth: (width > 992 ? 50 : 100) + '%',
     width: (width > 992 ? 'unset' : 100 + '%'),
     minWidth: (width > 400 ? 400 + 'px' : 0),
+    padding: width > 380 ? '1.5rem 1.25rem 1.25rem 1.25rem' : '1.5rem .75rem 1.25rem .5rem',
   }
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
 
   return (
     <header 
-      className='teio55s c-shadow' 
+      className='fixed-top c-shadow' 
       style={{ ...styles.header, ...inline, ...cStyles }} 
       ref={targetRef} 
       tabIndex={1}
@@ -77,10 +78,8 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
 const styles = {
   header: {
     backgroundColor: 'white',
-    position: 'fixed',
     height: 100 + '%',
     zIndex: 7,
-    padding: '1.5rem 1.25rem 1.25rem 1.25rem',
   },
   main: {
     margin: '0 0 0 0',

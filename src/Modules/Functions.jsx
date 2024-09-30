@@ -172,10 +172,17 @@ export const compareTwoObjValues = (obj, cObj) => {
   
   Object.keys(obj).forEach((attr) => {
     if (obj[attr] === null && cObj[attr] === null) {
-      result.push(false);
+      result.push(false); // Both values are null, so they are "equal"
     } 
     else if (obj[attr] === null || cObj[attr] === null) {
-      result.push(obj[attr] ?? cObj[attr]); // BUGFIX possibly
+      const nonNullValue = obj[attr] ?? cObj[attr]; // Get the non-null value
+      if (typeof nonNullValue === 'boolean') {
+        result.push(nonNullValue); // If it's a boolean, return the boolean
+      } else if (typeof nonNullValue === 'string' && nonNullValue.length > 0) {
+        result.push(true); // If it's a non-empty string, return true
+      } else {
+        result.push(false); // In all other cases, return false
+      }
     } 
     else {
       result.push(obj[attr] !== cObj[attr]);
@@ -192,3 +199,4 @@ export const valInputByNumber = (value) => {
   }
   return Number(value);
 }
+

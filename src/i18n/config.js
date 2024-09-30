@@ -225,6 +225,7 @@ i18n
           size: 'Größe',
           color: 'Farbe',
           brand: 'Marke',
+          currency_item: '€',
         },
       },
       en: {
@@ -399,6 +400,7 @@ i18n
           size: 'Size',
           color: 'Color',
           brand: 'Brand',
+          currency_item: '$',
         },
       },
     },

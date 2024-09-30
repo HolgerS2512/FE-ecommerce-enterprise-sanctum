@@ -12,7 +12,7 @@ import { Filter } from "../icon/Icons";
 import RegularBtn from "../Helpers/RegularBtn";
 import RadioButton from "../Util/RadioButton";
 import SwitchButton from "../Util/SwitchButton";
-import RangeSlider from "../Util/RangeSlider";
+import DoubleRangeSlider from "../Util/DoubleRangeSlider";
 
 const HalfScreenSlider = lazy(() => import("../Slider/HalfScreenSlider"));
 
@@ -52,7 +52,7 @@ const ProductsLayout = React.memo(({ id }) => {
   const [userSort, setUserSort] = useState(extractAfterSort(location.search));
   const [userFilter, setUserFilter] = useState(extractAfterFilter(location.search));
   // Refs
-  const closeFiltersRef = useRef(null);
+  const halfSideMenuRef = useRef(null);
   // States
   const [firstExecution, setFirstExecution] = useState(true);
   const [btnFilterIsOpen, setBtnFilterIsOpen] = useState(false);
@@ -90,7 +90,7 @@ const ProductsLayout = React.memo(({ id }) => {
    * 
   */
   useEffect(() => { // Close Filters 
-    if (!btnFilterIsOpen) closeFiltersRef.current.focus();
+    if (!btnFilterIsOpen) halfSideMenuRef.current.focus();
   }, [btnFilterIsOpen]);
 
   useEffect(() => { // Can delete or/and apply
@@ -99,13 +99,8 @@ const ProductsLayout = React.memo(({ id }) => {
       || (userSort ?? 'topseller') !== availableSort[0]
       || compareTwoObjValues(hssFilters, userFilter)
     ); 
+    console.log(compareTwoObjValues(hssFilters, userFilter), hssFilters, userFilter)
   }, [hssSortOpt, userSort, hssFilters, userFilter]);
-
-  // const compareFilters = useMemo(() => compareTwoObjValues(hssFilters, userFilter), [hssFilters, userFilter]);
-
-  // useEffect(() => {
-  //   console.log(hssFilters, userFilter)
-  // }, [hssFilters]);
 
   /**
    * Load Data
@@ -171,21 +166,16 @@ const ProductsLayout = React.memo(({ id }) => {
    * Handle change functions 
    * 
   */
-  // const HandleChangeFilter = (e) => {
-  //   const name = e.target.dataset.filter;
-  //   const value = e.target.dataset.value;
-  //   setUserFilter((prev) => ({ ...prev, [name]: value }));
-  // }
-
   const HandleChangeFilter = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     const isCheckbox = e.target.type === 'checkbox';
     const v = isCheckbox ? e.target.checked : value;
     setHssFilters((prev) => ({ ...prev, [name]: v }));
+    console.log('erfolg ', name, value)
   }
 
-  const handleFilterMenu = () => setBtnFilterIsOpen((p) => !p);
+  const handleHalfSideMenu = () => setBtnFilterIsOpen((p) => !p);
 
   /**
    * Returned
@@ -200,10 +190,10 @@ const ProductsLayout = React.memo(({ id }) => {
         <nav className="d-flex justify-content-end align-items-start bg-white" style={{ flexGrow: 1 }}>
           <button 
             className="btn-nostyle btn-filters bbs"
-            onClick={handleFilterMenu}
+            onClick={handleHalfSideMenu}
             style={ width > 992 ? { marginRight: 15 + 'px' } : {}}
             tabIndex={1}
-            ref={closeFiltersRef}
+            ref={halfSideMenuRef}
           >
             <div className="fos-btn-inner">
               { width > 992 ? (btnFilterIsOpen ? t('hide_filters') : t('show_filters')) : t('filters') }
@@ -222,20 +212,6 @@ const ProductsLayout = React.memo(({ id }) => {
         </nav>
       </header>
 
-      <div className="pt-4">
-        <button className="btn btn-dark" type="button" data-filter="price" data-value='4000-30000' onClick={HandleChangeFilter}>price</button>
-        <button className="btn btn-dark" type="button" data-filter="color" data-value='blue' onClick={HandleChangeFilter}>color</button>
-        <button className="btn btn-dark" type="button" data-filter="sale" data-value='true' onClick={HandleChangeFilter}>sale</button>
-        <button className="btn btn-dark" type="button" data-filter="brand" data-value='nike' onClick={HandleChangeFilter}>brand</button>
-      </div>
-
-      <div className="pt-4">
-        <button className="btn btn-dark" type="button" data-filter="price" data-value='' onClick={HandleChangeFilter}>price empty</button>
-        <button className="btn btn-dark" type="button" data-filter="color" data-value='' onClick={HandleChangeFilter}>color empty</button>
-        <button className="btn btn-dark" type="button" data-filter="sale" data-value='' onClick={HandleChangeFilter}>sale empty</button>
-        <button className="btn btn-dark" type="button" data-filter="brand" data-value='' onClick={HandleChangeFilter}>brand empty</button>
-      </div>
-
       <div className="m-3" tabIndex={1}>xfinity.test:3000/highlights-level-2-sub1-no-active?sort=new&sale=true&brand=nike%2Cadidas</div>
 
       {
@@ -253,7 +229,7 @@ const ProductsLayout = React.memo(({ id }) => {
         onClose={() => setBtnFilterIsOpen(false)}
         closeAriaLabel='close_filters'
         sliderDescription={width > 992 ? t('filters_settings') : t('filters_sort_settings')}
-        btnRef={closeFiltersRef}
+        btnRef={halfSideMenuRef}
         cStyles={{ paddingBottom: '82px' }}
       >
         <form action="#" onSubmit={(e) => {
@@ -307,7 +283,12 @@ const ProductsLayout = React.memo(({ id }) => {
               aria-label={`${t('products')} ${t('filter_by')} ${t('price')}`}
             >{t('price')}</p>
 
-            <RangeSlider/>
+            <DoubleRangeSlider 
+              onChange={HandleChangeFilter} 
+              vars={{ min: 0, max: 500 }}
+              // vars={hssFilters.price} // edit userFilter over function if data set
+              defaults={{ min: 0, max: 500}} 
+            />
           </div>
           <hr />
 

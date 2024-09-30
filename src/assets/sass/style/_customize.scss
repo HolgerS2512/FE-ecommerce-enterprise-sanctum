@@ -839,6 +839,7 @@ li, .p {
     position: relative;
     width: 100%;
     max-width: 340px;
+    padding-bottom: 2.5rem;
     
     .input-box {
       display: flex;
@@ -878,44 +879,64 @@ li, .p {
       $stick-height: 6px;
       padding: 0 .75rem;
 
-      .stick {
-        height: $stick-height;
-        width: 100%;
+      // React package - https://zillow.github.io/react-slider/ - https://www.npmjs.com/package/react-slider
+      .horizontal-slider {
+        $slider-height: 6px;
+        
+        height: $slider-height;
         background-color: $rs-grey;
-        position: relative;
-
-        .range-stick {
-          position: absolute;
-          top: 0;
-          height: 100%;
-          background-color: $rs-highlight;
-        }
-
-        .range-btn {
-          $rangeBtn: 40px; // Dependency on this class in js!
-
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      $thump-size: 40px; // Dependency on this class in js!
+      $thump-o-size: 28px; // Dependency on this class in js!
+  
+      .thumb {
+        height: $thump-size; 
+        width: $thump-size; 
+        cursor: pointer;
+        border-radius: 100%;
+        background-color: transparent;
+        // background-color: rgba(0, 63, 236, 0.25); // test
+  
+        &::before {
+          content: '';
           position: absolute;
           top: 50%;
-          @include transformAll(translateY(-50%));
-          width: $rangeBtn;
-          height: $rangeBtn;
-          cursor: pointer;
-
-          &::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            @include transfTrans;
-            width: 28px;
-            height: 28px;
-            background-color: rgba(255, 0, 0, 0.377);
-            box-shadow: 0 2px 6px rgba(#9A9999, .75);
-            border: 1px solid rgba(#9A9999, .25);
-            border-radius: 100%;
-            z-index: -1;
-          }
+          width: $thump-o-size;
+          height: $thump-o-size;
+          background-color: white;
+          // background-color: rgba(255, 0, 0, 0.2); // test
+          box-shadow: 0 2px 6px rgba(#9A9999, .75);
+          border: 1px solid rgba(#9A9999, .25);
+          border-radius: 100%;
         }
+      }
+      .thumb-0 {
+        margin-left: $thump-size / 2 * -1;
+        &::before {
+          left: 65%;
+          @include transfTrans;
+        }
+      }
+      .thumb-1 {
+        margin-left: $thump-size / 2;
+        &::before {
+          right: 65%;
+          @include transformAll(translate(50%, -50%));
+        }
+      }
+      
+      .track-1 {
+        background-color: $rs-highlight;
+        height: 100%;
+      }
+      .track-0, .track-2 {
+        background-color: transparent;
+        height: 100%;
       }
     }
   }
