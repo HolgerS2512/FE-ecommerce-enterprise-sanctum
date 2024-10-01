@@ -10,14 +10,17 @@ import { useQuery } from "react-query";
 import { useWindowSize } from "../Modules/Functions.jsx";
 
 import HttpStatusMsg from "../Views/Notifications/HttpStatusMsg";
+import { json } from "react-router-dom";
 
 const SESSION_LENGTH = 1000 * 60 * 30; // 30 Minutes
 
 const StateContext = createContext({
 	categories: null,
 	products: null,
+	WCAG: null,
 	setProducts: () => {},
 	setCategories: () => {},
+	setWCAGuidlines: () => {},
 });
 
 export const LayoutProvider = ({ children }) => {
@@ -31,6 +34,13 @@ export const LayoutProvider = ({ children }) => {
   const [products, _setProducts] = useState({
 		entries: {}
 	});
+	// Accessibility Guidlines (WCAG)
+	const wacgStorage = localStorage.getItem(CookieSlug.wcag);
+	const [WCAG, setWCAG] = useState(JSON.parse(wacgStorage) ?? {
+		animated: true,
+		colors: true,
+	});
+	
 	// const [entryPoint, setEntryPoint] = useState({
 	// 	products: false,
 	// 	categories: false,
@@ -44,6 +54,10 @@ export const LayoutProvider = ({ children }) => {
     loadCategories();
 		loadEntries(); // ca 16 products via catgeory
   }, []);
+
+	useEffect(() => {
+		localStorage.setItem(CookieSlug.wcag, JSON.stringify(WCAG));
+	}, [WCAG]);
 
 	// useEffect(() => {
 	// 	setIsLoading(!Object.entries(entryPoint).every((point) => point[1]));
@@ -93,6 +107,10 @@ export const LayoutProvider = ({ children }) => {
 		_setProducts((prev) => ({  ...prev, [dynamicKey]: values }));
 	}
 
+	const setWCAGuidlines = (key, value) => {
+		setWCAG((prev) => ({ ...prev, [key]: value }));
+	}
+
 	if (httpStatus.visible) return <div className="mx-2"><HttpStatusMsg error={httpStatus.error} /></div>;
 	
 	// Burger menu categories not immediately visible
@@ -104,8 +122,10 @@ export const LayoutProvider = ({ children }) => {
 		<StateContext.Provider value={{
 			categories,
 			products,
+			WCAG,
 			setProducts,
 			setCategories,
+			setWCAGuidlines,
 		}}>
 			{ children }
 		</StateContext.Provider>

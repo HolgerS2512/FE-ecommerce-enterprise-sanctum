@@ -34,6 +34,8 @@ export const cookie = {
     "Diese Cookies speichern Ihre Datenschutzeinstellungen.",
   auth_desc:
     "Identifiziert den Benutzer und gestattet die Authentifizierung zum Server.",
+  wca_guidlines:
+    "Diese Cookies tragen zur Barrierefreiheit bei, um die Vorgaben der Web Content Accessibility Guidelines (WCAG) zu erfüllen.",
 
   // Category descritopns
   necessary_txt: "Diese Technologien/Cookies aktivieren die Kernfunktionalität unserer Plattformen, um deine Sprach- und Standortpräferenzen und deinen Warenkorb bereitzustellen. Darüber hinaus unterstützen diese Technologien/Cookies die Sicherheit, das Netzwerkmanagement und die Barrierefreiheit unserer Plattformen.",
@@ -64,5 +66,6 @@ export const cookie = {
   years: 'Jahre',
   session: 'Session Sitzung',
   resistant: 'Dauerhaft - bis zum Ablauf der Authentifizierung',
+  only_resistant: 'Dauerhaft',
   save_method: 'Typ/Speichermethode',
 };

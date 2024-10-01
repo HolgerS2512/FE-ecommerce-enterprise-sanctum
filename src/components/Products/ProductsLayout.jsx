@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useLayoutContext } from "../../Contexts/LayoutProvider";
 
-import { extractUserFilter, extractUserSort, getFilteredQuery, hasObjOneValue, updateObjLeftJoin, useWindowSize, compareTwoObjValues } from "../../Modules/Functions";
+import { extractUserFilter, extractUserSort, getFilteredQuery, hasObjOneValue, updateObjLeftJoin, useWindowSize, compareTwoObjValues, countDiffTwoObjValues } from "../../Modules/Functions";
 import ROUTES from "../../Settings/ROUTES";
 import axiosClient from "../../axios-clint";
 import SortBySelect from "../Products/SortBySelect";
@@ -38,8 +38,9 @@ const availableFilter = [
 const ProductsLayout = React.memo(({ id }) => {
   // Common
   const { isLoading, setIsLoading, setHasError } = useOutletContext();
-  const { products, setProducts } = useLayoutContext();
-  const { width, height } = useWindowSize();
+  const { products, setProducts, WCAG } = useLayoutContext();
+  const { animated } = WCAG;
+  const { width } = useWindowSize();
   const location = useLocation();
   const {t} = useTranslation();
   // Kernel
@@ -60,6 +61,8 @@ const ProductsLayout = React.memo(({ id }) => {
   const [hssShowDeleteApply, setHssShowDeleteApply] = useState(false);
   const [hssSortOpt, setHssSortOpt] = useState(userSort ?? 'topseller');
   const [hssFilters, setHssFilters] = useState(userFilter);
+  const [resetDoubleRangeSlider, setResetDoubleRangeSlider] = useState(false);
+  const [countUserSettings, setCountUserSettings] = useState(0);
   // Chache
 	const { data, isLoading: isDataLoading, error } = useQuery({
 		queryKey: [dynamicKey],
@@ -86,19 +89,21 @@ const ProductsLayout = React.memo(({ id }) => {
   }, [userSort, userFilter]);
 
   /**
-   * <HalfScreenSlider /> effects
+   * < HalfScreenSlider /> effects
    * 
   */
-  useEffect(() => { // Close Filters 
+  useEffect(() => { // Close Slider 
     if (!btnFilterIsOpen) halfSideMenuRef.current.focus();
   }, [btnFilterIsOpen]);
 
-  useEffect(() => { // Can delete or/and apply
-    setHssShowDeleteApply( // need true
-      hssSortOpt !== (userSort ?? 'topseller') 
-      || (userSort ?? 'topseller') !== availableSort[0]
-      || compareTwoObjValues(hssFilters, userFilter)
-    ); 
+  useEffect(() => {
+    const isTopseller = hssSortOpt !== (userSort ?? 'topseller'); // choose topseller
+    const isTsStartValue = (userSort ?? 'topseller') !== availableSort[0]; // isn't start value
+    const filtersEqual = compareTwoObjValues(hssFilters, userFilter); // obj values are equal
+    const countDiffFilters = countDiffTwoObjValues(hssFilters, userFilter); // count difference
+
+    setHssShowDeleteApply( isTopseller || isTsStartValue || filtersEqual );  // Can delete or/and apply - need true
+    setCountUserSettings(Number(isTopseller) + countDiffFilters); // count difference sort & filters
   }, [hssSortOpt, userSort, hssFilters, userFilter]);
 
   /**
@@ -185,6 +190,7 @@ const ProductsLayout = React.memo(({ id }) => {
     availableFilter.forEach((attr) => collect[attr] = null);
     setUserFilter(collect);
     setHssFilters(collect);
+    setResetDoubleRangeSlider(true);
     setTimeout(() => setBtnFilterIsOpen(false), 350);
   }
 
@@ -299,6 +305,8 @@ const ProductsLayout = React.memo(({ id }) => {
               vars={{ min: 0, max: 500 }}
               // vars={hssFilters.price} // edit userFilter over function if data set
               defaults={{ min: 0, max: 500}} 
+              reset={resetDoubleRangeSlider}
+              resetFn={() => setResetDoubleRangeSlider(false)}
             />
           </div>
           <hr />
@@ -345,9 +353,9 @@ const ProductsLayout = React.memo(({ id }) => {
 
 
           {/* ------------------------------- Delete or Apply ------------------------------- */}
-          <div className="flyb-group" style={{ bottom: (hssShowDeleteApply && btnFilterIsOpen ? '0' : '-100px') }}>
+          <div className={`flyb-group${animated ? '' : ' noanimated'}`} style={{ bottom: (hssShowDeleteApply && btnFilterIsOpen ? '0' : '-100px') }}>
             <RegularBtn 
-              text={`${t('delete')} (${Number(userSort !== availableSort[0])})`}
+              text={`${t('delete')} (${countUserSettings})`}
               position='end w-100'
               color="light"
               onClick={destroyFiltersAndSorts}

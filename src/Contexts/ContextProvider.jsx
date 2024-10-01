@@ -33,7 +33,11 @@ export const ContextProvider = ({ children }) => {
 	
 	// Communication (oauth) cookie - (auth) localstorage
 	const hasAuthCookie = cookieManager.getCookie(CookieSlug.oauth) !== null;
-	if (!hasAuthCookie) localStorage.clear(); 
+	if (!hasAuthCookie) {
+		// localStorage.clear();
+		localStorage.removeItem(CookieSlug.auth);
+		localStorage.removeItem(CookieSlug.username);
+	} 
 	// Firstname
 	const storage = localStorage.getItem(CookieSlug.username) || false;
 	const decrypted = storage && cryptographer.decrypt(storage + '=');

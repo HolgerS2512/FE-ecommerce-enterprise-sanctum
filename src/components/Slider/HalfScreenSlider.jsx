@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 import CloseBtn from '../Helpers/CloseBtn'
 import { useWindowSize } from '../../Modules/Functions'
+import { useLayoutContext } from '../../Contexts/LayoutProvider';
 
 const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDescription, btnRef, showBtns }) => {
   // Common
+  const { WCAG } = useLayoutContext();
+  const { animated } = WCAG;
   const { width } = useWindowSize();
   const targetRef = useRef(null);
   const closeBtnRef = useRef(null);
@@ -60,7 +63,7 @@ const HalfScreenSlider = ({ children, isOpen, onClose, closeAriaLabel, sliderDes
 
   return (
     <header 
-      className='fixed-top hhs teio35s' 
+      className={`fixed-top hhs${animated ? ' teio35s' : ''}`} 
       style={{ ...styles.header, ...inline }} 
       ref={targetRef} 
       tabIndex={1}

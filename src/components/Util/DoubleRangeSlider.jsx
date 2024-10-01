@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { valInputByNumber } from '../../Modules/Functions';
 import ReactSlider from 'react-slider';
 import { useTranslation } from 'react-i18next';
+import { useLayoutContext } from '../../Contexts/LayoutProvider';
 
 const PRICE_RANGE = 1;
 
-const DoubleRangeSlider = ({ vars, defaults, onChange, currency = 'currency_item' }) => {
+const DoubleRangeSlider = ({ vars, defaults, onChange, currency = 'currency_item', reset = false, resetFn=()=>{} }) => {
   // Common
+  const { WCAG } = useLayoutContext();
+  const { colors } = WCAG;
   const {t} = useTranslation();
   const { min: defaultMinValue, max: defaultMaxValue } = defaults;
   const { min: minValue, max: maxValue } = vars;
@@ -26,6 +29,13 @@ const DoubleRangeSlider = ({ vars, defaults, onChange, currency = 'currency_item
   * w-B -> slider - input
   */
 
+  useEffect(() => {
+    if (reset) {
+      setUserInput([minValue, maxValue]);
+      setRecordInput([minValue, maxValue]);
+      resetFn();
+    }
+  }, [reset]);
 
   useEffect(() => { // w-B:3 // w-A:6
     setReactSliderValues(recordInput);
@@ -163,7 +173,7 @@ const DoubleRangeSlider = ({ vars, defaults, onChange, currency = 'currency_item
             onFocus={setMinValueGuardsFalse} // w-A:0-1
             onClick={setMinValueGuardsFalse} // w-A:0-1
           />
-          <b className='mx-4 nocaret noevent noaction'>&#8209;</b>{/* Dividing Line */}
+          <b className='mx-4 nocaret noevent no-action'>&#8209;</b>{/* Dividing Line */}
           <input 
             tabIndex={1}
             name="max" 
@@ -185,9 +195,9 @@ const DoubleRangeSlider = ({ vars, defaults, onChange, currency = 'currency_item
           />
         </div>
 
-        <div className="slider-box">
+        <div className={`slider-box${colors ? '' : ' nocolor'}`}>
           <ReactSlider
-            className="horizontal-slider"
+            className='horizontal-slider'
             thumbClassName="thumb"
             trackClassName="track"
             value={reactSliderValues}

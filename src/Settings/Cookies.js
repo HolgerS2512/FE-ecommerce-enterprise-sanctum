@@ -15,6 +15,7 @@ export const cookieStateBP = {
 export const CookieSlug = {
   session: "b_Sc",
   cc: "_cc",
+  wcag: "wcag",
   oauth: "_abck",
   auth: "ak_a",
   csrf: "xfs_r",
@@ -68,9 +69,16 @@ const Cookies = [
             type: "HTTP-Cookie",
           },
           {
+            slug: CookieSlug.wcag,
+            description: "wca_guidlines",
+            max_storage_period: "resistant",
+            unit: null,
+            type: "HTML Local Storage",
+          },
+          {
             slug: CookieSlug.username,
             description: "saved_user_values",
-            max_storage_period: "resistant",
+            max_storage_period: "only_resistant",
             unit: null,
             type: "HTML Local Storage",
           },

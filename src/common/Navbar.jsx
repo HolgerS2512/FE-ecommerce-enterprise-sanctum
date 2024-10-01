@@ -10,6 +10,7 @@ import GetIconByName from '../components/Util/GetIconByName';
 import GenerateMenuHtml from "./GenerateMenuHtml";
 import { useEffect, useState } from "react";
 import Logo from "../components/icon/Logo";
+import WacgSettings from "../components/WacgSettings";
 
 const Navbar = () => {
   // Common
@@ -38,16 +39,19 @@ const Navbar = () => {
         </div>
 
         <div className='nav-s1w nav-s1we'>
-            {hasToken 
-            ? <ProfileMenu docReader={docReader} /> 
-            : <Link
-                to={hasUser ? ROUTES.account.PROFILE : ROUTES.auth.LOOKUP}
-                aria-label={hasUser ? t('personal_profile') : t('signip')}
-                tabIndex={1}
-              >
-                {t('signin')}
-                <GetIconByName name={'Profile'} />
-              </Link>}
+          <WacgSettings />
+          <Link>{t('help')}</Link>
+
+          {hasToken 
+          ? <ProfileMenu docReader={docReader} /> 
+          : <Link
+              to={hasUser ? ROUTES.account.PROFILE : ROUTES.auth.LOOKUP}
+              aria-label={hasUser ? t('personal_profile') : t('signip')}
+              tabIndex={1}
+            >
+              {t('signin')}
+              <GetIconByName name={'Profile'} />
+            </Link>}
         </div>
       </section>
 

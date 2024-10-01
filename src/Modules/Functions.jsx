@@ -192,6 +192,35 @@ export const compareTwoObjValues = (obj, cObj) => {
   return result.some((b) => b === true);
 };
 
+// Count difference between 2 objects
+export const countDiffTwoObjValues = (obj, cObj) => {
+  const collect = [];
+  
+  Object.keys(obj).forEach((attr) => {
+    if (obj[attr] === null && cObj[attr] === null) {
+      // Both values are null, so they are "equal"
+    } 
+    else if (obj[attr] === null || cObj[attr] === null) {
+      const nonNullValue = obj[attr] ?? cObj[attr]; // Get the non-null value
+
+      if (typeof nonNullValue === 'boolean') {
+        collect.push(nonNullValue); // If it's a boolean, return the boolean
+      } else if (typeof nonNullValue === 'string' && nonNullValue.length > 0) {
+        collect.push(true); // If it's a non-empty string, return true
+      } else {
+        // In all other cases, return not
+      }
+    } 
+    else {
+      collect.push(obj[attr] !== cObj[attr]);
+    }
+  });
+
+  const filtered = collect.filter((b) => b === true);
+
+  return filtered.length;
+};
+
 // Edit data inputs - delete last entry if not number 
 export const valInputByNumber = (value) => {
   if (isNaN(value)) {

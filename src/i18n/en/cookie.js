@@ -43,6 +43,8 @@ export const cookie = {
   saved_categories: 'Stores category data, including preferred sorting options, layouts, and display modes.',
   saved_products: 'Stores product data, including preferred sorting options, layouts, and display modes.',
   saved_user_values: "For design reasons, the user's first name is stored securely and encrypted in your device after registration.",
+  wca_guidlines:
+    "These cookies contribute to accessibility in order to meet the requirements of the Web Content Accessibility Guidelines (WCAG).",
 
   //
   alert_msg: "Required field - cannot be deselected. Necessary cookies help make a website usable by enabling basic functions like page navigation and access to secure areas of the website",
@@ -59,5 +61,6 @@ export const cookie = {
   years: 'Years',
   session: 'Session',
   resistant: 'Permanent - until authentication expires',
+  only_resistant: 'Permanent',
   save_method: 'Type/Storage Method',
 };

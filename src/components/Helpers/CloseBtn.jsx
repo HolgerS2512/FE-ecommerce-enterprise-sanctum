@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { Close } from '../icon/Icons';
+import { useLayoutContext } from '../../Contexts/LayoutProvider';
 
 const CloseBtn = ({ onClick, ariaLabel = 'close_msg', uref = ()=>{} }) => {
+  const { WCAG } = useLayoutContext();
+  const { animated } = WCAG;
   const { t } = useTranslation();
 
   return (
@@ -13,7 +16,7 @@ const CloseBtn = ({ onClick, ariaLabel = 'close_msg', uref = ()=>{} }) => {
         aria-label={t(ariaLabel)}
         onClick={onClick}
       >
-        <div className='xfs-cbody noevent notouch'>
+        <div className={`xfs-cbody noevent notouch${animated ? '' : ' noanimated'}`}>
           <Close size={32} stroke={1.5} />
         </div>
       </button>

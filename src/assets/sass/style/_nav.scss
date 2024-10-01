@@ -5,6 +5,7 @@ $main-nav: $first-con + $second-con;
 
 .main-nav {
   padding: 0 2rem;
+  position: relative;
 
   .nav-container {
     display: flex;
