@@ -1,0 +1,60 @@
+
+.product-price {
+  font-weight: 600;
+}
+
+.old-price, .vat-included {
+  color: rgb(168, 168, 168);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.vat-included {
+  font-size: .7825rem;
+}
+
+.p-reduced {
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: -.25px;
+  font-weight: 700;
+  font-size: .825rem;
+}
+
+
+
+// ---- (many) Products ---- //
+.product-catalog {
+
+  .p-reduced {
+    border-radius: 0 calc($app-radius / 2) calc($app-radius / 2) 0;
+    padding: 4px 8px 3px 13px;
+  }
+
+  .old-price, .product-price {
+    font-size: 1rem;
+  }
+
+  .old-price {
+    padding-left: 8px;
+  }
+}
+
+
+
+// ---- (single) Product ---- //
+.single-product {
+
+  .p-reduced {
+    border-radius: calc($app-radius / 2);
+    padding: 0 2px 1px 3px;
+  }
+
+  .old-price {
+    font-size: .9rem;
+  }
+
+  .product-price {
+    font-size: 1.25rem;
+  }
+}

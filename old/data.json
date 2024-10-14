@@ -1,0 +1,15 @@
+{
+  "name": "ADIDAS PERFORMANCE Skinny Sporthose 'Stash' in Schwarz",
+  "price": 44.90,
+  "color": ["black", "navy", "light gray", "rose", "blue", "dark brown"],
+  "size": ["xs", "s", "m", "l", "xl", "xxl"],
+  "descritpion": "Mit diesen adidas TECHFIT Leggings rücken deine Fitnessziele in greifbare Nähe. Das Kompressionsmaterial unterstützt deine Muskeln und sorgt so für Power und Ausdauer, während die AEROREADY Technologie dich angenehm trocken hält. In der Tasche kannst du außerdem wichtige Kleinigkeiten verstauen. Zusätzlich lassen die Mesh-Einsätze die Luft zirkulieren, damit du dich voll und ganz aufs Training konzentrieren kannst. Dieses Produkt ist mit mindestens 70 % recycelten Materialien hergestellt. Die Wiederverwendung bereits vorhandener Materialien hilft uns dabei, Müll zu reduzieren, unsere Abhängigkeit von nicht erneuerbaren Ressourcen einzuschränken und den CO2-Fußabdruck unserer Produkte zu verringern.",
+  "detail_list": ["Logoprint", "verstellbare Bundweite", "Belüftungsfunktion", "Elastikbund", "Abgesteppter Saum/Kante", "Seitliche Eingrifftaschen", "Netz-/Mesheinsätze", "Flatlock-Nähte", "Ungefüttert"],
+  "primary_image": "https://cdn.aboutstatic.com/file/images/ad6024cc45a6375076deda73ea68901a.png?bg=F4F4F5&quality=75&trim=1&height=480&width=360",
+  "image": [
+    "https://cdn.aboutstatic.com/file/images/b6a359d79babfc19bc7295c8f44f7fc2.jpg?quality=75&height=480&width=360",
+    "https://cdn.aboutstatic.com/file/images/56a1716f09c2556272f5f2e68af0a1e1.jpg?quality=75&height=480&width=360",
+    "https://cdn.aboutstatic.com/file/images/41eb06aea89a02f1b2bc210510e21f4d.jpg?quality=75&height=480&width=360",
+    "https://cdn.aboutstatic.com/file/images/899fad11e48b0f48ee934b3528a2b35b.jpg?quality=75&height=480&width=360"
+  ]
+}

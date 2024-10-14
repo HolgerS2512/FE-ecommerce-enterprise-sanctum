@@ -957,14 +957,14 @@ li, .p {
         }
       }
       .thumb-0 {
-        margin-left: $thump-size / 2 * -1;
+        margin-left: calc($thump-size / 2 * -1);
         &::before {
           left: 65%;
           @include transfTrans;
         }
       }
       .thumb-1 {
-        margin-left: $thump-size / 2;
+        margin-left: calc($thump-size / 2);
         &::before {
           right: 65%;
           @include transformAll(translate(50%, -50%));

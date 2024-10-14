@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, lazy, useRef, useMemo  } from "react"
+import React, { useEffect, useState, useCallback, lazy, useRef  } from "react"
 import { useQuery } from "react-query";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { useLayoutContext } from "../../Contexts/LayoutProvider";
@@ -13,6 +13,9 @@ import RegularBtn from "../Helpers/RegularBtn";
 import RadioButton from "../Util/RadioButton";
 import SwitchButton from "../Util/SwitchButton";
 import DoubleRangeSlider from "../Util/DoubleRangeSlider";
+import ProductImages from "./ProductImages";
+import CatalogPriceReducer from "./CatalogPriceReducer";
+import CatalogPrice from "./CatalogPrice";
 
 const HalfScreenSlider = lazy(() => import("../Slider/HalfScreenSlider"));
 
@@ -200,7 +203,7 @@ const ProductsLayout = React.memo(({ id }) => {
   return (
     <section className="" style={{ visibility: !(Object.keys(products[dynamicKey] ?? {}).length) ? 'hidden' : 'visible' }}>
 
-
+      {/* Filters & Sort screen bigger 992 then only Filters */}
       <header className="position-sticky top-0 bg-white d-flex align-items-center">
         <h1 className="m-0">ProductsLayout { id }</h1>
 
@@ -231,14 +234,19 @@ const ProductsLayout = React.memo(({ id }) => {
 
       <div className="m-3" tabIndex={1}>xfinity.test:3000/highlights-level-2-sub1-no-active?sort=new&sale=true&brand=nike%2Cadidas</div>
 
+      {/* Products */}
       {
-        products[dynamicKey] && products[dynamicKey].map((product, i) => (
-          <div key={i}>
-            {/* {console.log(product)} */}
+        products[dynamicKey] && products[dynamicKey]?.map((product, i) => (
+          <div key={i} className="product-catalog">
+            {console.log(product)}
             <p className="ms-5">{product.article_number}</p>
+            <ProductImages images={product?.images} />
+            <CatalogPriceReducer fullPrice={product?.fullPrice} currentPrice={product?.currentPrice} />
+            <CatalogPrice fullPrice={product?.fullPrice} currentPrice={product?.currentPrice} />
           </div>
         ))
       }
+
 
       {/* Filters & Sort screen bigger 992 then only Filters */}
       <HalfScreenSlider 
